@@ -18,6 +18,7 @@
         border-radius: 46px;
         @include text($text-base, $text-semibold, $text-c1-dark);
         box-shadow: $bs-input-search;
+        padding-right: 7px;
 
         input {
           padding: 10px 7px 10px 15px;
