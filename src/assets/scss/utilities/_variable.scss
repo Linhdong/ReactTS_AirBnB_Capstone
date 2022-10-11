@@ -1,6 +1,7 @@
 // ----------------Text----------------
 // text-size
 $text-xs: 13px;
+$text-small: 14px;
 $text-base: 16px;
 $text-xl: 18px;
 $text-2xl: 20px;
@@ -18,6 +19,7 @@ $text-bold: 700;
 // text-color
 $text-c1-dark: #000;
 $text-c1-light: #fff;
+$text-gray-600: #4b5563;
 
 // boder color
 $bd-gray: #e3e3e3;
@@ -26,6 +28,7 @@ $bd-gray: #e3e3e3;
 $bg-primary: #ff5a5f;
 $bg-c1-light: #fff;
 $bg-btn-hover: #f7f7f7;
+$bg-gray-50: #f9fafb;
 
 // box-shadow
 $bs-input-search: 0px 4px 4px rgba(0, 0, 0, 0.08);

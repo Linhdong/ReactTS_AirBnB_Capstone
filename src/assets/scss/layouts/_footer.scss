@@ -1,0 +1,28 @@
+.footer {
+  background-color: $bg-gray-50;
+  padding: 64px 0;
+
+  .container {
+    .footer__top {
+      .row {
+        .col-3 {
+          .footer-title {
+            @include text($text-base, $text-semibold);
+            margin-bottom: 16px;
+          }
+
+          .footer-nav__list {
+            .footer-nav__item {
+              @include text($text-small, $text-regular, $text-gray-600);
+              margin-bottom: 16px;
+            }
+          }
+        }
+      }
+    }
+
+    .footer__bottom {
+      color: $text-gray-600;
+    }
+  }
+}
