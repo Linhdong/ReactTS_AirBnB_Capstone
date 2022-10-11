@@ -1,0 +1,91 @@
+// ----------------Text----------------
+// text-size
+$text-xs: 13px;
+$text-base: 16px;
+$text-xl: 18px;
+$text-2xl: 20px;
+$text-3xl: 30px;
+$text-4xl: 40px;
+$text-5xl: 50px;
+$text-6xl: 60px;
+
+// font-weight
+$text-light: 300;
+$text-regular: 400;
+$text-semibold: 600;
+$text-bold: 700;
+
+// text-color
+$text-c1-dark: #000;
+$text-c1-light: #fff;
+
+// boder color
+$bd-gray: #e3e3e3;
+
+// background color
+$bg-primary: #ff5a5f;
+$bg-c1-light: #fff;
+$bg-btn-hover: #f7f7f7;
+
+// box-shadow
+$bs-input-search: 0px 4px 4px rgba(0, 0, 0, 0.08);
+$bs-user-menu: 0px 4px 9px rgba(0, 0, 0, 0.12);
+
+// ----------------Background----------------
+
+// ----------------Breakpoint----------------
+//Iphone 6/7/8
+$sm: 667px;
+//Iphone 6+/7+/8+
+$md: 736px;
+//Ipad
+$lg: 1024px;
+//Desktop
+$xl: 1200px;
+//Higher desktop
+$xxl: 1400px;
+
+// ----------------Mixin----------------
+@mixin text($fs: $text-base, $fw: $text-regular, $fc: $text-c1-dark, $lh: 1.2) {
+  font-size: $fs;
+  font-weight: $fw;
+  color: $fc;
+  line-height: $lh;
+}
+
+@mixin res-sm {
+  @media (max-width: #{$sm}) {
+    @content;
+  }
+}
+
+@mixin res-md {
+  @media (max-width: #{$md}) {
+    @content;
+  }
+}
+
+@mixin res-lg {
+  @media (max-width: #{$lg}) {
+    @content;
+  }
+}
+
+@mixin res-xl {
+  @media (max-width: #{$xl}) {
+    @content;
+  }
+}
+
+@mixin res-xxl {
+  @media (max-width: #{$xxl}) {
+    @content;
+  }
+}
+
+@mixin btnStyle($w, $h, $bgc, $bd: 1px solid transparent) {
+  width: $w;
+  height: $h;
+  background-color: $bgc;
+  border: $bd;
+}

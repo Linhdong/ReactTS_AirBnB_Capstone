@@ -1,0 +1,131 @@
+.header {
+  .container {
+    // left section
+    .header__logo {
+      img {
+        width: 109px;
+      }
+    }
+    // left section
+
+    // middle section
+    .header__search-bar {
+      .search-bar {
+        width: 300px;
+        height: 47px;
+        padding: 10px 7px 10px 15px;
+        border: 1px solid $bd-gray;
+        border-radius: 46px;
+        @include text($text-base, $text-semibold, $text-c1-dark);
+        box-shadow: $bs-input-search;
+
+        input {
+          border: 1px solid transparent;
+          width: 80%;
+        }
+
+        .btnSearch {
+          @include btnStyle(40px, 40px, $bg-primary);
+          border-radius: 50%;
+          @include text($text-xs, $text-regular, $text-c1-light);
+        }
+      }
+    }
+    // middle section
+
+    // right section
+    .header__right {
+      button {
+        background-color: $bg-c1-light;
+        border: 1px solid transparent;
+        @include text($text-base, $text-semibold);
+        transition: 0.3s ease;
+        border-radius: 46px;
+        height: 42px;
+
+        &:hover {
+          background-color: $bg-btn-hover;
+        }
+      }
+      .become-host {
+        .btnHost {
+          width: 125px;
+          padding: 12px 0;
+        }
+      }
+
+      .language {
+        .btnLanguage {
+          padding: 12px;
+          width: 40px;
+        }
+      }
+
+      .user-nav {
+        .btnUser {
+          border: 1px solid $bd-gray;
+          padding-left: 12px;
+
+          i:nth-child(1) {
+            margin-right: 12px;
+          }
+
+          i:nth-child(2) {
+            background-color: #666f7a;
+            width: 30px;
+            height: 30px;
+            font-size: 25px;
+            border-radius: 50%;
+          }
+
+          .notification {
+            position: relative;
+            right: 10px;
+            top: -15px;
+            background-color: $bg-primary;
+            width: 17px;
+            height: 17px;
+            font-size: 10px;
+            color: $text-c1-light;
+            border-radius: 50%;
+            padding: 3px;
+            border: 1px solid #fff;
+          }
+        }
+      }
+    }
+    #user-menu {
+      display: none;
+      position: absolute;
+      top: 70px;
+      right: 130px;
+      z-index: 1;
+      @include text();
+      box-shadow: $bs-user-menu;
+      border-radius: 10px;
+      width: 240px;
+
+      li {
+        padding: 15px 20px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: $bg-btn-hover;
+        }
+      }
+
+      hr {
+        margin: 0;
+      }
+    }
+    // right section
+  }
+
+  .header__border {
+    position: absolute;
+    width: 100%;
+    z-index: -1;
+    border-bottom: 1px solid #ccc;
+    height: 1px;
+  }
+}
