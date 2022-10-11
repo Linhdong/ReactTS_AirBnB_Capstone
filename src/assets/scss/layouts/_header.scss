@@ -49,7 +49,8 @@
         border-radius: 46px;
         height: 42px;
 
-        &:hover {
+        &:hover,
+        &:focus {
           background-color: $bg-btn-hover;
         }
       }
@@ -67,7 +68,10 @@
         }
       }
 
-      .user-nav {
+      .user {
+        position: relative;
+        display: inline-block;
+
         .btnUser {
           border: 1px solid $bd-gray;
           padding-left: 12px;
@@ -98,30 +102,31 @@
             border: 1px solid #fff;
           }
         }
-      }
-    }
-    #user-menu {
-      display: none;
-      position: absolute;
-      top: 70px;
-      right: 130px;
-      z-index: 1;
-      @include text();
-      box-shadow: $bs-user-menu;
-      border-radius: 10px;
-      width: 240px;
 
-      li {
-        padding: 15px 20px;
-        cursor: pointer;
+        .dropdown__content {
+          display: none;
+          position: absolute;
+          z-index: 1;
+          right: 0;
+          @include text();
+          box-shadow: $bs-user-menu;
+          border-radius: 10px;
+          min-width: 240px;
+          background-color: $bg-c1-light;
 
-        &:hover {
-          background-color: $bg-btn-hover;
+          .dropdown__item {
+            padding: 12px 20px;
+            display: block;
+
+            &:hover {
+              background-color: $bg-btn-hover;
+            }
+          }
+
+          hr {
+            margin: 0;
+          }
         }
-      }
-
-      hr {
-        margin: 0;
       }
     }
     // right section

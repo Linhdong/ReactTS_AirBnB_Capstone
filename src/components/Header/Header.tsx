@@ -40,7 +40,7 @@ export default function Header({}: Props) {
               <i className="fas fa-globe"></i>
             </button>
           </div>
-          <div className="user-nav" data-toggle>
+          <div className="user">
             <button
               className="btnUser"
               onClick={() => setIsClicked(!isClicked)}
@@ -49,26 +49,29 @@ export default function Header({}: Props) {
               <i className="fa fa-user"></i>
               <div className="notification d-inline-block">1</div>
             </button>
-          </div>
-        </div>
-        <div id="user-menu" className={isClicked ? "d-block" : "d-none"}>
-          <div className="user-menu__top">
-            <ul>
-              <li>
-                <NavLink to="/signin">Log in</NavLink>
-              </li>
-              <li>
-                <NavLink to="/signup">Sign up</NavLink>
-              </li>
-            </ul>
-          </div>
-          <hr />
-          <div className="user-menu__bottom">
-            <ul>
-              <li>Host your home</li>
-              <li>Host an experience</li>
-              <li>Help</li>
-            </ul>
+            <div
+              id="user__dropdown"
+              className={`dropdown__content ${
+                isClicked ? "d-block" : "d-none"
+              }`}
+            >
+              <NavLink to="/signin" className="dropdown__item">
+                Log in
+              </NavLink>
+              <NavLink to="/signup" className="dropdown__item">
+                Sign up
+              </NavLink>
+              <hr />
+              <a href="/" className="dropdown__item">
+                Host your home
+              </a>
+              <a href="/" className="dropdown__item">
+                Host an experience
+              </a>
+              <a href="/" className="dropdown__item">
+                Help
+              </a>
+            </div>
           </div>
         </div>
         {/* right section */}
