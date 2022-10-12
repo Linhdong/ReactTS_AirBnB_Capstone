@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const logo = require("../../assets/img/airbnb-logo.png");
 
@@ -9,7 +9,7 @@ export default function Header({}: Props) {
   const [isClicked, setIsClicked] = useState(false);
 
   return (
-    <header className="header">
+    <header className="header bg-white shadow-sm">
       <div className="container py-4 d-flex justify-content-between align-items-center">
         {/* left section - logo */}
         <div className="header__logo">

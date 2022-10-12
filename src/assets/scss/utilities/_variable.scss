@@ -20,6 +20,7 @@ $text-bold: 700;
 $text-c1-dark: #000;
 $text-c1-light: #fff;
 $text-gray-600: #4b5563;
+$text-gray-location: #777777;
 
 // boder color
 $bd-gray: #e3e3e3;
@@ -69,19 +70,19 @@ $xxl: 1400px;
 }
 
 @mixin res-lg {
-  @media (max-width: #{$lg}) {
+  @media (min-width: #{$md}) and (max-width: #{$lg}) {
     @content;
   }
 }
 
 @mixin res-xl {
-  @media (max-width: #{$xl}) {
+  @media (min-width: #{$lg}) and (max-width: #{$xl}) {
     @content;
   }
 }
 
 @mixin res-xxl {
-  @media (max-width: #{$xxl}) {
+  @media (min-width: #{$lg}) and (max-width: #{$xxl}) {
     @content;
   }
 }
