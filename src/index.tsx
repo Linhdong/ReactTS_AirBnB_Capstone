@@ -32,7 +32,7 @@ root.render(
           <Route path="signin" element={<SignIn />}></Route>
           <Route path="signup" element={<SignUp />}></Route>
           <Route path="profile" element={<Profile />}></Route>
-          <Route path="roomlist">
+          <Route path="positon">
             <Route path=":cityname" element={<RoomList />}></Route>
           </Route>
           <Route path="detail">

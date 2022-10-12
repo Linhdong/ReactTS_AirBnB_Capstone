@@ -1,0 +1,70 @@
+@import './../utilities/variable';
+
+
+.room-detail{
+    .container{
+        .infor-detail{
+            .tilte{
+                @include text($text-3xl, $text-medium, $text-c1-dark, $line-height-c1);
+            }
+            .header{
+                margin-bottom: 30px;
+                .infor-header{
+                    .left-details{
+                        @include text($text-small, $text-medium, $text-c1-dark, $line-height-c2);
+                       .infor{
+                            .star{
+                                i{
+                                    color: $text-c1-red;
+                                }
+                            }
+                            .review{
+
+                            }
+                            .prize{
+                                i{
+                                    color: $text-c1-red;
+                                }
+                            }
+                            .address{
+
+                            }
+                       } 
+                    }
+                    .right-detail{
+                        @include text($text-small, $text-medium, $text-c1-dark, $line-height-c2);
+                    }
+                }
+
+            }
+            .image-grid{
+                // border: 1px solid black;
+                border-radius: 20px;
+                overflow: hidden;
+                .row{
+                    height: 416px;
+                    .left-grid{
+                        padding-right: 0 !important;
+                        img{
+                            height: 100%;
+                            object-fit: cover;
+                        }
+                    }
+                    .right-grid{
+                        .row{
+                            .col-6{
+                                padding-bottom: 0 !important;
+                                // height: 50%;
+                                // padding-right: 0 !important;
+                                // margin-bottom: 15px;
+                                img{
+                                    // height: 100%;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
