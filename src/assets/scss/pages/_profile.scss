@@ -1,0 +1,157 @@
+@import "./../utilities/variable";
+
+.container {
+  .profile {
+    .row {
+      .left-profile {
+        .infor-user {
+          .card {
+            background: $bg-c1-light;
+            box-shadow: $bs-user-menu;
+            .card-header {
+              margin-left: auto;
+              margin-right: auto;
+              margin-top: 15px;
+              background: none;
+              border: none;
+              img {
+              }
+              p {
+                @include text($text-small, $text-medium, $text-c1-dark, 30px);
+              }
+            }
+            .card-body {
+              .card-title {
+                i {
+                  font-size: 20px;
+                }
+              }
+              .confirm {
+                @include text($text-xl, $text-bold, $text-c1-dark, 20px);
+              }
+              .certificate {
+                @include text($text-base, $text-regular, $text-c1-dark);
+              }
+              .btnGetBadge {
+                @include btnStyle(157px, 48px, $bg-c1-light);
+                transition: all 0.5s linear;
+                &:hover {
+                  background: $bg-c1-dark;
+                  color: $text-c1-light;
+                  border: 1px solid $bg-btn-hover;
+                }
+              }
+            }
+            .card-footer {
+              background: $bg-c1-light;
+              .user-confirm {
+                border-top: 1px solid $bd-gray;
+                h5 {
+                  @include text(22px, $text-bold, $text-c1-dark, 25.78px);
+                }
+                ul {
+                  li {
+                    i {
+                    }
+                    span {
+                      @include text(
+                        $text-small,
+                        $text-regular,
+                        $text-c1-dark,
+                        16.41px
+                      );
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      .right-profile {
+        h3 {
+          @include text($text-3xl, $text-semibold, $text-c1-dark, 20px);
+        }
+        p {
+          @include text($text-small, $text-regular, $text-gray-600, 20px);
+        }
+        h5 {
+          @include text($text-small, $text-bold, $text-gray-600, 20px);
+        }
+        .rent-history {
+          h5 {
+            @include text($text-3xl, $text-semibold, $text-c1-dark, 10px);
+          }
+          .room-list {
+            .card {
+              .row {
+                .left-card {
+                  img {
+                  }
+                }
+                .right-card {
+                  .card {
+                    position: relative;
+                    left: 0;
+                    top: 0;
+                    .card-header {
+                      background: $bg-c1-light;
+                      p {
+                        @include text(
+                          $text-small,
+                          $text-regular,
+                          $text-gray-600,
+                          10px
+                        );
+                      }
+                      h5 {
+                        @include text(
+                          $text-2xl,
+                          $text-medium,
+                          $text-c1-dark,
+                          10px
+                        );
+                      }
+                      .icon {
+                        position: absolute;
+                        right: 15px;
+                        top: 10px;
+                        font-size: 25px;
+                      }
+                    }
+                    .card-body {
+                      line-height: 10px;
+                      margin-bottom: 35px;
+                      p {
+                        @include text(
+                          $text-small,
+                          $text-regular,
+                          $text-gray-600,
+                          10px
+                        );
+                      }
+                    }
+                    .card-footer {
+                      background: $bg-c1-light;
+                      p {
+                        @include text(
+                          $text-small,
+                          $text-bold,
+                          $text-c1-dark,
+                          10px
+                        );
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+          .btnLoad {
+            background: $bg-c1-primary;
+          }
+        }
+      }
+    }
+  }
+}

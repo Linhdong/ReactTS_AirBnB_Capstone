@@ -28,13 +28,16 @@ $bd-gray: #e3e3e3;
 
 // background color
 $bg-primary: #ff5a5f;
+$bg-c1-primary: #de3151;
 $bg-c1-light: #fff;
 $bg-btn-hover: #f7f7f7;
 $bg-gray-50: #f9fafb;
+$bg-c1-dark: rgba(0, 0, 0, 1);
 
 //lineheight
 $line-height-c1: 40px;
 $line-height-c2: 20px;
+$line-height-c3: 32px;
 
 // box-shadow
 $bs-input-search: 0px 4px 4px rgba(0, 0, 0, 0.08);
@@ -92,9 +95,8 @@ $xxl: 1400px;
   }
 }
 
-@mixin btnStyle($w, $h, $bgc, $bd: 1px solid transparent) {
+@mixin btnStyle($w, $h, $bgc) {
   width: $w;
   height: $h;
   background-color: $bgc;
-  border: $bd;
 }

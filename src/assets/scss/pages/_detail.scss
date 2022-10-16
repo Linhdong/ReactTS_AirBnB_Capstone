@@ -44,10 +44,10 @@
                 .row{
                     height: 416px;
                     .left-grid{
-                        padding-right: 0 !important;
+                        // padding-right: 5px !important;
                         img{
                             height: 100%;
-                            object-fit: cover;
+                            object-fit: center;
                         }
                     }
                     .right-grid{
@@ -62,6 +62,52 @@
                                 }
                             }
                         }
+                    }
+                }
+            }
+            .content{
+                
+                .row{
+                    height: 600px;
+                    .left-content{
+                        border: 1px solid black;
+                        height: 100%;
+                        .left-header{
+                            .title-header{
+                                h4{
+                                    @include text(24px, $text-medium, $text-c1-dark,$line-height-c3);
+                                }
+                                ul{
+                                    li{
+                                        @include text($text-small, $text-regular, $text-c1-dark,$line-height-c2);
+                                    }
+                                }
+                            }
+                        }
+                        .left-detail{
+                            .infor-detail{
+                                li{
+                                    .icon{
+                                        margin-top: 2px;
+                                        margin-right: 10px;
+                                        font-size: 20px;
+                                    }
+                                    .description{
+                                        h6{
+                                            
+                                        }
+                                        p{
+                                            line-height: 20px
+                                        }
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                    .right-content{
+                        border: 1px solid red;
+                        height: 100%;
                     }
                 }
             }
