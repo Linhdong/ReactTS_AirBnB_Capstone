@@ -1,7 +1,6 @@
 // ----------------Text----------------
 // text-size
 $text-xs: 13px;
-$text-small: 14px;
 $text-base: 16px;
 $text-xl: 18px;
 $text-2xl: 20px;
@@ -20,7 +19,7 @@ $text-bold: 700;
 $text-c1-dark: #000;
 $text-c1-light: #fff;
 $text-gray-600: #4b5563;
-$text-gray-location: #777777;
+$text-c1-gray: #777777;
 
 // boder color
 $bd-gray: #e3e3e3;
@@ -38,16 +37,21 @@ $bs-user-menu: 0px 4px 9px rgba(0, 0, 0, 0.12);
 // ----------------Background----------------
 
 // ----------------Breakpoint----------------
-//Iphone 6/7/8
-$sm: 667px;
-//Iphone 6+/7+/8+
-$md: 736px;
-//Ipad
-$lg: 1024px;
-//Desktop
-$xl: 1200px;
-//Higher desktop
-$xxl: 1400px;
+// X-Small devices (portrait phones, less than 576px)
+$xs-max: 575.98px;
+$xs-min: 576px;
+// Small devices (landscape phones, less than 768px)
+$sm-min: 768px;
+$sm-max: 767.98px;
+// Medium devices (tablets, less than 992px)
+$md-min: 992px;
+$md-max: 991.98px;
+// Large devices (desktops, less than 1200px)
+$lg-min: 1200px;
+$lg-max: 1199.98px;
+// X-Large devices (large desktops, less than 1400px)
+$xl-min: 1400px;
+$xl-max: 1399.98px;
 
 // ----------------Mixin----------------
 @mixin text($fs: $text-base, $fw: $text-regular, $fc: $text-c1-dark, $lh: 1.2) {
@@ -57,32 +61,55 @@ $xxl: 1400px;
   line-height: $lh;
 }
 
+// X-Small devices (portrait phones, less than 576px)
+@mixin res-xs {
+  @media (max-width: #{$xs-max}) {
+    @content;
+  }
+}
+
+// Small devices (landscape phones, less than 768px)
 @mixin res-sm {
-  @media (max-width: #{$sm}) {
+  @media (min-width: #{$xs-min}) and (max-width: #{$sm-max}) {
     @content;
   }
 }
 
+// Medium devices (tablets, less than 992px)
 @mixin res-md {
-  @media (max-width: #{$md}) {
+  @media (min-width: #{$sm-min}) and (max-width: #{$md-max}) {
     @content;
   }
 }
 
+// Large devices (desktops, less than 1200px)
 @mixin res-lg {
-  @media (min-width: #{$md}) and (max-width: #{$lg}) {
+  @media (min-width: #{$md-min}) and (max-width: #{$lg-max}) {
     @content;
   }
 }
 
+// X-Large devices (large desktops, less than 1400px)
 @mixin res-xl {
-  @media (min-width: #{$lg}) and (max-width: #{$xl}) {
+  @media (min-width: #{$lg-min}) and (max-width: #{$xl-max}) {
     @content;
   }
 }
 
-@mixin res-xxl {
-  @media (min-width: #{$lg}) and (max-width: #{$xxl}) {
+@mixin res-between($minWidth, $maxWidth) {
+  @media (min-width: #{$minWidth}) and (max-width: #{$maxWidth}) {
+    @content;
+  }
+}
+
+@mixin res-up($minWidth) {
+  @media (min-width: #{$minWidth}) {
+    @content;
+  }
+}
+
+@mixin res-down($maxWidth) {
+  @media (max-width: #{$maxWidth}) {
     @content;
   }
 }

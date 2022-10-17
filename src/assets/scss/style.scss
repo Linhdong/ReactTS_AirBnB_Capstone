@@ -6,8 +6,9 @@
 @import "./base/base";
 
 // components (buttons, carousel,...)
+@import "./components/banner";
+@import "./components/homeLocationItem";
 @import "./components/carousel";
-@import "./components/location";
 
 // layouts
 @import "./layouts/header";

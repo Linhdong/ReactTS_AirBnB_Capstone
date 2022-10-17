@@ -13,7 +13,7 @@
 
           .footer-nav__list {
             .footer-nav__item {
-              @include text($text-small, $text-regular, $text-gray-600);
+              // @include text($text-small, $text-regular, $text-gray-600);
               margin-bottom: 16px;
             }
           }

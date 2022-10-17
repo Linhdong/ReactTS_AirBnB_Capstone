@@ -8,7 +8,47 @@
 }
 
 .container {
-  max-width: 1200px !important;
+  max-width: 1199px !important;
+  width: 90%;
+}
+
+img {
+  width: 100%;
+}
+
+// typography
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
+h2 {
+  @include text($text-3xl, $text-bold);
+  margin-bottom: 0.3em;
+
+  @include res-down($sm-max) {
+    @include text(1.6rem, $text-semibold);
+  }
+}
+
+h4 {
+  @include text($text-xl, $text-semibold);
+
+  @include res-down($sm-max) {
+    font-size: 1rem;
+  }
+}
+
+h5 {
+  @include text(0.94rem, $text-bold);
+}
+
+p {
+  margin: 0;
 }
 
 a {

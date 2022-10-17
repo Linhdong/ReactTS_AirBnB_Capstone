@@ -1,21 +1,19 @@
 .carousel {
-  position: relative;
-  background: url("../../img/Carousel.png");
-  min-height: 700px;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  object-fit: cover;
+  margin: 3rem 0;
 
-  @include res-sm {
-    min-height: 350px;
-  }
+  .carousel__content {
+    @include res-xs {
+      margin-top: 0;
+    }
 
-  @include res-md {
-    min-height: 450px;
-  }
+    @include res-up($sm-min) {
+      margin-top: 1.2em;
+    }
 
-  @include res-xl {
-    min-height: 550px;
+    .carousel__item {
+      @include res-down($sm-max) {
+        margin-top: 1em;
+      }
+    }
   }
 }

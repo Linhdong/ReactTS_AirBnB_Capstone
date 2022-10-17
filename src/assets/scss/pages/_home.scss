@@ -1,32 +1,7 @@
-.locations {
-  padding: 48px 0;
+.nearest-locations-list {
+  margin-top: 3rem;
 
-  .title {
-    @include text($text-3xl, $text-bold);
-    margin-bottom: 7px;
-
-    @include res-md {
-      @include text(28px, $text-semibold);
-    }
-  }
-
-  .locations__content {
-    .location__item {
-      margin-top: 12px;
-    }
-  }
-
-  @include res-md {
-    padding: 28px 30px;
-  }
-
-  @include res-lg {
-    padding: 28px 40px;
-  }
-
-  @include res-xxl {
-    padding: 28px 68px;
+  @include res-xs {
+    margin-top: 1.5rem;
   }
 }
-
-// >1200
