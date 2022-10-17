@@ -1,0 +1,95 @@
+@import "./../utilities/variable";
+
+.container {
+  .content {
+    .row {
+      .left-content {
+        .room-list {
+          .card {
+            .row {
+              .left-card {
+                img {
+                }
+              }
+              .right-card {
+                .card {
+                  position: relative;
+                  left: 0;
+                  top: 0;
+                  .card-header {
+                    background: $bg-c1-light;
+                    p {
+                      @include text(
+                        $text-small,
+                        $text-regular,
+                        $text-gray-600,
+                        10px
+                      );
+                    }
+                    h5 {
+                      @include text(
+                        $text-2xl,
+                        $text-medium,
+                        $text-c1-dark,
+                        10px
+                      );
+                    }
+                    .icon {
+                      position: absolute;
+                      right: 15px;
+                      top: 10px;
+                      font-size: 25px;
+                    }
+                  }
+                  .card-body {
+                    line-height: 20px;
+                    .top-line {
+                      border-top: 2px solid rgb(199, 199, 199);
+                      width: 50px;
+                    }
+                    .detail-room {
+                      p {
+                        @include text(
+                          $text-small,
+                          $text-regular,
+                          $text-gray-600,
+                          10px
+                        );
+                      }
+                    }
+                    .bottom-line {
+                      border-bottom: 2px solid rgb(199, 199, 199);
+                      width: 50px;
+                    }
+                  }
+                  .card-footer {
+                    background: $bg-c1-light;
+                    .star-review {
+                      @include text(
+                        $text-small,
+                        $text-bold,
+                        $text-c1-dark,
+                        10px
+                      );
+                      i{
+                        color: yellow
+                      }
+                    }
+                    .price {
+                      @include text(
+                        $text-small,
+                        $text-bold,
+                        $text-c1-dark,
+                        10px
+                      );
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

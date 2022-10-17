@@ -87,6 +87,7 @@ export default function Profile({}: Props) {
                               <div className="card-header border-0">
                                 <p>Toàn bộ căn hộ dịch vụ tại Bình Thạnh</p>
                                 <h5>Romantic APT for Long-term Living</h5>
+                                <div className="border-bottom pt-2 under-line"/>
                                 <i className="far fa-heart icon"></i>
                               </div>
                               <div className="card-body border-0">
