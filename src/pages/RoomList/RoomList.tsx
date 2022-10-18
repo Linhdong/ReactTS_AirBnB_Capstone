@@ -75,7 +75,9 @@ export default function RoomList({}: Props) {
                   {nodeOfElement <= data.dataTest.length ? 'Load More' : 'Load Less'}
                 </button>
           </div>
-          <div className="col-5 right-map"></div>
+          <div className="col-5 right-map">
+            
+          </div>
         </div>
       </div>
     </div>
