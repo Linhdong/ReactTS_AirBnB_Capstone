@@ -14,6 +14,7 @@
 
 img {
   width: 100%;
+  object-fit: cover;
 }
 
 // typography
@@ -24,6 +25,10 @@ h4,
 h5,
 h6 {
   margin: 0;
+}
+
+h1 {
+  @include text($text-3xl, $text-semibold);
 }
 
 h2 {
@@ -66,4 +71,35 @@ ul {
   list-style: none;
   padding: 0;
   margin: 0;
+}
+
+.btn-bg-white {
+  background-color: $bg-c1-light;
+  border: 1px solid transparent;
+  @include text($text-base, $text-semibold);
+  transition: 0.3s ease;
+  border-radius: 46px;
+  height: 42px;
+  padding: 0.7em 0.6em;
+
+  &:hover,
+  &:focus {
+    background-color: $bg-btn-hover;
+  }
+}
+
+.btn-border-black {
+  border: 1px solid #000;
+}
+
+.dot {
+  font-size: 2px;
+  padding-top: 5em;
+  margin-left: 5.5em;
+  margin-right: 5.5em;
+}
+
+.divider {
+  border-bottom: 1px solid #e5e7eb;
+  margin: 1.5em 0;
 }

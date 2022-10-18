@@ -1,0 +1,60 @@
+.room {
+  padding: 1.5em;
+
+  .room__images {
+    position: relative;
+    height: 400px;
+    min-height: 300px;
+
+    img {
+      height: 100%;
+    }
+
+    .show-all__button {
+      position: absolute;
+      bottom: 1.5em;
+      right: 1.5em;
+
+      .btnShowAll {
+        border-radius: 0.6em;
+      }
+    }
+  }
+
+  .room__content {
+    padding: 1.5em 0;
+
+    .room-info {
+      .room-info__heading {
+        .room-info__heading--left {
+          h2 {
+            @include text(1.5rem, $text-semibold);
+          }
+
+          .room-info__stats {
+            span {
+              @include text(0.95rem);
+            }
+          }
+        }
+
+        .room-info__heading--right {
+          img {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+          }
+        }
+      }
+    }
+
+    .room-details {
+        .room-details__item {
+            img {
+                width: 32px;
+                height: 32px;
+            }
+        }
+    }
+  }
+}

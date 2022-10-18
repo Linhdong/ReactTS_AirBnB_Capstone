@@ -33,16 +33,16 @@ export default function Header({}: Props) {
         {/* right section */}
         <div className="header__right d-flex">
           <div className="become-host">
-            <button className="btnHost">Become a host</button>
+            <button className="btnHost btn-bg-white">Become a host</button>
           </div>
           <div className="language">
-            <button className="btnLanguage">
+            <button className="btnLanguage btn-bg-white">
               <i className="fas fa-globe"></i>
             </button>
           </div>
           <div className="user">
             <button
-              className="btnUser"
+              className="btnUser btn-bg-white"
               onClick={() => setIsClicked(!isClicked)}
             >
               <i className="fa fa-bars"></i>

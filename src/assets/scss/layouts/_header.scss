@@ -18,7 +18,7 @@
         border-radius: 46px;
         @include text($text-base, $text-semibold, $text-c1-dark);
         box-shadow: $bs-input-search;
-        padding-right: 7px;
+        padding-right: 0.3em;
 
         input {
           padding: 10px 7px 10px 15px;
@@ -41,31 +41,8 @@
 
     // right section
     .header__right {
-      button {
-        background-color: $bg-c1-light;
-        border: 1px solid transparent;
-        @include text($text-base, $text-semibold);
-        transition: 0.3s ease;
-        border-radius: 46px;
-        height: 42px;
-
-        &:hover,
-        &:focus {
-          background-color: $bg-btn-hover;
-        }
-      }
-      .become-host {
-        .btnHost {
-          width: 125px;
-          padding: 12px 0;
-        }
-      }
-
-      .language {
-        .btnLanguage {
-          padding: 12px;
-          width: 40px;
-        }
+      .btnLanguage {
+        padding: 0.7em;
       }
 
       .user {
@@ -74,17 +51,17 @@
 
         .btnUser {
           border: 1px solid $bd-gray;
-          padding-left: 12px;
+          padding: 0 0 0 0.7em;
 
           i:nth-child(1) {
-            margin-right: 12px;
+            margin-right: 0.7em;
           }
 
           i:nth-child(2) {
             background-color: #666f7a;
             width: 30px;
             height: 30px;
-            font-size: 25px;
+            font-size: 1.6rem;
             border-radius: 50%;
           }
 
@@ -95,10 +72,10 @@
             background-color: $bg-primary;
             width: 17px;
             height: 17px;
-            font-size: 10px;
+            font-size: 0.6rem;
             color: $text-c1-light;
             border-radius: 50%;
-            padding: 3px;
+            padding: 0.3em;
             border: 1px solid #fff;
           }
         }
@@ -116,7 +93,7 @@
           background-color: $bg-c1-light;
 
           .dropdown__item {
-            padding: 12px 20px;
+            padding: 0.6em 1.3em;
             display: block;
 
             &:hover {
@@ -131,13 +108,5 @@
       }
     }
     // right section
-  }
-
-  .header__border {
-    position: absolute;
-    width: 100%;
-    z-index: -1;
-    border-bottom: 1px solid #ccc;
-    height: 1px;
   }
 }

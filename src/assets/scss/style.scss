@@ -7,16 +7,17 @@
 
 // components (buttons, carousel,...)
 @import "./components/banner";
-@import "./components/homeLocationItem";
 @import "./components/carousel";
 
 // layouts
 @import "./layouts/header";
 @import "./layouts/footer";
+@import "./layouts/homeLocationItem";
+@import "./layouts/roomDetailHeading";
 
 // pages
 @import "./pages/home";
-@import "./pages/detail";
+@import "./pages/roomDetail";
 @import "./pages/login";
 @import "./pages/signup";
 

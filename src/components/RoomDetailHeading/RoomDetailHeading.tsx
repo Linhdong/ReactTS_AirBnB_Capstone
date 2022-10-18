@@ -6,59 +6,59 @@ import { getLocationByIdApi } from "../../redux/reducers/locationsReducer";
 import { Room } from "../../redux/reducers/roomReducer";
 
 type Props = {
-  room: Room;
+  // room: Room;
 };
 
-export default function RoomDetailHeading({ room }: Props) {
-  const { location } = useSelector(
-    (state: RootState) => state.locationsReducer
-  );
+export default function RoomDetailHeading({}: Props) {
+  // const { location } = useSelector(
+  //   (state: RootState) => state.locationsReducer
+  // );
 
-  const dispatch: AppDispatch = useDispatch();
+  // const dispatch: AppDispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getLocationByIdApi(room.maViTri));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getLocationByIdApi(room.maViTri));
+  // }, [room.maViTri]);
 
   return (
     <div className="room__heading">
-      <h1 className="room-title">{room.tenPhong}</h1>
-      <div className="room__heading--details d-flex justify-content-between">
+      <h1 className="room-title">Ho Chi Minh City</h1>
+      <div className="room__heading--details d-flex justify-content-between align-item-center">
         <div className="details__left d-flex">
           <div className="ratings">
             <i className="fa fa-star"></i>
             <span>5.0</span>
           </div>
-          <span className="divider">
+          <div className="dot">
             <i className="fas fa-circle"></i>
-          </span>
+          </div>
           <NavLink to="" className="reviews">
             <u>7 reviews</u>
           </NavLink>
-          <span className="divider">
+          <div className="dot">
             <i className="fas fa-circle"></i>
-          </span>
-          <div className="host_badge">
+          </div>
+          <div className="host-badge">
             <i className="fas fa-user-shield"></i>
             <span>Superhost</span>
           </div>
-          <span className="divider">
+          <div className="dot">
             <i className="fas fa-circle"></i>
-          </span>
+          </div>
           <NavLink to="" className="cityName">
-            <u>{location?.tinhThanh}</u>
+            <u>Ho Chi Minh</u>
           </NavLink>
         </div>
         <div className="details__right">
-          <button className="share">
+          <button className="btnShare btn-bg-white me-2">
             <i className="fas fa-share-square"></i>
-            <span>
+            <span className="ms-2">
               <u>Share</u>
             </span>
           </button>
-          <button className="save">
+          <button className="btnSave btn-bg-white">
             <i className="far fa-heart"></i>
-            <span>
+            <span className="ms-2">
               <u>Save</u>
             </span>
           </button>
