@@ -1,6 +1,14 @@
 .room {
   padding: 1.5em;
 
+  h2 {
+    @include text(1.5rem, $text-semibold);
+  }
+
+  strong {
+    @include text($text-base, $text-semibold);
+  }
+
   .room__images {
     position: relative;
     height: 400px;
@@ -22,15 +30,11 @@
   }
 
   .room__content {
-    padding: 1.5em 0;
+    padding: 1.5em 0 0 0;
 
     .room-info {
       .room-info__heading {
         .room-info__heading--left {
-          h2 {
-            @include text(1.5rem, $text-semibold);
-          }
-
           .room-info__stats {
             span {
               @include text(0.95rem);
@@ -49,12 +53,75 @@
     }
 
     .room-details {
-        .room-details__item {
-            img {
-                width: 32px;
-                height: 32px;
-            }
+      .room-details__item {
+        align-items: center;
+        margin-top: 1em;
+
+        i {
+          font-size: 2rem;
+          margin-right: 0.5em;
         }
+
+        .room-detail__text {
+          p {
+            @include text(0.94rem, $text-base, $text-gray-500);
+          }
+        }
+      }
+    }
+
+    .room-desc {
+      p {
+        @include text($text-base, $text-regular, $text-c1-dark, 1.5);
+      }
+
+      a {
+        margin-top: 1.7em;
+        @include text(0.875rem, $text-semibold);
+      }
+    }
+
+    .room-sleeping-place {
+      .room-sleeping-place__block {
+        margin-top: 1em;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 0.5em;
+        padding: 1.5em;
+        width: 30%;
+
+        i {
+          font-size: 1.56rem;
+          margin-bottom: 0.6em;
+        }
+        .room-sleeping-place__block-text {
+          p {
+            @include text(14px);
+            margin-top: 0.6em;
+          }
+        }
+      }
+    }
+
+    .room-amenities {
+      .room-amenities__content {
+        .room-amenity__item {
+          align-items: center;
+          margin-top: 0.7em;
+
+          .room-amenity__item--icon {
+            width: 28px;
+
+            i {
+              font-size: 1.3rem;
+            }
+          }
+
+          span {
+            @include text($text-base);
+          }
+        }
+      }
     }
   }
 }
