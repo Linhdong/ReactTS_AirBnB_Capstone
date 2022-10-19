@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
+import Button from "../Button/Button";
 
 const logo = require("../../assets/img/airbnb-logo.png");
 
@@ -32,23 +33,24 @@ export default function Header({}: Props) {
 
         {/* right section */}
         <div className="header__right d-flex">
-          <div className="become-host">
-            <button className="btnHost btn-bg-white">Become a host</button>
-          </div>
-          <div className="language">
-            <button className="btnLanguage btn-bg-white">
-              <i className="fas fa-globe"></i>
-            </button>
-          </div>
+          <Button path="#" className="btn--light" onClick={() => {}}>
+            Become a host
+          </Button>
+          <Button path="#" className="btn--light" onClick={() => {}}>
+            <i className="fas fa-globe"></i>
+          </Button>
           <div className="user">
-            <button
-              className="btnUser btn-bg-white"
+            <Button
+              path="#"
+              className="btn--light btn-border-black"
               onClick={() => setIsClicked(!isClicked)}
             >
-              <i className="fa fa-bars"></i>
-              <i className="fa fa-user"></i>
-              <div className="notification d-inline-block">1</div>
-            </button>
+              <>
+                <i className="fa fa-bars"></i>
+                <i className="fa fa-user"></i>
+                <div className="notification d-inline-block">1</div>
+              </>
+            </Button>
             <div
               id="user__dropdown"
               className={`dropdown__content ${

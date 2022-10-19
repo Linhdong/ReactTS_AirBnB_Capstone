@@ -1,0 +1,5 @@
+.room__heading--sm {
+  @include res-up($sm-min) {
+    display: none;
+  }
+}

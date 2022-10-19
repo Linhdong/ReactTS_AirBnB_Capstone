@@ -8,12 +8,15 @@
 // components (buttons, carousel,...)
 @import "./components/banner";
 @import "./components/carousel";
+@import "./components/button";
 
 // layouts
 @import "./layouts/header";
 @import "./layouts/footer";
 @import "./layouts/homeLocationItem";
 @import "./layouts/roomDetailHeading";
+@import "./layouts/roomNavBarSmall";
+@import "./layouts/roomDetailHeadingSmall";
 
 // pages
 @import "./pages/home";

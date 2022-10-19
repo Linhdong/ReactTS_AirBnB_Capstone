@@ -18,6 +18,13 @@
       height: 100%;
     }
 
+    @include res-down($sm-max) {
+      position: relative;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
     .show-all__button {
       position: absolute;
       bottom: 1.5em;
@@ -26,12 +33,15 @@
       .btnShowAll {
         border-radius: 0.6em;
       }
+
+      @include res-down($sm-max) {
+        display: none;
+      }
     }
   }
 
+  // padding: 1.5em 0 0 0;
   .room__content {
-    padding: 1.5em 0 0 0;
-
     .room-info {
       .room-info__heading {
         .room-info__heading--left {

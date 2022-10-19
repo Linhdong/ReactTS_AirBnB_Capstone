@@ -10,6 +10,10 @@
 .container {
   max-width: 1199px !important;
   width: 90%;
+
+  @include res-down($sm-max) {
+    width: 99%;
+  }
 }
 
 img {
@@ -73,24 +77,7 @@ ul {
   margin: 0;
 }
 
-.btn-bg-white {
-  background-color: $bg-c1-light;
-  border: 1px solid transparent;
-  @include text($text-base, $text-semibold);
-  transition: 0.3s ease;
-  border-radius: 46px;
-  height: 42px;
-  padding: 0.7em 0.6em;
 
-  &:hover,
-  &:focus {
-    background-color: $bg-btn-hover;
-  }
-}
-
-.btn-border-black {
-  border: 1px solid #000;
-}
 
 .dot {
   font-size: 2px;
@@ -102,6 +89,10 @@ ul {
 .divider {
   border-bottom: 1px solid #e5e7eb;
   margin: 1.5em 0;
+
+  @include res-down($sm-max) {
+    margin: 0.5em 0;
+  }
 }
 
 // for outline icon
@@ -111,6 +102,6 @@ ul {
 }
 
 .stroke-transparent {
- -webkit-text-stroke: 1.5px #000;
- -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1.5px #000;
+  -webkit-text-fill-color: transparent;
 }

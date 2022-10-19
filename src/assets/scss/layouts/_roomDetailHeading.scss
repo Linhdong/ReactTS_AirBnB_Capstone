@@ -1,6 +1,10 @@
 .room__heading {
   .room-title {
     margin-bottom: 0.3em;
+
+    @include res-down($sm-max) {
+      font-size: 1.6rem;
+    }
   }
 
   .room__heading--details {
@@ -24,5 +28,15 @@
         @include text(0.93rem);
       }
     }
+  }
+
+  @include res-down($sm-max) {
+    padding: 0.9em 0;
+  }
+}
+
+.room__heading--md {
+  @include res-down($sm-max) {
+    display: none;
   }
 }

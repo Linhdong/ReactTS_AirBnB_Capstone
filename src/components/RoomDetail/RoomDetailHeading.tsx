@@ -21,9 +21,9 @@ export default function RoomDetailHeading({}: Props) {
   // }, [room.maViTri]);
 
   return (
-    <div className="room__heading">
+    <div className="room__heading room__heading--md">
       <h1 className="room-title">Ho Chi Minh City</h1>
-      <div className="room__heading--details d-flex justify-content-between align-item-center">
+      <div className="room__heading--details d-flex justify-content-between align-items-center">
         <div className="details__left d-flex">
           <div className="ratings">
             <i className="fa fa-star"></i>
