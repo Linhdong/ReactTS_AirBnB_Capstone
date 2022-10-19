@@ -1,6 +1,7 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import Filter from "./Filter";
 import data from "./../Profile/data";
+import SearchMap from "./SearchMap";
 
 type Props = {};
 
@@ -9,9 +10,9 @@ export default function RoomList({}: Props) {
   const [nodeOfElement, setNodeOfElement] = useState<number>(2);
   const slice = data.dataTest.slice(0, nodeOfElement);
   const loadMore = () => {
-    if(nodeOfElement <= data.dataTest.length){
+    if (nodeOfElement <= data.dataTest.length) {
       setNodeOfElement(nodeOfElement + nodeOfElement);
-    }else{
+    } else {
       setNodeOfElement(2);
     }
   };
@@ -23,17 +24,19 @@ export default function RoomList({}: Props) {
           <div className="col-7 left-content">
             <h5 className="my-3">200+ stay in Bordeau</h5>
             <div className="room-list">
-              {
-                slice.map((item, index) => {
-                  return (
-                    <div className="card my-4 border-0 rounded-0 border-top border-bottom" key={index}>
+              {slice.map((item, index) => {
+                return (
+                  <div
+                    className="card my-4 border-0 rounded-0 border-top border-bottom"
+                    key={index}
+                  >
                     <div className="row g-0 my-3">
                       <div className="col-md-5 left-card">
                         <img
                           src={item.img}
                           className="img-fluid rounded-4 w-100"
                           alt="..."
-                          style={{ height: "200px", objectFit:'cover' }}
+                          style={{ height: "200px", objectFit: "cover" }}
                         />
                       </div>
                       <div className="col-md-7 right-card">
@@ -65,20 +68,23 @@ export default function RoomList({}: Props) {
                       </div>
                     </div>
                   </div>
-                  )
-                })
-              }
+                );
+              })}
             </div>
-            <button className="btn btn-danger d-block w-100 btnLoad"
-                  onClick={()=>loadMore()}
-                >
-                  {nodeOfElement <= data.dataTest.length ? 'Load More' : 'Load Less'}
-                </button>
+            <button
+              className="btn btn-danger d-block w-100 btnLoad"
+              onClick={() => loadMore()}
+            >
+              {nodeOfElement <= data.dataTest.length
+                ? "Load More"
+                : "Load Less"}
+            </button>
           </div>
           <div className="col-5 right-map">
-            
+              <SearchMap/>
           </div>
         </div>
+       
       </div>
     </div>
   );
