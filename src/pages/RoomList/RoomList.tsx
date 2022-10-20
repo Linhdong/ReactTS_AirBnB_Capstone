@@ -7,13 +7,13 @@ type Props = {};
 
 export default function RoomList({}: Props) {
   const avatar = require("./../../assets/img/Imag_1.png");
-  const [nodeOfElement, setNodeOfElement] = useState<number>(2);
+  const [nodeOfElement, setNodeOfElement] = useState<number>(3);
   const slice = data.dataTest.slice(0, nodeOfElement);
   const loadMore = () => {
     if (nodeOfElement <= data.dataTest.length) {
       setNodeOfElement(nodeOfElement + nodeOfElement);
     } else {
-      setNodeOfElement(2);
+      setNodeOfElement(3);
     }
   };
   return (
@@ -21,7 +21,7 @@ export default function RoomList({}: Props) {
       <Filter />
       <div className="content">
         <div className="row">
-          <div className="col-7 left-content">
+          <div className="col-lg-7 col-md-12 left-content">
             <h5 className="my-3">200+ stay in Bordeau</h5>
             <div className="room-list">
               {slice.map((item, index) => {
@@ -42,8 +42,8 @@ export default function RoomList({}: Props) {
                       <div className="col-md-7 right-card">
                         <div className="card border-0">
                           <div className="card-header border-0">
-                            <p>Toàn bộ căn hộ dịch vụ tại Bình Thạnh</p>
-                            <h5>Romantic APT for Long-term Living</h5>
+                            <p className="intro">Toàn bộ căn hộ dịch vụ tại Bình Thạnh</p>
+                            <h5 className="name-room">Romantic APT for Long-term Living</h5>
                             <i className="far fa-heart icon"></i>
                           </div>
                           <div className="card-body">
@@ -80,8 +80,8 @@ export default function RoomList({}: Props) {
                 : "Load Less"}
             </button>
           </div>
-          <div className="col-5 right-map">
-              <SearchMap/>
+          <div className="col-lg-5 right-map">
+             <SearchMap/>
           </div>
         </div>
        

@@ -30,53 +30,53 @@ export default function Filter({}: Props) {
           </div>
         </div>
 
-        <div className="btn-group-sm m-auto multiple-choice">
+        <div className="btn-group-sm mx-1 multiple-choice">
           <input
-            className="btn btn-outline-secondary me-2"
+            className="btn btn-outline-secondary me-2 mb-2"
             type="button"
             value="Free cancelation"
           />
           <input
-            className="btn btn-outline-secondary me-2"
+            className="btn btn-outline-secondary me-2 mb-2"
             type="button"
             value="Wifi"
           />
           <input
-            className="btn btn-outline-secondary me-2"
+            className="btn btn-outline-secondary me-2 mb-2"
             type="button"
             value="Kitchen"
           />
           <input
-            className="btn btn-outline-secondary me-2"
+            className="btn btn-outline-secondary me-2 mb-2"
             type="button"
             value="Air conditioning"
           />
           <input
-            className="btn btn-outline-secondary me-2"
+            className="btn btn-outline-secondary me-2 mb-2"
             type="button"
             value="Washer"
           />
           <input
-            className="btn btn-outline-secondary me-2"
+            className="btn btn-outline-secondary me-2 mb-2"
             type="button"
             value="Iron"
           />
           <input
-            className="btn btn-outline-secondary me-2"
+            className="btn btn-outline-secondary me-2 mb-2"
             type="button"
             value="Delicated workspace"
           />
           <input
-            className="btn btn-outline-secondary me-2"
+            className="btn btn-outline-secondary me-2 mb-2"
             type="button"
             value="Free parking"
           />
           <input
-            className="btn btn-outline-secondary me-2"
+            className="btn btn-outline-secondary me-2 mb-2"
             type="button"
             value="Dyer"
           />
-          <button className="btn btn-outline-secondary me-2" type="submit">
+          <button className="btn btn-outline-secondary me-2 mb-2" type="submit">
             <i className="fas fa-filter"></i> Filter
           </button>
         </div>

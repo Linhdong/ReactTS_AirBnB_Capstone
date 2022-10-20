@@ -23,7 +23,7 @@ export default function Profile({}: Props) {
     <div className="container">
       <div className="profile my-4">
         <div className="row">
-          <div className="col-lg-4 left-profile">
+          <div className="col-lg-4 col-md-12 col-sm-12 left-profile">
             <div className="infor-user mx-5">
               <div className="card">
                 <div className="card-header">
@@ -62,11 +62,11 @@ export default function Profile({}: Props) {
               </div>
             </div>
           </div>
-          <div className="col-lg-8">
+          <div className="col-lg-8 col-md-12 col-sm-12">
             <div className="right-profile">
-              <h3>Hi, I'm Khai</h3>
-              <p>Joined in 2022</p>
-              <h5>Modify your profile</h5>
+              <h3 className="user-name">Hi, I'm Khai</h3>
+              <p className="date-join">Joined in 2022</p>
+              <h5 className="edit-infor">Modify your profile</h5>
               <div className="rent-history mt-4">
                 <h5>Rented Room</h5>
                 <div className="room-list">

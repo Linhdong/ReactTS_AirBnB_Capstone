@@ -2,4 +2,27 @@
 
 .update-user{
     box-shadow: $bs-user-menu;
+    .title{
+       @include res-md{
+        text-align: center;
+       }
+       @include res-sm{
+        text-align: center;
+       }
+    }
+    .row{
+        .image-user{
+            .avatar{
+                @include res-md{
+                    padding-left: 250px;
+                }
+                @include res-sm{
+                    padding-left: 170px;
+                }
+                img{
+
+                }
+            }
+        }
+    }
 }

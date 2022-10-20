@@ -8,7 +8,8 @@
           .card {
             .row {
               .left-card {
-                img {
+                img{
+
                 }
               }
               .right-card {
@@ -18,15 +19,18 @@
                   top: 0;
                   .card-header {
                     background: $bg-c1-light;
-                    p {
+                    .intro {
                       @include text(
                         $text-small,
                         $text-regular,
                         $text-gray-600,
                         10px
                       );
+                      @include res-sm{
+                        margin-top: 10px;
+                      }
                     }
-                    h5 {
+                    .name-room {
                       @include text(
                         $text-2xl,
                         $text-medium,
@@ -91,7 +95,10 @@
         }
       }
       .right-map{
-
+        margin-top: 20px;
+        @include res-lg{
+          display: none;
+        }
       }
     }
   }

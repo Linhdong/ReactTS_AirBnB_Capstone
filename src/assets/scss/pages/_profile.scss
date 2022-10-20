@@ -8,6 +8,12 @@
           .card {
             background: $bg-c1-light;
             box-shadow: $bs-user-menu;
+            @include res-md{
+              width: 400px;
+              margin-left: auto;
+              margin-right: auto;
+              margin-bottom: 30px;
+            }
             .card-header {
               margin-left: auto;
               margin-right: auto;
@@ -25,15 +31,27 @@
                 i {
                   font-size: 20px;
                 }
+                @include res-md{
+                  margin-left: 10px;
+                }
               }
               .confirm {
                 @include text($text-xl, $text-bold, $text-c1-dark, 20px);
+                @include res-md{
+                  margin-left: 10px;
+                }
               }
               .certificate {
                 @include text($text-base, $text-regular, $text-c1-dark);
+                @include res-md{
+                  margin-left: 10px;
+                }
               }
               .btnGetBadge {
                 @include btnStyle(157px, 48px, $bg-c1-light);
+                @include res-md{
+                  margin-left: 10px;
+                }
                 transition: all 0.5s linear;
                 &:hover {
                   background: $bg-c1-dark;
@@ -46,6 +64,9 @@
               background: $bg-c1-light;
               .user-confirm {
                 border-top: 1px solid $bd-gray;
+                @include res-md{
+                  margin-left: 10px;
+                }
                 h5 {
                   @include text(22px, $text-bold, $text-c1-dark, 25.78px);
                 }
@@ -69,14 +90,23 @@
         }
       }
       .right-profile {
-        h3 {
+        .user-name {
           @include text($text-3xl, $text-semibold, $text-c1-dark, 20px);
+          @include res-md{
+            text-align: center;
+          }
         }
-        p {
+        .date-join {
           @include text($text-small, $text-regular, $text-gray-600, 20px);
+          @include res-md{
+            text-align: center;
+          }
         }
-        h5 {
+        .edit-infor {
           @include text($text-small, $text-bold, $text-gray-600, 20px);
+          @include res-md{
+            text-align: center;
+          }
         }
         .rent-history {
           h5 {

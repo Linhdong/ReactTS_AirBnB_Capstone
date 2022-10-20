@@ -10,7 +10,7 @@ export default function UpdateInforUser({}: Props) {
         <h3>Update Your Information</h3>
       </div>
       <div className="row">
-        <div className="col-2">
+        <div className="col-lg-2 col-md-12 col-sm-12 image-user">
           <div className="avatar" style={{margin:'25px'}}>
             <img
               src={avatar}
@@ -20,7 +20,7 @@ export default function UpdateInforUser({}: Props) {
             />
           </div>
         </div>
-        <div className="col-5">
+        <div className="col-lg-5 col-md-12 col-sm-12">
           <div className="form-group my-1">
             <label className="form-label">Email</label>
             <input
@@ -42,7 +42,7 @@ export default function UpdateInforUser({}: Props) {
             />
           </div>
         </div>
-        <div className="col-5">
+        <div className="col-lg-5 col-md-12 col-sm-12">
           <div className="form-group my-1">
             <label className="form-label">Name</label>
             <input
