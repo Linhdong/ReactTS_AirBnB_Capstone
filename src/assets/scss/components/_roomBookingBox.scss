@@ -1,0 +1,28 @@
+.fixed-wrapper {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.fixed {
+  //   position: fixed;
+}
+
+.booking-box {
+  background: #fff;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px;
+  height: 350px;
+  width: 100%;
+  padding: 1.5em;
+  border: 1px solid rgb(221, 221, 221);
+  border-radius: 10px;
+
+  //   @include res-down($lg-max) {
+  //     width: 308px;
+  //   }
+
+  //   @include res-down($md-max) {
+  //     width: 253px;
+  //   }
+}

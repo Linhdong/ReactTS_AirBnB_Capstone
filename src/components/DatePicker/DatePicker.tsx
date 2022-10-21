@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import "react-date-range-ts/dist/styles.css"; // main style file
-import "react-date-range-ts/dist/theme/default.css"; // theme css file
-import { DateRangePicker } from "react-date-range-ts";
+// import "react-date-range-ts/dist/styles.css"; // main style file
+// import "react-date-range-ts/dist/theme/default.css"; // theme css file
+// // import { DateRangePicker } from "react-date-range-ts";
 
 type Props = {};
 
@@ -22,12 +22,12 @@ export default function DatePicker({}: Props) {
 
   return (
     <>
-      <DateRangePicker
+      {/* <DateRangePicker
         ranges={[selectionRange]}
         minDate={new Date()}
         rangeColors={["#fd5b61"]}
         onChange={handleSelect}
-      />
+      /> */}
     </>
   );
 }

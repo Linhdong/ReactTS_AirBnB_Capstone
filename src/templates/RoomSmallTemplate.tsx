@@ -11,6 +11,7 @@ import { getRoomByIdApi, Room } from "../redux/reducers/roomReducer";
 import Comment from "../components/Room/Comment/Comment";
 import CommentSlider from "../components/Room/Comment/CommentSlider";
 import DatePicker from "../components/DatePicker/DatePicker";
+import RoomBookingBar from "../components/Room/Booking/RoomBookingBar";
 
 type Props = {
   room: Room;
@@ -19,7 +20,7 @@ type Props = {
 export default function RoomDetailSmall({ room }: Props) {
   return (
     <>
-      <div className="room">
+      <div className="room position-relative">
         <div className="container">
           <RoomNavBarSmall />
         </div>
@@ -32,15 +33,24 @@ export default function RoomDetailSmall({ room }: Props) {
           </div>
           <div className="divider"></div>
           <div className="calendar">
-            <h2>1 đêm tại Room's name</h2>
-            
             <DatePicker />
           </div>
           <div className="divider"></div>
           <div className="room__comment">
+            <div className="room__comment__title d-flex mb-3">
+              <h2>
+                <i className="fa fa-star me-2"></i>
+                4.96
+              </h2>
+              <div className="dot">
+                <i className="fa fa-circle"></i>
+              </div>
+              <h2>26 đánh giá</h2>
+            </div>
             <CommentSlider />
           </div>
         </div>
+        <RoomBookingBar />
       </div>
       <Footer />
     </>
