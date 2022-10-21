@@ -3,7 +3,7 @@
     margin-bottom: 0.3em;
 
     @include res-down($sm-max) {
-      font-size: 1.6rem;
+      font-size: 1.5rem;
     }
   }
 
@@ -13,6 +13,12 @@
     .details__left {
       i {
         margin-right: 0.5em;
+      }
+
+      span {
+        @include res-down($sm-max) {
+          @include text(0.875rem, $text-semibold, $text-c2-dark, 20px);
+        }
       }
 
       .host-badge {
@@ -32,11 +38,5 @@
 
   @include res-down($sm-max) {
     padding: 0.9em 0;
-  }
-}
-
-.room__heading--md {
-  @include res-down($sm-max) {
-    display: none;
   }
 }

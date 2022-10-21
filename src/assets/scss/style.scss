@@ -9,18 +9,18 @@
 @import "./components/banner";
 @import "./components/carousel";
 @import "./components/button";
+@import "./components/commentCard";
 
 // layouts
 @import "./layouts/header";
 @import "./layouts/footer";
 @import "./layouts/homeLocationItem";
-@import "./layouts/roomDetailHeading";
+@import "./layouts/roomHeading";
 @import "./layouts/roomNavBarSmall";
-@import "./layouts/roomDetailHeadingSmall";
+@import "./layouts/roomDetailContent";
 
 // pages
 @import "./pages/home";
-@import "./pages/roomDetail";
 @import "./pages/login";
 @import "./pages/signup";
 

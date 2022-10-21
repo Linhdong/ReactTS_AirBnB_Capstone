@@ -12,7 +12,7 @@
   width: 90%;
 
   @include res-down($sm-max) {
-    width: 99%;
+    width: 97%;
   }
 }
 
@@ -33,6 +33,10 @@ h6 {
 
 h1 {
   @include text($text-3xl, $text-semibold);
+
+  @include res-up($sm-max) {
+    font-size: 1.125rem;
+  }
 }
 
 h2 {
@@ -77,8 +81,6 @@ ul {
   margin: 0;
 }
 
-
-
 .dot {
   font-size: 2px;
   padding-top: 5em;
@@ -88,10 +90,10 @@ ul {
 
 .divider {
   border-bottom: 1px solid #e5e7eb;
-  margin: 1.5em 0;
+  margin: 24px 0;
 
   @include res-down($sm-max) {
-    margin: 0.5em 0;
+    margin: 18px 0;
   }
 }
 

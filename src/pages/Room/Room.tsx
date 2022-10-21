@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { AppDispatch, RootState } from "../../redux/configStore";
 import { getRoomByIdApi } from "../../redux/reducers/roomReducer";
-import RoomDetailMediumUp from "../../templates/RoomDetailMediumUp";
-import RoomDetailSmallTemplate from "../../templates/RoomDetailSmallTemplate";
+import RoomMediumUpTemplate from "../../templates/RoomMediumUpTemplate";
+import RoomSmallTemplate from "../../templates/RoomSmallTemplate";
 
 function useWindowWidth() {
   const [width, setWidth] = useState(0);
@@ -47,7 +47,7 @@ const amenitiesNames: Amenities = {
 
 type Props = {};
 
-export default function RoomDetail({}: Props) {
+export default function Room({}: Props) {
   const { room } = useSelector((state: RootState) => state.roomReducer);
 
   const { roomId } = useParams();
@@ -73,8 +73,8 @@ export default function RoomDetail({}: Props) {
   }, [roomId]);
 
   if (width <= 767.98) {
-    return <RoomDetailSmallTemplate room={room} />;
+    return <RoomSmallTemplate room={room} />;
   }
 
-  return <RoomDetailMediumUp room={room} />;
+  return <RoomMediumUpTemplate room={room} />;
 }

@@ -1,15 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { AppDispatch, RootState } from "../../redux/configStore";
+import { getLocationByIdApi } from "../../redux/reducers/locationsReducer";
+import { Room } from "../../redux/reducers/roomReducer";
 
-type Props = {};
+type Props = {
+  // room: Room;
+};
 
-export default function RoomDetailHeadingSmall({}: Props) {
+export default function RoomHeading({}: Props) {
+  // const { location } = useSelector(
+  //   (state: RootState) => state.locationsReducer
+  // );
+
+  // const dispatch: AppDispatch = useDispatch();
+
+  // useEffect(() => {
+  //   dispatch(getLocationByIdApi(room.maViTri));
+  // }, [room.maViTri]);
+
   return (
-    <div className="room__heading room__heading--sm">
+    <div className="room__heading">
       <h1 className="room-title">Ho Chi Minh City</h1>
       <div className="room__heading--details d-flex">
         <div className="ratings">
-          <i className="fa fa-star"></i>
+          <i className="fa fa-star me-2"></i>
           <span>5.0</span>
         </div>
         <div className="dot">
@@ -22,7 +38,7 @@ export default function RoomDetailHeadingSmall({}: Props) {
           <i className="fas fa-circle"></i>
         </div>
         <div className="host-badge">
-          <i className="fas fa-user-shield"></i>
+          <i className="fas fa-user-shield me-2"></i>
           <span>Superhost</span>
         </div>
         <div className="dot">

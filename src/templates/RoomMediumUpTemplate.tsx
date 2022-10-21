@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useParams } from "react-router-dom";
-import Comment from "../components/RoomDetail/Comment";
-import RoomBooking from "../components/RoomDetail/RoomBooking";
-import RoomDetailHeading from "../components/RoomDetail/RoomDetailHeading";
-import RoomDetailHeadingSmall from "../components/RoomDetail/RoomDetailHeadingSmall";
-import RoomNavBarSmall from "../components/RoomDetail/RoomNavBarSmall";
+import Footer from "../components/Footer/Footer";
+import Header from "../components/Header/Header";
+import Comment from "../components/Room/Comment/Comment";
+import RoomBooking from "../components/Room/RoomBooking";
+import RoomDetailHeading from "../components/Room/RoomHeading";
+import RoomNavBarSmall from "../components/Room/RoomNavBarSmall";
 import { AppDispatch, RootState } from "../redux/configStore";
 import { getRoomByIdApi, Room } from "../redux/reducers/roomReducer";
 
@@ -13,7 +14,7 @@ type Props = {
   room: Room;
 };
 
-export default function RoomDetailMediumUp({ room }: Props) {
+export default function RoomMediumUpTemplate({ room }: Props) {
   //   const { room } = useSelector((state: RootState) => state.roomReducer);
 
   //   const { roomId } = useParams();
@@ -36,5 +37,11 @@ export default function RoomDetailMediumUp({ room }: Props) {
   //     dispatch(getRoomByIdApi(roomId));
   //   }, [roomId]);
 
-  return <div className="room">medium template</div>;
+  return (
+    <>
+      <Header />
+      <div>medium room detail</div>
+      <Footer />
+    </>
+  );
 }
