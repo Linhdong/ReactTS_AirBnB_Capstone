@@ -10,7 +10,7 @@ import { AppDispatch, RootState } from "../redux/configStore";
 import { getRoomByIdApi, Room } from "../redux/reducers/roomReducer";
 import Comment from "../components/Room/Comment/Comment";
 import CommentSlider from "../components/Room/Comment/CommentSlider";
-import DatePicker from "../components/DatePicker/DatePicker";
+import DateRangePickerJSX from "../components/DatePickerJSX/DateRangePickerJSX";
 import RoomBookingBar from "../components/Room/Booking/RoomBookingBar";
 
 type Props = {
@@ -33,7 +33,7 @@ export default function RoomDetailSmall({ room }: Props) {
           </div>
           <div className="divider"></div>
           <div className="calendar">
-            <DatePicker />
+            <DateRangePickerJSX />
           </div>
           <div className="divider"></div>
           <div className="room__comment">
@@ -50,7 +50,7 @@ export default function RoomDetailSmall({ room }: Props) {
             <CommentSlider />
           </div>
         </div>
-        <RoomBookingBar />
+        {/* <RoomBookingBar /> */}
       </div>
       <Footer />
     </>

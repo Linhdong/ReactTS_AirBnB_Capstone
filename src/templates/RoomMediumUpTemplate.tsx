@@ -2,12 +2,10 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useParams } from "react-router-dom";
 import Button from "../components/Button/Button";
-import DatePicker from "../components/DatePicker/DatePicker";
 import Footer from "../components/Footer/Footer";
 import Header from "../components/Header/Header";
 import RoomBookingBox from "../components/Room/Booking/RoomBookingBox";
 import Comment from "../components/Room/Comment/Comment";
-import RoomBooking from "../components/Room/RoomBooking";
 import RoomDetailContent from "../components/Room/RoomDetailContent";
 import RoomDetailHeading from "../components/Room/RoomHeading";
 import RoomImagesGallery from "../components/Room/RoomImagesGallery";
@@ -68,7 +66,6 @@ export default function RoomMediumUpTemplate({ room }: Props) {
           <div className="room__content row py-4 justify-content-between">
             <div className="col-7">
               <RoomDetailContent />
-              <DatePicker />
             </div>
             <div className="col-4 wrapper" style={{ position: "relative" }}>
               <RoomBookingBox />

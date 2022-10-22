@@ -24,9 +24,13 @@ export default function Header({}: Props) {
         <div className="header__search-bar">
           <div className="search-bar d-flex align-items-center justify-content-between">
             <input type="text" placeholder="Start your search" />
-            <button className="btnSearch">
+            <Button
+              path="#"
+              className="btn--primary btnSearch"
+              onClick={() => {}}
+            >
               <i className="fas fa-search"></i>
-            </button>
+            </Button>
           </div>
         </div>
         {/* middle section - search bar */}
@@ -36,13 +40,17 @@ export default function Header({}: Props) {
           <Button path="#" className="btn--light" onClick={() => {}}>
             Become a host
           </Button>
-          <Button path="#" className="btn--light" onClick={() => {}}>
+          <Button
+            path="#"
+            className="btn--light btnLanguage"
+            onClick={() => {}}
+          >
             <i className="fas fa-globe"></i>
           </Button>
           <div className="user">
             <Button
               path="#"
-              className="btn--light btn-border-black"
+              className="btn--light btn-border-black btnUser"
               onClick={() => setIsClicked(!isClicked)}
             >
               <>

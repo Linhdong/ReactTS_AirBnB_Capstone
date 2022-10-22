@@ -21,13 +21,19 @@ export default function CommentSlider({}: Props) {
         style={{ paddingBottom: "25px" }}
       >
         <SwiperSlide>
-          <CommentCard />
+          <div className="comment-card--border">
+            <CommentCard />
+          </div>
         </SwiperSlide>
         <SwiperSlide>
-          <CommentCard />
+          <div className="comment-card--border">
+            <CommentCard />
+          </div>
         </SwiperSlide>
         <SwiperSlide>
-          <CommentCard />
+          <div className="comment-card--border">
+            <CommentCard />
+          </div>
         </SwiperSlide>
       </Swiper>
     </>
