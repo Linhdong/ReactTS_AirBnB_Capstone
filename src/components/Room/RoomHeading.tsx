@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import ModalHOC from "../../HOC/ModalHOC";
 import { AppDispatch, RootState } from "../../redux/configStore";
 import { getLocationByIdApi } from "../../redux/reducers/locationsReducer";
 import { Room } from "../../redux/reducers/roomReducer";
+import Comment from "./Comment/Comment";
 
 type Props = {
   // room: Room;
@@ -31,9 +33,15 @@ export default function RoomHeading({}: Props) {
         <div className="dot">
           <i className="fas fa-circle"></i>
         </div>
-        <NavLink to="" className="reviews">
+        <NavLink
+          to=""
+          className="reviews"
+          data-bs-toggle="modal"
+          data-bs-target="#comment"
+        >
           <u>7 reviews</u>
         </NavLink>
+        <ModalHOC modalId="comment" title="Reviews" content={<Comment />} />
         <div className="dot">
           <i className="fas fa-circle"></i>
         </div>
