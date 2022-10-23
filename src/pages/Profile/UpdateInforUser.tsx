@@ -11,7 +11,7 @@ export default function UpdateInforUser({}: Props) {
       </div>
       <div className="row">
         <div className="col-lg-2 col-md-12 col-sm-12 image-user">
-          <div className="avatar" style={{margin:'25px'}}>
+          <div className="avatar" style={{marginTop:'20px'}}>
             <img
               src={avatar}
               className="rounded-circle"

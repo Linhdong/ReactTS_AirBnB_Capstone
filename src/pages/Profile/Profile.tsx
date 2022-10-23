@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import ModalHOC from "../../HOC/ModalHOC";
 import data from "./data";
+import UpdateInforUser from "./UpdateInforUser";
 type Props = {};
 
 export default function Profile({}: Props) {
@@ -13,12 +15,12 @@ export default function Profile({}: Props) {
     setReadMore((prevState) => !prevState);
   };
   const loadMore = () => {
-    if(nodeOfElement <= data.dataTest.length){
+    if (nodeOfElement <= data.dataTest.length) {
       setNodeOfElement(nodeOfElement + nodeOfElement);
-    }else{
+    } else {
       setNodeOfElement(2);
     }
-  }
+  };
   return (
     <div className="container">
       <div className="profile my-4">
@@ -39,7 +41,7 @@ export default function Profile({}: Props) {
                   <div className="card-title">
                     <i className="fas fa-user-check"></i>
                   </div>
-                  <p className="confirm"> Xác minh danh tính</p>
+                  <p className="confirm"> Comfirm your information</p>
                   <p className="certificate">
                     Show others you're really you with the identity verification
                     badge
@@ -66,20 +68,35 @@ export default function Profile({}: Props) {
             <div className="right-profile">
               <h3 className="user-name">Hi, I'm Khai</h3>
               <p className="date-join">Joined in 2022</p>
-              <h5 className="edit-infor">Modify your profile</h5>
+              <h5
+                className="edit-infor"
+                data-bs-toggle="modal"
+                data-bs-target="#update"
+                style={{ cursor: "pointer" }}
+              >
+                Modify your profile
+              </h5>
+              <ModalHOC
+                modalId="update"
+                title="Update Personal Information"
+                content={<UpdateInforUser />}
+              />
               <div className="rent-history mt-4">
                 <h5>Rented Room</h5>
                 <div className="room-list">
                   {slice.map((item, index) => {
                     return (
-                      <div className="card my-4 border-0 border-bottom" key={index}>
+                      <div
+                        className="card my-4 border-0 rounded-0 border-bottom"
+                        key={index}
+                      >
                         <div className="row g-0">
                           <div className="col-md-5 left-card">
                             <img
                               src={item.img}
                               className="img-fluid rounded-4 w-100"
                               alt="..."
-                              style={{ height: "200px" }}
+                              style={{ height: "205px" }}
                             />
                           </div>
                           <div className="col-md-7 right-card">
@@ -87,11 +104,13 @@ export default function Profile({}: Props) {
                               <div className="card-header border-0">
                                 <p>Toàn bộ căn hộ dịch vụ tại Bình Thạnh</p>
                                 <h5>Romantic APT for Long-term Living</h5>
-                                <div className="border-bottom pt-2 under-line"/>
+                                <div className="border-bottom pt-2 under-line" />
                                 <i className="far fa-heart icon"></i>
                               </div>
                               <div className="card-body border-0">
-                                <p>2 Guests - Studio Room - 1 Bed - 1 Bath</p>
+                                <p className="my-2">
+                                  2 Guests - Studio Room - 1 Bed - 1 Bath
+                                </p>
                                 <p>
                                   Wifi - Kitchen - Air Condition - Washing
                                   Machine
@@ -107,10 +126,13 @@ export default function Profile({}: Props) {
                     );
                   })}
                 </div>
-                <button className="btn btn-danger d-block w-100 btnLoad"
-                  onClick={()=>loadMore()}
+                <button
+                  className="btn btn-danger d-block w-100 btnLoad"
+                  onClick={() => loadMore()}
                 >
-                  {nodeOfElement <= data.dataTest.length ? 'Load More' : 'Load Less'}
+                  {nodeOfElement <= data.dataTest.length
+                    ? "Load More"
+                    : "Load Less"}
                 </button>
               </div>
             </div>

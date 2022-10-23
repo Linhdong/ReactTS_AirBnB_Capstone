@@ -43,16 +43,14 @@ export default function RoomList({}: Props) {
                         <div className="card border-0">
                           <div className="card-header border-0">
                             <p className="intro">Toàn bộ căn hộ dịch vụ tại Bình Thạnh</p>
-                            <h5 className="name-room">Romantic APT for Long-term Living</h5>
+                            <h5 className="name-room mt-3">Romantic APT for Long-term Living</h5>
                             <i className="far fa-heart icon"></i>
                           </div>
                           <div className="card-body">
                             <div className="top-line" />
                             <div className="detail-room my-3">
-                              <p>2 Guests - Studio Room - 1 Bed - 1 Bath</p>
-                              <p>
-                                Wifi - Kitchen - Air Condition - Washing Machine
-                              </p>
+                              <p className="my-2">2 Guests - Studio Room - 1 Bed - 1 Bath</p>
+                              <p>Wifi - Kitchen - Air Condition - Washing Machine</p>
                             </div>
                             <div className="bottom-line" />
                           </div>
