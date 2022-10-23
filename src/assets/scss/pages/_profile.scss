@@ -1,5 +1,3 @@
-@import "./../utilities/variable";
-
 .container {
   .profile {
     .row {
@@ -23,7 +21,7 @@
               img {
               }
               p {
-                @include text($text-small, $text-medium, $text-c1-dark, 30px);
+                @include text(0.875rem, $text-medium, $text-c1-dark, 30px);
               }
             }
             .card-body {
@@ -76,7 +74,7 @@
                     }
                     span {
                       @include text(
-                        $text-small,
+                        0.875rem,
                         $text-regular,
                         $text-c1-dark,
                         16.41px
@@ -97,13 +95,13 @@
           }
         }
         .date-join {
-          @include text($text-small, $text-regular, $text-gray-600, 20px);
+          @include text(0.875rem, $text-regular, $text-gray-600, 20px);
           @include res-md{
             text-align: center;
           }
         }
         .edit-infor {
-          @include text($text-small, $text-bold, $text-gray-600, 20px);
+          @include text(0.875rem, $text-bold, $text-gray-600, 20px);
           @include res-md{
             text-align: center;
           }
@@ -128,7 +126,7 @@
                       background: $bg-c1-light;
                       p {
                         @include text(
-                          $text-small,
+                          0.875rem,
                           $text-regular,
                           $text-gray-600,
                           10px
@@ -157,7 +155,7 @@
                       margin-bottom: 35px;
                       p {
                         @include text(
-                          $text-small,
+                          0.875rem,
                           $text-regular,
                           $text-gray-600,
                           10px
@@ -168,7 +166,7 @@
                       background: $bg-c1-light;
                       p {
                         @include text(
-                          $text-small,
+                          0.875rem,
                           $text-bold,
                           $text-c1-dark,
                           10px
@@ -181,7 +179,7 @@
             }
           }
           .btnLoad {
-            background: $bg-c1-primary;
+            background: $bg-primary;
           }
         }
       }

@@ -1,0 +1,13 @@
+.room__navbar--sm {
+  button {
+    font-size: 1.2rem;
+    padding: 0.5em;
+    width: 42px;
+    height: 42px;
+    // box-shadow: -1px 15px 10px 0px rgba(0,0,0,0.75);
+  }
+
+  @include res-up($sm-min) {
+    display: none;
+  }
+}

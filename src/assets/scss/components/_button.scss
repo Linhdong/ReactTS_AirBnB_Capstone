@@ -1,0 +1,25 @@
+.btn--light {
+  background-color: $bg-c1-light;
+  border: 1px solid transparent;
+  @include text($text-base, $text-semibold);
+  transition: 0.3s ease;
+  border-radius: 46px;
+  height: 42px;
+  padding: 0.7em 0.6em;
+
+  &:hover,
+  &:focus {
+    background-color: $bg-btn-hover;
+  }
+}
+
+.btn-border-black {
+  border: 1px solid #000;
+}
+
+.btn--primary {
+  background: $bg-primary;
+  padding: 1em 1.5em;
+  border-radius: 10px;
+  @include text($text-base, $text-bold, $text-c1-light);
+}

@@ -1,0 +1,19 @@
+.rdrDefinedRangesWrapper {
+  display: none;
+}
+
+.rdrDateRangePickerWrapper {
+  display: block !important;
+  width: 100% !important;
+}
+
+.rdrDateRangeWrapper {
+  @include res-up($sm-min) {
+    width: 200%;
+    float: right;
+  }
+}
+
+.rdrCalendarWrapper {
+  display: block !important;
+}
