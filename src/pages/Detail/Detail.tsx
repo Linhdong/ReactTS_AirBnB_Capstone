@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import SearchMap from "../RoomList/SearchMap";
 
-type Props = {};
+type Props = {
+  
+}
 
 export default function Detail({}: Props) {
 
   return (
-    <div>
-      
-    </div>
+    <div>Detail</div>
   );
 }
