@@ -8,7 +8,60 @@
 }
 
 .container {
-  max-width: 1200px !important;
+  max-width: 1199px !important;
+  width: 80%;
+
+  @include res-down($sm-max) {
+    width: 97%;
+  }
+}
+
+img {
+  width: 100%;
+  object-fit: cover;
+}
+
+// typography
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
+h1 {
+  @include text($text-3xl, $text-semibold);
+
+  @include res-up($sm-max) {
+    font-size: 1.125rem;
+  }
+}
+
+h2 {
+  @include text($text-3xl, $text-bold);
+  margin-bottom: 0.3em;
+
+  @include res-down($sm-max) {
+    @include text(1.6rem, $text-semibold);
+  }
+}
+
+h4 {
+  @include text($text-xl, $text-semibold);
+
+  @include res-down($sm-max) {
+    font-size: 1rem;
+  }
+}
+
+h5 {
+  @include text(0.94rem, $text-bold);
+}
+
+p {
+  margin: 0;
 }
 
 a {
@@ -26,4 +79,31 @@ ul {
   list-style: none;
   padding: 0;
   margin: 0;
+}
+
+.dot {
+  font-size: 2px;
+  padding-top: 5em;
+  margin-left: 5.5em;
+  margin-right: 5.5em;
+}
+
+.divider {
+  border-bottom: 1px solid #e5e7eb;
+  margin: 24px 0;
+
+  @include res-down($sm-max) {
+    margin: 18px 0;
+  }
+}
+
+// for outline icon
+.fa-cog {
+  color: white;
+  font-size: 1.5em;
+}
+
+.stroke-transparent {
+  -webkit-text-stroke: 1.5px #000;
+  -webkit-text-fill-color: transparent;
 }

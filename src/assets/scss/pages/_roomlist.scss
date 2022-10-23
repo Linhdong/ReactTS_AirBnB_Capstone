@@ -21,7 +21,7 @@
                     background: $bg-c1-light;
                     .intro {
                       @include text(
-                        $text-small,
+                        0.875rem,
                         $text-regular,
                         $text-gray-600,
                         10px
@@ -54,7 +54,7 @@
                     .detail-room {
                       p {
                         @include text(
-                          $text-small,
+                          0.875rem,
                           $text-regular,
                           $text-gray-600,
                           10px
@@ -70,7 +70,7 @@
                     background: $bg-c1-light;
                     .star-review {
                       @include text(
-                        $text-small,
+                        0.875rem,
                         $text-bold,
                         $text-c1-dark,
                         10px
@@ -81,7 +81,7 @@
                     }
                     .price {
                       @include text(
-                        $text-small,
+                        0.875rem,
                         $text-bold,
                         $text-c1-dark,
                         10px

@@ -5,17 +5,15 @@
   .container {
     .footer__top {
       .row {
-        .col-3 {
-          .footer-title {
-            @include text($text-base, $text-semibold);
-            margin-bottom: 16px;
-          }
+        .footer-title {
+          @include text($text-base, $text-semibold);
+          margin-bottom: 16px;
+        }
 
-          .footer-nav__list {
-            .footer-nav__item {
-              @include text($text-small, $text-regular, $text-gray-600);
-              margin-bottom: 16px;
-            }
+        .footer-nav__list {
+          .footer-nav__item {
+            // @include text($text-small, $text-regular, $text-gray-600);
+            margin-bottom: 16px;
           }
         }
       }

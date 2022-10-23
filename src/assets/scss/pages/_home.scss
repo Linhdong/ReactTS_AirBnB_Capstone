@@ -1,0 +1,7 @@
+.nearest-locations-list {
+  margin-top: 3rem;
+
+  @include res-xs {
+    margin-top: 1.5rem;
+  }
+}

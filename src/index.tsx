@@ -16,7 +16,7 @@ import SignIn from "./pages/SignIn/SignIn";
 import SignUp from "./pages/SignUp/SignUp";
 import Profile from "./pages/Profile/Profile";
 import RoomList from "./pages/RoomList/RoomList";
-import Detail from "./pages/Detail/Detail";
+import Room from "./pages/Room/Room";
 import UpdateInforUser from "./pages/Profile/UpdateInforUser";
 
 export const history = createBrowserHistory();
@@ -34,11 +34,13 @@ root.render(
           <Route path="signup" element={<SignUp />}></Route>
           <Route path="profile" element={<Profile />}></Route>
           <Route path="updateinfor" element={<UpdateInforUser/>}></Route>
-          <Route path="positon">
-            <Route path=":cityname" element={<RoomList />}></Route>
+          <Route path="location">
+            <Route path=":locationId" element={<RoomList />}></Route>
           </Route>
-          <Route path="detail">
-            <Route path=":id" element={<Detail />}></Route>
+        </Route>
+        <Route>
+          <Route path="roomdetail">
+            <Route path=":roomId" element={<Room />}></Route>
           </Route>
         </Route>
         <Route path="*" element={<Navigate to="" />}></Route>

@@ -8,7 +8,7 @@ export default function Footer({}: Props) {
       <div className="container">
         <div className="footer__top">
           <div className="row justify-content-between">
-            <div className="col-3">
+            <div className="col-6 mt-3 col-lg-3 mt-lg-0">
               <p className="footer-title">Support</p>
               <ul className="footer-nav__list">
                 <li className="footer-nav__item">Help Center</li>
@@ -23,7 +23,7 @@ export default function Footer({}: Props) {
                 </li>
               </ul>
             </div>
-            <div className="col-3">
+            <div className="col-6 mt-3 col-lg-3 mt-lg-0">
               <p className="footer-title">Community</p>
               <ul className="footer-nav__list">
                 <li className="footer-nav__item">
@@ -36,7 +36,7 @@ export default function Footer({}: Props) {
                 <li className="footer-nav__item">Combating discrimination</li>
               </ul>
             </div>
-            <div className="col-3">
+            <div className="col-6 mt-3 col-lg-3 mt-lg-0">
               <p className="footer-title">Hosting</p>
               <ul className="footer-nav__list">
                 <li className="footer-nav__item">Try hosting</li>
@@ -48,7 +48,7 @@ export default function Footer({}: Props) {
                 <li className="footer-nav__item">How to host responsibly</li>
               </ul>
             </div>
-            <div className="col-3">
+            <div className="col-6 mt-3 col-lg-3 mt-lg-0">
               <p className="footer-title">About</p>
               <ul className="footer-nav__list">
                 <li className="footer-nav__item">Newsroom</li>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import Button from "../Button/Button";
 
 const logo = require("../../assets/img/airbnb-logo.png");
 
@@ -9,7 +10,7 @@ export default function Header({}: Props) {
   const [isClicked, setIsClicked] = useState(false);
 
   return (
-    <header className="header">
+    <header className="header bg-white shadow-sm">
       <div className="container py-4 d-flex justify-content-between align-items-center">
         {/* left section - logo */}
         <div className="header__logo">
@@ -23,32 +24,41 @@ export default function Header({}: Props) {
         <div className="header__search-bar">
           <div className="search-bar d-flex align-items-center justify-content-between">
             <input type="text" placeholder="Start your search" />
-            <button className="btnSearch">
+            <Button
+              path="#"
+              className="btn--primary btnSearch"
+              onClick={() => {}}
+            >
               <i className="fas fa-search"></i>
-            </button>
+            </Button>
           </div>
         </div>
         {/* middle section - search bar */}
 
         {/* right section */}
         <div className="header__right d-flex">
-          <div className="become-host">
-            <button className="btnHost">Become a host</button>
-          </div>
-          <div className="language">
-            <button className="btnLanguage">
-              <i className="fas fa-globe"></i>
-            </button>
-          </div>
+          <Button path="#" className="btn--light" onClick={() => {}}>
+            Become a host
+          </Button>
+          <Button
+            path="#"
+            className="btn--light btnLanguage"
+            onClick={() => {}}
+          >
+            <i className="fas fa-globe"></i>
+          </Button>
           <div className="user">
-            <button
-              className="btnUser"
+            <Button
+              path="#"
+              className="btn--light btn-border-black btnUser"
               onClick={() => setIsClicked(!isClicked)}
             >
-              <i className="fa fa-bars"></i>
-              <i className="fa fa-user"></i>
-              <div className="notification d-inline-block">1</div>
-            </button>
+              <>
+                <i className="fa fa-bars"></i>
+                <i className="fa fa-user"></i>
+                <div className="notification d-inline-block">1</div>
+              </>
+            </Button>
             <div
               id="user__dropdown"
               className={`dropdown__content ${
