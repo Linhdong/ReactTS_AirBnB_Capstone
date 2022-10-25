@@ -1,19 +1,12 @@
-.rdrDefinedRangesWrapper {
-  display: none;
+.mantine-DateRangePicker-input {
+  padding-top: 1em;
+  padding-bottom: 1em;
 }
 
-.rdrDateRangePickerWrapper {
-  display: block !important;
-  width: 100% !important;
+.mantine-DateRangePicker-day[data-in-range] {
+  background-color: #f7f7f7;
 }
 
-.rdrDateRangeWrapper {
-  @include res-up($sm-min) {
-    width: 200%;
-    float: right;
-  }
-}
-
-.rdrCalendarWrapper {
-  display: block !important;
+.mantine-DateRangePicker-day[data-selected] {
+  background-color: rgb(34, 34, 34);
 }

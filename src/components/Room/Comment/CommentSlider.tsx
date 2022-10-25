@@ -16,7 +16,7 @@ export default function CommentSlider({}: Props) {
     (state: RootState) => state.commentReducer
   );
   console.log(arrComments);
-  
+
   const { roomId } = useParams();
   console.log(roomId);
 
@@ -35,7 +35,7 @@ export default function CommentSlider({}: Props) {
           clickable: true,
         }}
         modules={[Pagination]}
-        style={{ paddingBottom: "25px" }}
+        style={{ paddingBottom: "25px", zIndex: "-1" }}
       >
         <SwiperSlide>
           <div className="comment-card--border">

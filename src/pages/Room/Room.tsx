@@ -1,23 +1,11 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { useWindowWidth } from "../../Hooks/useWindowWidth";
 import { AppDispatch, RootState } from "../../redux/configStore";
 import { getRoomByIdApi } from "../../redux/reducers/roomReducer";
 import RoomMediumUpTemplate from "../../templates/RoomMediumUpTemplate";
 import RoomSmallTemplate from "../../templates/RoomSmallTemplate";
-
-function useWindowWidth() {
-  const [width, setWidth] = useState(0);
-  useLayoutEffect(() => {
-    function updateWidth() {
-      setWidth(window.innerWidth);
-    }
-    window.addEventListener("resize", updateWidth);
-    updateWidth();
-    return () => window.removeEventListener("resize", updateWidth);
-  }, []);
-  return width;
-}
 
 interface Amenities {
   [key: string]: string;
@@ -56,8 +44,8 @@ export default function Room({}: Props) {
 
   const renderRoomAmenities = (amenity: boolean, key: string) =>
     amenity ? (
-      <div className="room-amenity__item d-flex">
-        <div className="room-amenity__item--icon">
+      <div className="room-amenity__item row">
+        <div className="room-amenity__item--icon col-6">
           <i className={`${amenitiesIcons[key]} stroke-transparent`}></i>
         </div>
         <span className="ms-3">{amenitiesNames[key]}</span>

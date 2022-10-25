@@ -4,12 +4,11 @@ import { NavLink, useParams } from "react-router-dom";
 import Button from "../components/Button/Button";
 import Footer from "../components/Footer/Footer";
 import Header from "../components/Header/Header";
-import RoomBookingBox from "../components/Room/Booking/RoomBookingBox";
+import BookingBox from "../components/Room/BookingBox";
 import Comment from "../components/Room/Comment/Comment";
 import RoomDetailContent from "../components/Room/RoomDetailContent";
 import RoomDetailHeading from "../components/Room/RoomHeading";
 import RoomImagesGallery from "../components/Room/RoomImagesGallery";
-import RoomNavBarSmall from "../components/Room/RoomNavBarSmall";
 import { AppDispatch, RootState } from "../redux/configStore";
 import { getRoomByIdApi, Room } from "../redux/reducers/roomReducer";
 
@@ -64,11 +63,11 @@ export default function RoomMediumUpTemplate({ room }: Props) {
           </div>
           <RoomImagesGallery />
           <div className="room__content row py-4 justify-content-between">
-            <div className="col-7">
+            <div className="col-lg-7 col-md-6">
               <RoomDetailContent />
             </div>
-            <div className="col-4 wrapper" style={{ position: "relative" }}>
-              <RoomBookingBox />
+            <div className="col-5 wrapper" style={{ position: "relative" }}>
+              <BookingBox />
             </div>
           </div>
           <div className="divider"></div>

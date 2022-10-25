@@ -7,6 +7,7 @@
 .comment-card {
   padding: 1.3em;
   width: 100%;
+  z-index: -1;
 
   .comment-card__heading {
     img {
