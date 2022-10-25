@@ -3,20 +3,25 @@ import "react-date-range-ts/dist/styles.css"; // main style file
 import "react-date-range-ts/dist/theme/default.css"; // theme css file
 import { DateRangePicker } from "react-date-range-ts";
 import RoomBookingBar from "../Room/Booking/RoomBookingBar";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/configStore";
+import { setEndDate, setStartDate } from "../../redux/reducers/dateReducer";
 
 type Props = {};
 
 export default function DateRangePickerJSX({}: Props) {
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
-
-  let numsOfDays = Math.round(
-    (endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24)
+  
+  const { startDate, endDate } = useSelector(
+    (state: RootState) => state.dateReducer
   );
 
+  const dispatch = useDispatch();
+
   const handleSelect = (ranges: any) => {
-    setStartDate(ranges.selection.startDate);
-    setEndDate(ranges.selection.endDate);
+    // setStartDate(ranges.selection.startDate);
+    // setEndDate(ranges.selection.endDate);
+    dispatch(setStartDate(ranges.selection.startDate));
+    dispatch(setEndDate(ranges.selection.endDate));
   };
 
   const selectionRange = {

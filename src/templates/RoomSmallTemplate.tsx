@@ -12,12 +12,20 @@ import Comment from "../components/Room/Comment/Comment";
 import CommentSlider from "../components/Room/Comment/CommentSlider";
 import DateRangePickerJSX from "../components/DatePickerJSX/DateRangePickerJSX";
 import RoomBookingBar from "../components/Room/Booking/RoomBookingBar";
+import moment from "moment";
 
 type Props = {
   room: Room;
 };
 
 export default function RoomDetailSmall({ room }: Props) {
+  const { startDate, endDate } = useSelector(
+    (state: RootState) => state.dateReducer
+  );
+
+  let numsOfDays = Math.round(
+    (endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24)
+  );
   return (
     <>
       <div className="room position-relative">
@@ -33,6 +41,7 @@ export default function RoomDetailSmall({ room }: Props) {
           </div>
           <div className="divider"></div>
           <div className="calendar">
+            <h2>{numsOfDays} đêm tại Room's name</h2>
             <DateRangePickerJSX />
           </div>
           <div className="divider"></div>
@@ -50,7 +59,7 @@ export default function RoomDetailSmall({ room }: Props) {
             <CommentSlider />
           </div>
         </div>
-        {/* <RoomBookingBar /> */}
+        <RoomBookingBar />
       </div>
       <Footer />
     </>
