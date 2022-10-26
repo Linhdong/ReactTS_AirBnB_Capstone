@@ -11,12 +11,14 @@ import {
   Navigate,
 } from "react-router-dom";
 import HomeTemplate from "./templates/HomeTemplate";
-import Home from "./pages/Home/Home";
-import SignIn from "./pages/SignIn/SignIn";
-import SignUp from "./pages/SignUp/SignUp";
-import Profile from "./pages/Profile/Profile";
-import RoomList from "./pages/RoomList/RoomList";
-import Room from "./pages/Room/Room";
+import Loading from "./components/Loading/Loading";
+
+const Home = React.lazy(() => import("./pages/Home/Home"));
+const SignIn = React.lazy(() => import("./pages/SignIn/SignIn"));
+const SignUp = React.lazy(() => import("./pages/SignUp/SignUp"));
+const Profile = React.lazy(() => import("./pages/Profile/Profile"));
+const RoomList = React.lazy(() => import("./pages/RoomList/RoomList"));
+const Room = React.lazy(() => import("./pages/Room/Room"));
 
 export const history = createBrowserHistory();
 
@@ -28,12 +30,47 @@ root.render(
     <HistoryRouter history={history}>
       <Routes>
         <Route path="" element={<HomeTemplate />}>
-          <Route index element={<Home />}></Route>
-          <Route path="signin" element={<SignIn />}></Route>
-          <Route path="signup" element={<SignUp />}></Route>
-          <Route path="profile" element={<Profile />}></Route>
+          <Route
+            index
+            element={
+              <React.Suspense fallback={<Loading />}>
+                <Home />
+              </React.Suspense>
+            }
+          ></Route>
+          <Route
+            path="signin"
+            element={
+              <React.Suspense fallback={<Loading />}>
+                <SignIn />
+              </React.Suspense>
+            }
+          ></Route>
+          <Route
+            path="signup"
+            element={
+              <React.Suspense fallback={<Loading />}>
+                <SignUp />
+              </React.Suspense>
+            }
+          ></Route>
+          <Route
+            path="profile"
+            element={
+              <React.Suspense fallback={<Loading />}>
+                <Profile />
+              </React.Suspense>
+            }
+          ></Route>
           <Route path="roomlist">
-            <Route path=":locationId" element={<RoomList />}></Route>
+            <Route
+              path=":locationId"
+              element={
+                <React.Suspense fallback={<Loading />}>
+                  <RoomList />
+                </React.Suspense>
+              }
+            ></Route>
           </Route>
           {/* <Route path="roomdetail">
             <Route path=":roomId" element={<RoomDetail />}></Route>
@@ -41,7 +78,14 @@ root.render(
         </Route>
         <Route>
           <Route path="roomdetail">
-            <Route path=":roomId" element={<Room />}></Route>
+            <Route
+              path=":roomId"
+              element={
+                <React.Suspense fallback={<Loading />}>
+                  <Room />
+                </React.Suspense>
+              }
+            ></Route>
           </Route>
         </Route>
         <Route path="*" element={<Navigate to="" />}></Route>
