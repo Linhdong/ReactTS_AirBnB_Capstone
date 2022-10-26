@@ -45,7 +45,7 @@ export default function RoomMediumUpTemplate({ room }: Props) {
       <div className="room">
         <div className="container">
           <div className="d-flex justify-content-between align-items-center py-4">
-            <RoomDetailHeading />
+            <RoomDetailHeading maViTri={room.maViTri} />
             <div className="room__heading__buttons">
               <Button path="#" className="btn--light" onClick={() => {}}>
                 <>
@@ -64,7 +64,7 @@ export default function RoomMediumUpTemplate({ room }: Props) {
           <RoomImagesGallery />
           <div className="room__content row py-4 justify-content-between">
             <div className="col-lg-7 col-md-6">
-              <RoomDetailContent />
+              <RoomDetailContent room={room} />
             </div>
             <div className="col-5 wrapper" style={{ position: "relative" }}>
               <BookingBox />

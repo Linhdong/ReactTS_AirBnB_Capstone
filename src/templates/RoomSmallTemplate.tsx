@@ -26,10 +26,10 @@ export default function RoomDetailSmall({ room }: Props) {
         </div>
         <RoomImagesGallery />
         <div className="container">
-          <RoomDetailHeading />
+          <RoomDetailHeading maViTri={room?.maViTri} />
           <div className="divider"></div>
           <div className="room__content">
-            <RoomDetailContent />
+            <RoomDetailContent room={room} />
           </div>
           <div className="divider"></div>
           <div className="booking">

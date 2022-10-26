@@ -4,27 +4,26 @@ import { NavLink } from "react-router-dom";
 import ModalHOC from "../../HOC/ModalHOC";
 import { AppDispatch, RootState } from "../../redux/configStore";
 import { getLocationByIdApi } from "../../redux/reducers/locationsReducer";
-import { Room } from "../../redux/reducers/roomReducer";
 import Comment from "./Comment/Comment";
 
 type Props = {
-  // room: Room;
+  maViTri: number;
 };
 
-export default function RoomHeading({}: Props) {
-  // const { location } = useSelector(
-  //   (state: RootState) => state.locationsReducer
-  // );
+export default function RoomHeading({ maViTri }: Props) {
+  const { tinhThanh, tenViTri } = useSelector(
+    (state: RootState) => state.locationsReducer.location
+  );
 
-  // const dispatch: AppDispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
-  // useEffect(() => {
-  //   dispatch(getLocationByIdApi(room.maViTri));
-  // }, [room.maViTri]);
+  useEffect(() => {
+    maViTri && dispatch(getLocationByIdApi(maViTri));
+  }, [maViTri]);
 
   return (
     <div className="room__heading">
-      <h1 className="room-title">Ho Chi Minh City</h1>
+      <h1 className="room-title">{tenViTri}</h1>
       <div className="room__heading--details d-flex">
         <div className="ratings">
           <i className="fa fa-star me-2"></i>
@@ -53,7 +52,7 @@ export default function RoomHeading({}: Props) {
           <i className="fas fa-circle"></i>
         </div>
         <NavLink to="" className="cityName">
-          <u>Ho Chi Minh</u>
+          <u>{tinhThanh}</u>
         </NavLink>
       </div>
     </div>

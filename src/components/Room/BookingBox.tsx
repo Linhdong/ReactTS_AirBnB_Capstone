@@ -12,7 +12,7 @@ type Props = {};
 export default function BookingBox({}: Props) {
   const [value, setValue] = useState<DateRangePickerValue>([null, null]);
 
-  const { giaTien } = useSelector((state: RootState) => state.roomReducer.room);
+  const { room } = useSelector((state: RootState) => state.roomReducer);
 
   let startDateTime = value[0]?.getTime();
   let endDateTime = value[1]?.getTime();
@@ -25,7 +25,7 @@ export default function BookingBox({}: Props) {
   let numOfDays = calNumOfDays();
 
   const calTotalPrice = () =>
-    numOfDays !== undefined ? giaTien * numOfDays : 0;
+    numOfDays !== undefined ? room.giaTien * numOfDays : 0;
 
   let width = useWindowWidth();
 
@@ -76,7 +76,7 @@ export default function BookingBox({}: Props) {
         <div className="booking-bill row justify-content-between">
           <div className="col-8">
             <u>
-              ${giaTien} x {numOfDays} đêm
+              ${room.giaTien} x {numOfDays} đêm
             </u>
           </div>
           <div className="col-2">
