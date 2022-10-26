@@ -1,22 +1,22 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useParams } from "react-router-dom";
-import Button from "../components/Button/Button";
-import Footer from "../components/Footer/Footer";
-import Header from "../components/Header/Header";
-import BookingBox from "../components/Room/BookingBox";
-import Comment from "../components/Room/Comment/Comment";
-import RoomDetailContent from "../components/Room/RoomDetailContent";
-import RoomDetailHeading from "../components/Room/RoomHeading";
-import RoomImagesGallery from "../components/Room/RoomImagesGallery";
-import { AppDispatch, RootState } from "../redux/configStore";
-import { getRoomByIdApi, Room } from "../redux/reducers/roomReducer";
+import Button from "../../components/Button/Button";
+import Footer from "../../components/Footer/Footer";
+import Header from "../../components/Header/Header";
+import BookingBox from "../../components/Room/BookingBox";
+import Comment from "../../components/Room/Comment/Comment";
+import RoomDetailContent from "../../components/Room/RoomDetailContent";
+import RoomDetailHeading from "../../components/Room/RoomHeading";
+import RoomImagesGallery from "../../components/Room/RoomImagesGallery";
+import { AppDispatch, RootState } from "../../redux/configStore";
+import { getRoomByIdApi, Room } from "../../redux/reducers/roomReducer";
 
 type Props = {
   room: Room;
 };
 
-export default function RoomMediumUpTemplate({ room }: Props) {
+export default function RoomMediumScreen({ room }: Props) {
   //   const { room } = useSelector((state: RootState) => state.roomReducer);
 
   //   const { roomId } = useParams();

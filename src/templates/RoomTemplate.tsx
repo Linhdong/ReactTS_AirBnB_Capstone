@@ -1,11 +1,11 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { useWindowWidth } from "../../Hooks/useWindowWidth";
-import { AppDispatch, RootState } from "../../redux/configStore";
-import { getRoomByIdApi } from "../../redux/reducers/roomReducer";
-import RoomMediumUpTemplate from "../../templates/RoomMediumUpTemplate";
-import RoomSmallTemplate from "../../templates/RoomSmallTemplate";
+import { useWindowWidth } from "../Hooks/useWindowWidth";
+import { AppDispatch, RootState } from "../redux/configStore";
+import { getRoomByIdApi } from "../redux/reducers/roomReducer";
+import RoomMediumScreen from "../pages/Room/RoomMediumScreen";
+import RoomSmallScreen from "../pages/Room/RoomSmallScreen";
 
 interface Amenities {
   [key: string]: string;
@@ -61,8 +61,8 @@ export default function Room({}: Props) {
   }, [roomId]);
 
   if (width <= 767.98) {
-    return <RoomSmallTemplate room={room} />;
+    return <RoomSmallScreen room={room} />;
   }
 
-  return <RoomMediumUpTemplate room={room} />;
+  return <RoomMediumScreen room={room} />;
 }

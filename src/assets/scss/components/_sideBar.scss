@@ -1,0 +1,46 @@
+.sidebar {
+  width: 30%;
+  padding: 30px 0 0 25px;
+  height: 100vh;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  position: fixed;
+  top: 0;
+  left: -100%;
+  transition: 850ms;
+  background-color: $bg-c1-light;
+
+  &.active {
+    left: 0;
+    transition: 350ms;
+  }
+
+  .sidebar__top {
+    img {
+      width: 40%;
+    }
+
+    span {
+      text-transform: uppercase;
+      margin-left: 8px;
+      margin-top: 2px;
+      @include text(1.3rem, $text-bold, $text-primary);
+    }
+  }
+
+  .sidebar__center {
+    a {
+      width: 100%;
+      padding: 0.8em;
+      transition: all 0.3s ease-out;
+      border-top-left-radius: 8px;
+      border-bottom-left-radius: 8px;
+      color: $text-c1-gray;
+
+      &:hover {
+        background-color: #ccc;
+        width: 105%;
+        border-radius: 8px;
+      }
+    }
+  }
+}

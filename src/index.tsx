@@ -12,13 +12,18 @@ import {
 } from "react-router-dom";
 import HomeTemplate from "./templates/HomeTemplate";
 import Loading from "./components/Loading/Loading";
+import AdminTemplate from "./templates/AdminTemplate";
+import UserManagement from "./pages/Admin/User/UserManagement";
+import LocationManagement from "./pages/Admin/LocationManagement/LocationManagement";
+import RoomManagement from "./pages/Admin/Room/RoomManagement";
+import BookingManagement from "./pages/Admin/BookingManagement/BookingManagement";
 
 const Home = React.lazy(() => import("./pages/Home/Home"));
 const SignIn = React.lazy(() => import("./pages/SignIn/SignIn"));
 const SignUp = React.lazy(() => import("./pages/SignUp/SignUp"));
 const Profile = React.lazy(() => import("./pages/Profile/Profile"));
 const RoomList = React.lazy(() => import("./pages/RoomList/RoomList"));
-const Room = React.lazy(() => import("./pages/Room/Room"));
+const RoomTemplate = React.lazy(() => import("./templates/RoomTemplate"));
 
 export const history = createBrowserHistory();
 
@@ -29,6 +34,7 @@ root.render(
   <Provider store={store}>
     <HistoryRouter history={history}>
       <Routes>
+        {/* home template */}
         <Route path="" element={<HomeTemplate />}>
           <Route
             index
@@ -72,22 +78,33 @@ root.render(
               }
             ></Route>
           </Route>
-          {/* <Route path="roomdetail">
-            <Route path=":roomId" element={<RoomDetail />}></Route>
-          </Route> */}
         </Route>
+        {/* home template */}
+
+        {/* room template */}
+        <Route path="roomdetail">
+          <Route
+            path=":roomId"
+            element={
+              <React.Suspense fallback={<Loading />}>
+                <RoomTemplate />
+              </React.Suspense>
+            }
+          ></Route>
+        </Route>
+        {/* room template */}
+
+        {/* admin template */}
         <Route>
-          <Route path="roomdetail">
-            <Route
-              path=":roomId"
-              element={
-                <React.Suspense fallback={<Loading />}>
-                  <Room />
-                </React.Suspense>
-              }
-            ></Route>
+          <Route path="admin" element={<AdminTemplate />}>
+            <Route path="users" element={<UserManagement />}></Route>
+            <Route path="locations" element={<LocationManagement />}></Route>
+            <Route path="rooms" element={<RoomManagement />}></Route>
+            <Route path="bookings" element={<BookingManagement />}></Route>
           </Route>
         </Route>
+        {/* admin template */}
+
         <Route path="*" element={<Navigate to="" />}></Route>
       </Routes>
     </HistoryRouter>
