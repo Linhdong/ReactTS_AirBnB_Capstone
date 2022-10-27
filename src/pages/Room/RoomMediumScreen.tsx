@@ -1,23 +1,22 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useParams } from "react-router-dom";
-import Button from "../components/Button/Button";
-import Footer from "../components/Footer/Footer";
-import Header from "../components/Header/Header";
-import RoomBookingBox from "../components/Room/Booking/RoomBookingBox";
-import Comment from "../components/Room/Comment/Comment";
-import RoomDetailContent from "../components/Room/RoomDetailContent";
-import RoomDetailHeading from "../components/Room/RoomHeading";
-import RoomImagesGallery from "../components/Room/RoomImagesGallery";
-import RoomNavBarSmall from "../components/Room/RoomNavBarSmall";
-import { AppDispatch, RootState } from "../redux/configStore";
-import { getRoomByIdApi, Room } from "../redux/reducers/roomReducer";
+import Button from "../../components/Button/Button";
+import Footer from "../../components/Footer/Footer";
+import Header from "../../components/Header/Header";
+import BookingBox from "../../components/Room/BookingBox";
+import Comment from "../../components/Room/Comment/Comment";
+import RoomDetailContent from "../../components/Room/RoomDetailContent";
+import RoomDetailHeading from "../../components/Room/RoomHeading";
+import RoomImagesGallery from "../../components/Room/RoomImagesGallery";
+import { AppDispatch, RootState } from "../../redux/configStore";
+import { getRoomByIdApi, Room } from "../../redux/reducers/roomReducer";
 
 type Props = {
   room: Room;
 };
 
-export default function RoomMediumUpTemplate({ room }: Props) {
+export default function RoomMediumScreen({ room }: Props) {
   //   const { room } = useSelector((state: RootState) => state.roomReducer);
 
   //   const { roomId } = useParams();
@@ -46,7 +45,7 @@ export default function RoomMediumUpTemplate({ room }: Props) {
       <div className="room">
         <div className="container">
           <div className="d-flex justify-content-between align-items-center py-4">
-            <RoomDetailHeading />
+            <RoomDetailHeading maViTri={room.maViTri} />
             <div className="room__heading__buttons">
               <Button path="#" className="btn--light" onClick={() => {}}>
                 <>
@@ -64,11 +63,11 @@ export default function RoomMediumUpTemplate({ room }: Props) {
           </div>
           <RoomImagesGallery />
           <div className="room__content row py-4 justify-content-between">
-            <div className="col-7">
-              <RoomDetailContent />
+            <div className="col-lg-7 col-md-6">
+              <RoomDetailContent room={room} />
             </div>
-            <div className="col-4 wrapper" style={{ position: "relative" }}>
-              <RoomBookingBox />
+            <div className="col-5 wrapper" style={{ position: "relative" }}>
+              <BookingBox />
             </div>
           </div>
           <div className="divider"></div>

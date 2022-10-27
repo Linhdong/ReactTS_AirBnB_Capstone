@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Banner from "../../components/Banner/Banner";
 import Carousel from "../../components/Carousel/Carousel";
 import HomeLocationItem from "../../components/HomeLocationItem/HomeLocationItem";
+import Loading from "../../components/Loading/Loading";
 import { AppDispatch, RootState } from "../../redux/configStore";
 import { getLocationsApi } from "../../redux/reducers/locationsReducer";
 
@@ -21,7 +22,7 @@ export default function Home({}: Props) {
   }, []);
 
   return (
-    <>
+    <div className="home">
       <Banner />
       <div className="nearest-locations-list">
         <div className="container">
@@ -40,6 +41,6 @@ export default function Home({}: Props) {
         </div>
       </div>
       <Carousel />
-    </>
+    </div>
   );
 }

@@ -5,12 +5,8 @@
   left: 0;
 }
 
-.fixed {
-  //   position: fixed;
-}
-
 .booking-box {
-  position: relative;
+  // position: relative;
   background: #fff;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px;
   height: 350px;
@@ -43,6 +39,7 @@
 
       input {
         background-color: transparent;
+        display: block;
       }
 
       .checkIn__input {
@@ -53,10 +50,6 @@
       .checkOut__input {
         padding: 0.8em 1em;
       }
-    }
-
-    .date-range-picker {
-      position: absolute;
     }
 
     .bookingBtn {

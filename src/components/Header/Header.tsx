@@ -14,7 +14,7 @@ export default function Header({}: Props) {
       <div className="container py-4 d-flex justify-content-between align-items-center">
         {/* left section - logo */}
         <div className="header__logo">
-          <NavLink to="">
+          <NavLink to="/">
             <img src={logo} alt="airbnb-logo" />
           </NavLink>
         </div>

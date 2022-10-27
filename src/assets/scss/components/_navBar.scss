@@ -1,0 +1,18 @@
+.navbar {
+    display: flex;
+
+    .admin-info {
+        .admin-avatar {
+            img {
+                width: 58px;
+                height: 58px;
+                border-radius: 50%;
+                transform: translateX(-50%);
+                position: relative;
+                left: 50%;
+            }
+
+            
+        }
+    }
+}

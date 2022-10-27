@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+import commentReducer from "./reducers/commentReducer";
 import locationsReducer from "./reducers/locationsReducer";
 import roomReducer from "./reducers/roomReducer";
 
@@ -6,6 +7,7 @@ export const store = configureStore({
   reducer: {
     locationsReducer,
     roomReducer,
+    commentReducer,
   },
 });
 

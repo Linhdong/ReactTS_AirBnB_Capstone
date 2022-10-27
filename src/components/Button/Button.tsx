@@ -6,12 +6,19 @@ type Props = {
   className: string;
   children: string | JSX.Element;
   onClick: () => void;
+  disabled?: boolean;
 };
 
-export default function Button({ path, className, children, onClick }: Props) {
+export default function Button({
+  path,
+  className,
+  children,
+  onClick,
+  disabled,
+}: Props) {
   return (
     <NavLink to={path}>
-      <button className={className} onClick={onClick}>
+      <button className={className} onClick={onClick} disabled={disabled}>
         {children}
       </button>
     </NavLink>
