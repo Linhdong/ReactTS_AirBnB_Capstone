@@ -1,11 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import locationsReducer from "./reducers/locationsReducer";
 import roomReducer from "./reducers/roomReducer";
-
+import positionReducer from "./reducers/positionReducer";
 export const store = configureStore({
   reducer: {
     locationsReducer,
     roomReducer,
+    positionReducer,
   },
 });
 

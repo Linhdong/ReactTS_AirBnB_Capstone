@@ -18,6 +18,7 @@ import Profile from "./pages/Profile/Profile";
 import RoomList from "./pages/RoomList/RoomList";
 import Room from "./pages/Room/Room";
 import UpdateInforUser from "./pages/Profile/UpdateInforUser";
+import TestSwiper from "./pages/RoomList/TestSwiper";
 
 export const history = createBrowserHistory();
 
@@ -34,8 +35,9 @@ root.render(
           <Route path="signup" element={<SignUp />}></Route>
           <Route path="profile" element={<Profile />}></Route>
           <Route path="updateinfor" element={<UpdateInforUser/>}></Route>
+          <Route path="swiper" element={<TestSwiper/>}></Route>
           <Route path="location">
-            <Route path=":locationId" element={<RoomList />}></Route>
+            <Route path=":id" element={<RoomList />}></Route>
           </Route>
         </Route>
         <Route>

@@ -1,12 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Filter from "./Filter";
 import data from "./../Profile/data";
 import SearchMap from "./SearchMap";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/configStore";
+import { useParams, useSearchParams } from "react-router-dom";
+import { getIdRoomApi } from "../../redux/reducers/positionReducer";
 
 type Props = {};
 
 export default function RoomList({}: Props) {
   const avatar = require("./../../assets/img/Imag_1.png");
+  const { arrRoom } = useSelector((state: RootState) => state.positionReducer);
+  const dispatch: AppDispatch = useDispatch();
+
+  let [searchParams] = useSearchParams();
+  let Id = searchParams.get("maViTri");
+  //Call API
+  useEffect(() => {
+    const action = getIdRoomApi(Id as string);
+    dispatch(action);
+  },[searchParams]);
+  console.log("arrRoom: ", arrRoom);
+
   const [nodeOfElement, setNodeOfElement] = useState<number>(3);
   const slice = data.dataTest.slice(0, nodeOfElement);
   const loadMore = () => {
@@ -16,9 +32,10 @@ export default function RoomList({}: Props) {
       setNodeOfElement(3);
     }
   };
+
   return (
     <div className="container">
-      <Filter />
+      <Filter arrRoom={arrRoom}/>
       <div className="content">
         <div className="row">
           <div className="col-lg-7 col-md-12 left-content">
@@ -42,15 +59,23 @@ export default function RoomList({}: Props) {
                       <div className="col-md-7 right-card">
                         <div className="card border-0">
                           <div className="card-header border-0">
-                            <p className="intro">Toàn bộ căn hộ dịch vụ tại Bình Thạnh</p>
-                            <h5 className="name-room mt-3">Romantic APT for Long-term Living</h5>
+                            <p className="intro">
+                              Toàn bộ căn hộ dịch vụ tại Bình Thạnh
+                            </p>
+                            <h5 className="name-room mt-3">
+                              Romantic APT for Long-term Living
+                            </h5>
                             <i className="far fa-heart icon"></i>
                           </div>
                           <div className="card-body">
                             <div className="top-line" />
                             <div className="detail-room my-3">
-                              <p className="my-2">2 Guests - Studio Room - 1 Bed - 1 Bath</p>
-                              <p>Wifi - Kitchen - Air Condition - Washing Machine</p>
+                              <p className="my-2">
+                                2 Guests - Studio Room - 1 Bed - 1 Bath
+                              </p>
+                              <p>
+                                Wifi - Kitchen - Air Condition - Washing Machine
+                              </p>
                             </div>
                             <div className="bottom-line" />
                           </div>
@@ -79,10 +104,9 @@ export default function RoomList({}: Props) {
             </button>
           </div>
           <div className="col-lg-5 right-map">
-             <SearchMap/>
+            <SearchMap />
           </div>
         </div>
-       
       </div>
     </div>
   );
