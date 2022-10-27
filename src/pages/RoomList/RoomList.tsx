@@ -7,7 +7,30 @@ import { AppDispatch, RootState } from "../../redux/configStore";
 import { useParams, useSearchParams } from "react-router-dom";
 import { getIdRoomApi } from "../../redux/reducers/positionReducer";
 
+
 type Props = {};
+
+interface Room {
+  id:       number;
+  tenPhong: string;
+  khach:    number;
+  phongNgu: number;
+  giuong:   number;
+  phongTam: number;
+  moTa:     string;
+  giaTien:  number;
+  mayGiat:  boolean;
+  banLa:    boolean;
+  tivi:     boolean;
+  dieuHoa:  boolean;
+  wifi:     boolean;
+  bep:      boolean;
+  doXe:     boolean;
+  hoBoi:    boolean;
+  banUi:    boolean;
+  maViTri:  number;
+  hinhAnh:  string;
+}
 
 export default function RoomList({}: Props) {
   const avatar = require("./../../assets/img/Imag_1.png");
@@ -16,6 +39,14 @@ export default function RoomList({}: Props) {
 
   let [searchParams] = useSearchParams();
   let Id = searchParams.get("maViTri");
+
+  const [roomList, setRoomList] = useState<Room>();
+
+  const demoFunc = (arrfilter:Room) => {
+    console.log('Parent: ',roomList);
+    setRoomList(arrfilter);
+  }
+
   //Call API
   useEffect(() => {
     const action = getIdRoomApi(Id as string);
@@ -35,7 +66,7 @@ export default function RoomList({}: Props) {
 
   return (
     <div className="container">
-      <Filter arrRoom={arrRoom}/>
+      <Filter arrRoom={arrRoom} getfilter={demoFunc}/>
       <div className="content">
         <div className="row">
           <div className="col-lg-7 col-md-12 left-content">

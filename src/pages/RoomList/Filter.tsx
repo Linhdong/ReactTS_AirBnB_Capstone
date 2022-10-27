@@ -1,42 +1,46 @@
 import React, { useCallback, useEffect, useState } from "react";
 
 interface Room {
-  id:       number;
+  id: number;
   tenPhong: string;
-  khach:    number;
+  khach: number;
   phongNgu: number;
-  giuong:   number;
+  giuong: number;
   phongTam: number;
-  moTa:     string;
-  giaTien:  number;
-  mayGiat:  boolean;
-  banLa:    boolean;
-  tivi:     boolean;
-  dieuHoa:  boolean;
-  wifi:     boolean;
-  bep:      boolean;
-  doXe:     boolean;
-  hoBoi:    boolean;
-  banUi:    boolean;
-  maViTri:  number;
-  hinhAnh:  string;
+  moTa: string;
+  giaTien: number;
+  mayGiat: boolean;
+  banLa: boolean;
+  tivi: boolean;
+  dieuHoa: boolean;
+  wifi: boolean;
+  bep: boolean;
+  doXe: boolean;
+  hoBoi: boolean;
+  banUi: boolean;
+  maViTri: number;
+  hinhAnh: string;
 }
 
-type RoomFilter = Pick <Room, "mayGiat" | "banLa" | "tivi" | "dieuHoa" | "wifi" | "bep" | "doXe" | "hoBoi">;
+type RoomFilter = Pick<
+  Room,
+  "mayGiat" | "banLa" | "tivi" | "dieuHoa" | "wifi" | "bep" | "doXe" | "hoBoi"
+>;
 
 type Props = {
-    arrRoom: Room[];
+  arrRoom: Room[];
+  getfilter:(x:any) =>void
 };
 
 const arrFilter = [
-  { id: 0, value: "mayGiat", name:"Washer" },
-  { id: 1, value: "banLa", name:"Iron" },
-  { id: 2, value: "tivi", name:"Television" },
-  { id: 3, value: "dieuHoa", name:"Air Conditioning" },
-  { id: 4, value: "wifi", name:"Wifi"},
-  { id: 5, value: "bep", name:"Kitchen" },
-  { id: 6, value: "doXe", name:"Parking" },
-  { id: 7, value: "hoBoi", name:"Pool" },
+  { id: 0, value: "mayGiat", name: "Washer" },
+  { id: 1, value: "banLa", name: "Iron" },
+  { id: 2, value: "tivi", name: "Television" },
+  { id: 3, value: "dieuHoa", name: "Air Conditioning" },
+  { id: 4, value: "wifi", name: "Wifi" },
+  { id: 5, value: "bep", name: "Kitchen" },
+  { id: 6, value: "doXe", name: "Parking" },
+  { id: 7, value: "hoBoi", name: "Pool" },
 ];
 
 const objectId = arrFilter.map((obj, index) => {
@@ -45,13 +49,13 @@ const objectId = arrFilter.map((obj, index) => {
 
 const filterBy: string[] = [];
 
-export default function Filter({arrRoom}: Props) {
-  
+export default function Filter({ arrRoom, getfilter }: Props) {
   const [btnState, setBtnState] = useState<any>({
     activeObject: null,
     objects: objectId,
   });
 
+  
   const [item, setItemFilter] = useState<string>("");
 
   const SearchByItem = () => {
@@ -69,15 +73,17 @@ export default function Filter({arrRoom}: Props) {
     }
   };
 
-  const filterArray = (arr1:any[],arr2:any[]) => {
-    const filtered = arr1.filter((item) => arr2.every((x) => item[x]))
+  const filterArray = (arr1: any[], arr2: any[]) => {
+    const filtered = arr1.filter((item) => arr2.every((x) => item[x]));
+    getfilter(filtered);
     console.log(filtered);
     return filtered;
-  }
+  };
 
   useEffect(() => {
     SearchByItem();
     filterArray(arrRoom, filterBy);
+
   }, [item]);
 
   const toggleActive = (event: React.MouseEvent<HTMLButtonElement>) => {
