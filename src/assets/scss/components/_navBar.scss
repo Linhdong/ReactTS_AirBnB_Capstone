@@ -1,4 +1,18 @@
 .navbar {
     display: flex;
-    border: 1px solid orange;
+
+    .admin-info {
+        .admin-avatar {
+            img {
+                width: 58px;
+                height: 58px;
+                border-radius: 50%;
+                transform: translateX(-50%);
+                position: relative;
+                left: 50%;
+            }
+
+            
+        }
+    }
 }
