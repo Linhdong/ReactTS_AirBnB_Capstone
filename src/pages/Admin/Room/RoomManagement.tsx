@@ -1,78 +1,116 @@
+import React, { useEffect } from "react";
+import { Table, Input } from "antd";
+import "antd/dist/antd.css";
+import type { ColumnsType, TableProps } from "antd/es/table";
+import { AudioOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { Button } from "antd/lib/radio";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/configStore";
 import { getAllRoomsApi, Room } from "../../../redux/reducers/roomReducer";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import ModalHOC from "../../../HOC/ModalHOC";
-import RoomModalContent from "./RoomModalContent";
+import { NavLink } from "react-router-dom";
+
+const { Search } = Input;
+
+const suffix = (
+  <AudioOutlined
+    style={{
+      fontSize: 16,
+      color: "#1890ff",
+    }}
+  />
+);
+
+const onSearch = (value: string) => console.log(value);
 
 type Props = {};
 
 export default function RoomManagement({}: Props) {
   const { arrRooms } = useSelector((state: RootState) => state.roomReducer);
 
-  const navigate = useNavigate();
-
   const dispatch: AppDispatch = useDispatch();
 
-  const renderTblRoom = () =>
-    arrRooms?.map((room: Room) => (
-      <tr key={room.id}>
-        <td>{room.id}</td>
-        <td>{room.tenPhong}</td>
-        <td>Ho Chi Minh</td>
-        <td>
-          <img
-            src={room.hinhAnh}
-            alt={room.tenPhong}
-            style={{ width: "120px" }}
-          />
-        </td>
-        <td>
-          {room.moTa.length > 100 ? room.moTa.slice(0, 100) + "..." : room.moTa}
-        </td>
-        <td>${room.giaTien}</td>
-        <td>
-          <button
-            className="btn btn-success"
-            data-bs-toggle="modal"
-            data-bs-target={`#room-${room.id}`}
-          >
-            Xem chi tiết
-          </button>
+  const columns: ColumnsType<Room> = [
+    {
+      title: "Mã phòng",
+      dataIndex: "id",
+      sorter: (a, b) => a.id - b.id,
+      sortDirections: ["descend"],
+    },
+    {
+      title: "Tên phòng",
+      dataIndex: "tenPhong",
+      sorter: (a, b) => {
+        let tenPhongA = a.tenPhong.toLowerCase().trim();
+        let tenPhongB = b.tenPhong.toLowerCase().trim();
 
-          <ModalHOC
-            modalId={`room-${room.id}`}
-            title={room.tenPhong}
-            content={<RoomModalContent room={room} />}
-          />
+        return tenPhongA.localeCompare(tenPhongB);
+      },
+      sortDirections: ["ascend", "descend"],
+    },
+    {
+      title: "Hình ảnh",
+      dataIndex: "hinhAnh",
+      render: (text, room) => (
+        <img
+          src={room.hinhAnh}
+          alt={room.tenPhong}
+          style={{ width: "250px" }}
+        />
+      ),
+    },
+    {
+      title: "Mô tả",
+      dataIndex: "moTa",
+      render: (text, room) =>
+        room.moTa.length > 100 ? room.moTa.slice(0, 100) + "..." : room.moTa,
+    },
+    {
+      title: "Giá tiền",
+      dataIndex: "giaTien",
+      render: (text, room) => <span>{`$${room.giaTien}`}</span>,
+      sorter: (a, b) => a.giaTien - b.giaTien,
+      sortDirections: ["ascend", "descend"],
+    },
+    {
+      title: "",
+      dataIndex: "",
+      render: (text, room) => (
+        <div className="d-flex">
+          <NavLink to="#" className="me-2 text-danger">
+            <DeleteOutlined />
+          </NavLink>
+          <NavLink to="#">
+            <EditOutlined />
+          </NavLink>
+        </div>
+      ),
+    },
+  ];
 
-          <button className="btn btn-warning mt-2">Chỉnh sửa</button>
-        </td>
-      </tr>
-    ));
+  const data = arrRooms;
+
+  const onChange: TableProps<Room>["onChange"] = (
+    pagination,
+    sorter,
+    extra
+  ) => {
+    console.log("params", pagination, sorter, extra);
+  };
 
   useEffect(() => {
     dispatch(getAllRoomsApi());
   }, []);
-
   return (
     <>
-      <h2>Room Management</h2>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Tên phòng</th>
-            <th>Vị trí</th>
-            <th>Hình ảnh</th>
-            <th>Mô tả</th>
-            <th>Giá tiền</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>{renderTblRoom()}</tbody>
-      </table>
+      <h3>Quản lý thông tin phòng</h3>
+      <Button>Thêm phòng</Button>
+      <Search
+        className="my-3"
+        placeholder="input search text"
+        onSearch={onSearch}
+        enterButton
+      />
+      <Table columns={columns} dataSource={data} onChange={onChange} />
     </>
   );
 }
