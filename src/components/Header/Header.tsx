@@ -9,6 +9,8 @@ type Props = {};
 export default function Header({}: Props) {
   const [isClicked, setIsClicked] = useState(false);
 
+  const showDropdown = () => setIsClicked(!isClicked);
+
   return (
     <header className="header bg-white shadow-sm">
       <div className="container py-4 d-flex justify-content-between align-items-center">
@@ -51,7 +53,7 @@ export default function Header({}: Props) {
             <Button
               path="#"
               className="btn--light btn-border-black btnUser"
-              onClick={() => setIsClicked(!isClicked)}
+              onClick={showDropdown}
             >
               <>
                 <i className="fa fa-bars"></i>
@@ -64,6 +66,7 @@ export default function Header({}: Props) {
               className={`dropdown__content ${
                 isClicked ? "d-block" : "d-none"
               }`}
+              onClick={showDropdown}
             >
               <NavLink to="/signin" className="dropdown__item">
                 Log in
