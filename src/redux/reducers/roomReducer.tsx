@@ -70,7 +70,6 @@ export const getRoomByIdApi = (roomId: undefined | string) => {
   return async (dispatch: AppDispatch) => {
     try {
       const result = await http.get(`/phong-thue/${roomId}`);
-      console.log(result.data.content);
       dispatch(setRoom(result.data.content));
     } catch (err) {
       console.log(err);

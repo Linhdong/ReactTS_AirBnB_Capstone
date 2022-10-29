@@ -1,0 +1,25 @@
+@import './../utilities/variable';
+
+
+.container {
+    .row {
+        .titleSignIn{
+            @include text($text-base,$text-bold,black,19px);
+        }
+        h3{
+            @include text(22px,$text-semibold,black,26px);
+            margin-bottom: 10px;
+        }
+        .d-grid {
+            .btn-login {
+                font-size: 0.9rem;
+                letter-spacing: 0.05rem;
+                padding: 0.75rem 1rem;
+                color:white;
+                background-image: linear-gradient(90deg, #E61E4D 0%, #E31C5F 50%, #D70466 100%);
+                border-radius: 8px;
+            }
+        }
+    }
+
+}

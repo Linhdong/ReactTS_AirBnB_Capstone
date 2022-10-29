@@ -1,29 +1,32 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { Room } from "../../redux/reducers/roomReducer";
 
-type Props = {};
+type Props = {
+  room: Room;
+};
 
-export default function RoomDetailContent({}: Props) {
+export default function RoomDetailContent({ room }: Props) {
   return (
     <div className="room__details">
       {/* title */}
       <div className="room__title d-flex justify-content-between">
         <div className="room__title--left">
-          <h2>Room's name</h2>
+          <h2>{room.tenPhong}</h2>
           <div className="room__stats d-flex">
-            <span>2 khách</span>
+            <span>{room.khach} khách</span>
             <div className="dot">
               <i className="fa fa-circle"></i>
             </div>
-            <span>2 phòng ngủ</span>
+            <span>{room.phongNgu} phòng ngủ</span>
             <div className="dot">
               <i className="fa fa-circle"></i>
             </div>
-            <span>2 giường</span>
+            <span>{room.giuong} giường</span>
             <div className="dot">
               <i className="fa fa-circle"></i>
             </div>
-            <span>2 phòng tắm</span>
+            <span>{room.phongTam} phòng tắm</span>
           </div>
         </div>
         <div className="room__title--right">
@@ -66,12 +69,7 @@ export default function RoomDetailContent({}: Props) {
 
       {/* room description */}
       <div className="room__desc">
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptas,
-          quam eveniet. At, libero quasi aut nihil veritatis et illum ipsam,
-          exercitationem a, numquam ab labore quod saepe magnam doloremque
-          nesciunt.
-        </p>
+        <p>{room.moTa}</p>
         <NavLink to="#">
           Hiển thị thêm
           <i className="fa fa-angle-right ms-2"></i>

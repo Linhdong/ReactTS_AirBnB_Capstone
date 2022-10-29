@@ -18,14 +18,14 @@ export default function Header({}: Props) {
     setSearchParams({maViTri: keywordRef.current});
   }
   // console.log(typeof(searchParams.get("maViTri")));
-  const location = `/location/${searchParams.get("maViTri")}`;
+  const location = `/roomlist/${searchParams.get("maViTri")}`;
   
   return (
     <header className="header bg-white shadow-sm">
       <div className="container py-4 d-flex justify-content-between align-items-center">
         {/* left section - logo */}
         <div className="header__logo">
-          <NavLink to="">
+          <NavLink to="/">
             <img src={logo} alt="airbnb-logo" />
           </NavLink>
         </div>

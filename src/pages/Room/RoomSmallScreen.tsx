@@ -1,23 +1,23 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import Footer from "../components/Footer/Footer";
-import RoomDetailHeading from "../components/Room/RoomHeading";
-import RoomImagesGallery from "../components/Room/RoomImagesGallery";
-import RoomNavBarSmall from "../components/Room/RoomNavBarSmall";
-import RoomDetailContent from "../components/Room/RoomDetailContent";
-import { AppDispatch, RootState } from "../redux/configStore";
-import { getRoomByIdApi, Room } from "../redux/reducers/roomReducer";
-import Comment from "../components/Room/Comment/Comment";
-import CommentSlider from "../components/Room/Comment/CommentSlider";
-import DateRangePickerJSX from "../components/DatePickerJSX/DateRangePickerJSX";
-import RoomBookingBar from "../components/Room/Booking/RoomBookingBar";
+import Footer from "../../components/Footer/Footer";
+import RoomDetailHeading from "../../components/Room/RoomHeading";
+import RoomImagesGallery from "../../components/Room/RoomImagesGallery";
+import RoomNavBarSmall from "../../components/Room/RoomNavBarSmall";
+import RoomDetailContent from "../../components/Room/RoomDetailContent";
+import { AppDispatch, RootState } from "../../redux/configStore";
+import { getRoomByIdApi, Room } from "../../redux/reducers/roomReducer";
+import Comment from "../../components/Room/Comment/Comment";
+import CommentSlider from "../../components/Room/Comment/CommentSlider";
+import moment from "moment";
+import RoomBookingBox from "../../components/Room/BookingBox";
 
 type Props = {
   room: Room;
 };
 
-export default function RoomDetailSmall({ room }: Props) {
+export default function RoomSmallScreen({ room }: Props) {
   return (
     <>
       <div className="room position-relative">
@@ -26,14 +26,14 @@ export default function RoomDetailSmall({ room }: Props) {
         </div>
         <RoomImagesGallery />
         <div className="container">
-          <RoomDetailHeading />
+          <RoomDetailHeading maViTri={room?.maViTri} />
           <div className="divider"></div>
           <div className="room__content">
-            <RoomDetailContent />
+            <RoomDetailContent room={room} />
           </div>
           <div className="divider"></div>
-          <div className="calendar">
-            <DateRangePickerJSX />
+          <div className="booking">
+            <RoomBookingBox />
           </div>
           <div className="divider"></div>
           <div className="room__comment">
@@ -50,7 +50,6 @@ export default function RoomDetailSmall({ room }: Props) {
             <CommentSlider />
           </div>
         </div>
-        {/* <RoomBookingBar /> */}
       </div>
       <Footer />
     </>

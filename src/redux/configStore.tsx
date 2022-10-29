@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+import commentReducer from "./reducers/commentReducer";
 import locationsReducer from "./reducers/locationsReducer";
 import roomReducer from "./reducers/roomReducer";
 import positionReducer from "./reducers/positionReducer";

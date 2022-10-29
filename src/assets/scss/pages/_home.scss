@@ -1,7 +1,11 @@
-.nearest-locations-list {
-  margin-top: 3rem;
+.home {
+  min-height: 600px;
 
-  @include res-xs {
-    margin-top: 1.5rem;
+  .nearest-locations-list {
+    margin-top: 3rem;
+
+    @include res-xs {
+      margin-top: 1.5rem;
+    }
   }
 }
