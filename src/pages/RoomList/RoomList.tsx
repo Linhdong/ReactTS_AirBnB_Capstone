@@ -11,26 +11,28 @@ import { getIdRoomApi } from "../../redux/reducers/positionReducer";
 type Props = {};
 
 interface Room {
-  id:       number;
-  tenPhong: string;
-  khach:    number;
-  phongNgu: number;
-  giuong:   number;
-  phongTam: number;
-  moTa:     string;
-  giaTien:  number;
-  mayGiat:  boolean;
-  banLa:    boolean;
-  tivi:     boolean;
-  dieuHoa:  boolean;
-  wifi:     boolean;
-  bep:      boolean;
-  doXe:     boolean;
-  hoBoi:    boolean;
-  banUi:    boolean;
-  maViTri:  number;
-  hinhAnh:  string;
+  id?:       number;
+  tenPhong?: string;
+  khach?:    number;
+  phongNgu?: number;
+  giuong?:   number;
+  phongTam?: number;
+  moTa?:     string;
+  giaTien?:  number;
+  mayGiat?:  boolean;
+  banLa?:    boolean;
+  tivi?:     boolean;
+  dieuHoa?:  boolean;
+  wifi?:     boolean;
+  bep?:      boolean;
+  doXe?:     boolean;
+  hoBoi?:    boolean;
+  banUi?:    boolean;
+  maViTri?:  number;
+  hinhAnh?:  string;
 }
+
+let timeout:null | ReturnType<typeof setTimeout> = null;
 
 export default function RoomList({}: Props) {
   const avatar = require("./../../assets/img/Imag_1.png");
@@ -40,24 +42,44 @@ export default function RoomList({}: Props) {
   let [searchParams] = useSearchParams();
   let Id = searchParams.get("maViTri");
 
-  const [roomList, setRoomList] = useState<Room>();
+  const [roomList, setRoomList] = useState<Room>(arrRoom as Room);
+  const [render, setRender] = useState<number>(0);
 
   const demoFunc = (arrfilter:Room) => {
-    console.log('Parent: ',roomList);
     setRoomList(arrfilter);
   }
 
+  const setStateRender = (state:number) => {
+    setRender(state);
+  }
+
+  const getRoomFromAPI = async () => {
+    try{
+      if(searchParams.get("maViTri") !== null){
+        const action = getIdRoomApi(Id as string);
+        dispatch(action);
+      }
+    }catch(err){
+      console.log(err)
+    }
+  }
   //Call API
   useEffect(() => {
-    const action = getIdRoomApi(Id as string);
-    dispatch(action);
+      getRoomFromAPI();
+      setRoomList(arrRoom as Room);
   },[searchParams]);
-  console.log("arrRoom: ", arrRoom);
+
+  useEffect(() => {
+    setRoomList(arrRoom as Room);
+    setStateRender(0);
+  },[render])
+
+  console.log('arrRoom: ',roomList);
 
   const [nodeOfElement, setNodeOfElement] = useState<number>(3);
-  const slice = data.dataTest.slice(0, nodeOfElement);
+  const slice = (roomList as unknown as any[])?.slice(0, nodeOfElement);
   const loadMore = () => {
-    if (nodeOfElement <= data.dataTest.length) {
+    if (nodeOfElement <= (roomList as unknown as any[])?.length) {
       setNodeOfElement(nodeOfElement + nodeOfElement);
     } else {
       setNodeOfElement(3);
@@ -66,13 +88,13 @@ export default function RoomList({}: Props) {
 
   return (
     <div className="container">
-      <Filter arrRoom={arrRoom} getfilter={demoFunc}/>
+      <Filter ID={Id} arrRoomList={roomList as any} getfilter={demoFunc} arrRoom={roomList as any} setStateRender={setStateRender}/>
       <div className="content">
         <div className="row">
           <div className="col-lg-7 col-md-12 left-content">
-            <h5 className="my-3">200+ stay in Bordeau</h5>
+            <h5 className="my-3">{(roomList as unknown as any[])?.length} stay rooms as per your search</h5>
             <div className="room-list">
-              {slice.map((item, index) => {
+              {slice?.map((item:any, index:number) => {
                 return (
                   <div
                     className="card my-4 border-0 rounded-0 border-top border-bottom"
@@ -81,7 +103,7 @@ export default function RoomList({}: Props) {
                     <div className="row g-0 my-3">
                       <div className="col-md-5 left-card">
                         <img
-                          src={item.img}
+                          src={item.hinhAnh}
                           className="img-fluid rounded-4 w-100"
                           alt="..."
                           style={{ height: "200px", objectFit: "cover" }}
@@ -91,32 +113,32 @@ export default function RoomList({}: Props) {
                         <div className="card border-0">
                           <div className="card-header border-0">
                             <p className="intro">
-                              Toàn bộ căn hộ dịch vụ tại Bình Thạnh
+                              {/* {item.tenPhong} */}
                             </p>
-                            <h5 className="name-room mt-3">
-                              Romantic APT for Long-term Living
+                            <h5 className="name-room mt-2 me-3 lh-sm">
+                              {item.tenPhong}
                             </h5>
                             <i className="far fa-heart icon"></i>
                           </div>
                           <div className="card-body">
                             <div className="top-line" />
                             <div className="detail-room my-3">
-                              <p className="my-2">
-                                2 Guests - Studio Room - 1 Bed - 1 Bath
+                              <p className="my-3">
+                                {item.khach} Guests - {item.giuong} Bed Room - {item.phongTam} Bath Room
                               </p>
                               <p>
-                                Wifi - Kitchen - Air Condition - Washing Machine
+                                {item.banLa === true ? 'Iron ' : ''} {item.bep === true ? 'Kitchen ' : ''} {item.doXe === true ? 'Free-Parking ' : ''} {item.hoBoi === true ? 'Pool ' : ''} {item.mayGiat === true ? 'Washer ' : ''} {item.tivi === true ? 'Televison ' : ''} {item.wifi === true ? 'Wifi' : ''}
                               </p>
                             </div>
                             <div className="bottom-line" />
                           </div>
-                          <div className="card-footer d-flex justify-content-between align-items-center border-0">
-                            <span className="star-review">
+                          <div className="card-footer d-flex justify-content-end align-items-center border-0">
+                            {/* <span className="star-review">
                               5.0
                               <i className="fas fa-star mx-2"></i>
                               (318 reviews)
-                            </span>
-                            <span className="price">$385/Night</span>
+                            </span> */}
+                            <span className="price">{item.giaTien}$ / Night</span>
                           </div>
                         </div>
                       </div>
@@ -125,14 +147,17 @@ export default function RoomList({}: Props) {
                 );
               })}
             </div>
-            <button
+            {
+              (roomList as unknown as any[])?.length === 0 ? <p className="text-center">Xin lỗi chúng tôi không tìm thấy phòng mà bạn yêu cầu !!!</p> :
+              <button
               className="btn btn-danger d-block w-100 btnLoad"
               onClick={() => loadMore()}
             >
-              {nodeOfElement <= data.dataTest.length
+              {nodeOfElement <= (roomList as unknown as any[])?.length
                 ? "Load More"
-                : "Load Less"}
+                :  "Load Less" }
             </button>
+            }
           </div>
           <div className="col-lg-5 right-map">
             <SearchMap />

@@ -1,4 +1,6 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import * as _ from "lodash";
+import { AnyIfEmpty } from "react-redux";
 
 interface Room {
   id: number;
@@ -22,14 +24,12 @@ interface Room {
   hinhAnh: string;
 }
 
-type RoomFilter = Pick<
-  Room,
-  "mayGiat" | "banLa" | "tivi" | "dieuHoa" | "wifi" | "bep" | "doXe" | "hoBoi"
->;
-
 type Props = {
-  arrRoom: Room[];
-  getfilter:(x:any) =>void
+  ID: string | null;
+  arrRoomList: Room[];
+  arrRoom: Room[],
+  getfilter: (x: any) => void;
+  setStateRender: (x: number) => void;
 };
 
 const arrFilter = [
@@ -47,16 +47,20 @@ const objectId = arrFilter.map((obj, index) => {
   return { id: obj.id };
 });
 
-const filterBy: string[] = [];
+let timeout:ReturnType<typeof setTimeout>; 
 
-export default function Filter({ arrRoom, getfilter }: Props) {
+export default function Filter({ ID, arrRoomList, getfilter, arrRoom, setStateRender }: Props) {
+  console.log("Filter: ", arrRoomList);
   const [btnState, setBtnState] = useState<any>({
     activeObject: null,
     objects: objectId,
   });
 
-  
+  const [filterBy, setFilterBy] = useState<string[]>([]);
+
   const [item, setItemFilter] = useState<string>("");
+
+  const [statePrice, setStatePrice] = useState<string>("0");
 
   const SearchByItem = () => {
     if (!(item.trim() === "")) {
@@ -64,11 +68,9 @@ export default function Filter({ arrRoom, getfilter }: Props) {
       let state = filterBy.findIndex((obj) => obj === item);
       if (state === fd) {
         filterBy.push(item);
-        console.log("ArrFilter: ", filterBy);
       } else {
         let index = filterBy.findIndex((newObj) => newObj === item);
         filterBy.splice(index, 1);
-        console.log("New Arr: ", filterBy);
       }
     }
   };
@@ -76,16 +78,42 @@ export default function Filter({ arrRoom, getfilter }: Props) {
   const filterArray = (arr1: any[], arr2: any[]) => {
     const filtered = arr1.filter((item) => arr2.every((x) => item[x]));
     getfilter(filtered);
-    console.log(filtered);
     return filtered;
   };
 
   useEffect(() => {
     SearchByItem();
-    filterArray(arrRoom, filterBy);
+    filterArray(arrRoomList, filterBy);
+    if(filterBy.length === 0){
+      setStateRender(1);
+      getfilter(arrRoom);
+    }
+  }, [item, filterBy]);
 
-  }, [item]);
+  useEffect(() => {
+    setFilterBy(filterBy.splice(0));
+  }, [ID]);
 
+  const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const {value, id} = event.currentTarget;
+    console.log(value);
+    if(value === '0'){
+      arrRoomList = arrRoomList.slice().sort((nextRoom:Room, room:Room) => {
+        return  nextRoom.giaTien - room.giaTien;
+      })
+      getfilter(arrRoomList);
+    }
+    if(value === '1'){
+      arrRoomList = arrRoomList.slice().sort((nextRoom:Room, room:Room) => {
+        return  room.giaTien - nextRoom.giaTien;
+      })
+      getfilter(arrRoomList);
+    }
+
+  }
+
+
+  console.log("Filter By: ", filterBy);
   const toggleActive = (event: React.MouseEvent<HTMLButtonElement>) => {
     const { value, id } = event.currentTarget;
     setItemFilter(value);
@@ -104,8 +132,8 @@ export default function Filter({ arrRoom, getfilter }: Props) {
       <div className="d-flex justify-content-start">
         <div className="d-flex">
           <div className="btn-group-sm me-2 price">
-            <select className="btn btn-outline-secondary">
-              <option selected>Price </option>
+            <select className="btn btn-outline-secondary" onChange={handleSelect}>
+              <option>Price </option>
               <option value={0}>Ascending</option>
               <option value={1}>Decreasing</option>
             </select>
@@ -126,14 +154,6 @@ export default function Filter({ arrRoom, getfilter }: Props) {
           {arrFilter.map((itemFilter, index) => {
             return (
               <>
-                {/* <input
-                  // key={index}
-                  id={`${index}`}
-                  className={toggleActiveStyle(index)}
-                  type="button"
-                  value={itemFilter.value}
-                  onClick={toggleActive}
-                /> */}
                 <button
                   id={`${index}`}
                   className={toggleActiveStyle(index)}
@@ -146,8 +166,24 @@ export default function Filter({ arrRoom, getfilter }: Props) {
               </>
             );
           })}
-          <button className="btn btn-outline-secondary me-2 mb-2" type="submit">
-            <i className="fas fa-filter"></i> Filter
+          <button
+            className="btn btn-outline-secondary me-2 mb-2 position-relative"
+            onClick={() => {
+              setItemFilter('');
+              setFilterBy([] as string [])
+              setBtnState({
+                activeObject: null,
+                objects: objectId,
+              });
+              
+            }}
+          >
+            <i className="fas fa-filter"></i>{" "}
+            {filterBy.length >= 1 ? "Clear Filter" : "Filter"}
+            <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              {filterBy.length}
+              <span className="visually-hidden">unread messages</span>
+            </span>
           </button>
         </div>
       </div>
