@@ -1,0 +1,75 @@
+.fixed-wrapper {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.booking-box {
+  // position: relative;
+  background: #fff;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px;
+  height: 350px;
+  width: 100%;
+  padding: 1.5em;
+  border: 1px solid rgb(221, 221, 221);
+  border-radius: 10px;
+
+  //   @include res-down($lg-max) {
+  //     width: 308px;
+  //   }
+
+  //   @include res-down($md-max) {
+  //     width: 253px;
+  //   }
+
+  .booking-box__title {
+    @include text($text-xs, $text-bold);
+  }
+
+  .booking-box__content {
+    .booking__inputs {
+      border: 1px solid #000;
+      border-radius: 10px;
+      font-size: 0.8rem;
+
+      label {
+        font-weight: $text-bold;
+      }
+
+      input {
+        background-color: transparent;
+        display: block;
+      }
+
+      .checkIn__input {
+        padding: 0.8em 1em;
+        border-right: 1px solid #000;
+      }
+
+      .checkOut__input {
+        padding: 0.8em 1em;
+      }
+    }
+
+    .bookingBtn {
+      margin-top: 1em;
+
+      a {
+        width: 100%;
+        button {
+          width: 100%;
+        }
+      }
+    }
+
+    .booking-bill {
+      margin-top: 1em;
+      font-size: 0.9rem;
+    }
+
+    .booking__footer {
+      @include text(0.9rem, $text-bold);
+    }
+  }
+}

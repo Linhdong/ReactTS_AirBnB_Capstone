@@ -1,0 +1,35 @@
+.comment-card--border {
+  border: 1px solid $bd-gray;
+  border-radius: 10px;
+  height: 236px;
+}
+
+.comment-card {
+  padding: 1.3em;
+  width: 100%;
+  z-index: -1;
+
+  .comment-card__heading {
+    img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 20px;
+    }
+
+    .comment-card__heading__name {
+      h3 {
+        @include text($text-base, $text-bold);
+      }
+
+      p {
+        @include text(0.875rem, $text-base, $text-c1-gray);
+      }
+    }
+  }
+
+  .comment-card__text {
+    padding: 1.125em 0;
+    @include text($text-base, $text-light);
+  }
+}

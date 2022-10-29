@@ -1,0 +1,74 @@
+.room__details {
+  margin-bottom: 32px;
+
+  .room__title {
+    .room__title--left {
+      h2 {
+        // small screen down
+        @include text(1.375rem, $text-semibold, $text-c2-dark, 26px);
+      }
+
+      .room__stats {
+        span {
+          @include text(0.875rem);
+        }
+      }
+    }
+
+    .room__title--right {
+      img {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+
+        @include res-up($sm-min) {
+          width: 56px;
+          height: 56px;
+        }
+      }
+    }
+  }
+
+  .room__info {
+    .room__info--item {
+      margin-top: 0.8em;
+
+      i {
+        font-size: 1.3rem;
+      }
+
+      .room__info--item__text {
+        strong {
+          @include text($text-base, $text-semibold, $text-c2-dark, 20px);
+        }
+
+        p {
+          @include text(0.875rem, $text-base, $text-c1-gray, 20px);
+        }
+      }
+    }
+  }
+
+  .room__desc {
+    p {
+      margin-bottom: 0.5em;
+    }
+
+    a {
+      @include text($text-base, $text-semibold);
+      text-decoration: underline;
+    }
+  }
+
+  .room__amenities {
+    .room__amenities--item {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+
+      i {
+        font-size: 1.4rem;
+      }
+    }
+  }
+}

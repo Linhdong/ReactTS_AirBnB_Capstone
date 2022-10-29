@@ -1,0 +1,12 @@
+.mantine-DateRangePicker-input {
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.mantine-DateRangePicker-day[data-in-range] {
+  background-color: #f7f7f7;
+}
+
+.mantine-DateRangePicker-day[data-selected] {
+  background-color: rgb(34, 34, 34);
+}

@@ -6,14 +6,27 @@
 @import "./base/base";
 
 // components (buttons, carousel,...)
+@import "./components/banner";
+@import "./components/carousel";
+@import "./components/button";
+@import "./components/commentCard";
+@import "./components/roomBookingBar";
+@import "./components/roomBookingBox";
+@import "./components/datePicker";
+@import "./components/loading";
+@import "./components/sideBar";
+@import "./components/navBar";
 
 // layouts
 @import "./layouts/header";
 @import "./layouts/footer";
+@import "./layouts/homeLocationItem";
+@import "./layouts/roomHeading";
+@import "./layouts/roomNavBarSmall";
+@import "./layouts/roomDetailContent";
 
 // pages
 @import "./pages/home";
-@import "./pages/detail";
 @import "./pages/login";
 @import "./pages/signup";
 @import "./pages/profile";
