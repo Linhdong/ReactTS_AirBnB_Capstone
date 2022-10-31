@@ -11,6 +11,7 @@ import {
 import { getAllRoomsApi, Room } from "../../../redux/reducers/roomReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/configStore";
+import { showModal } from "../../../redux/reducers/modalAdminReducer";
 
 const columnHelper = createColumnHelper<Room>();
 
@@ -123,18 +124,21 @@ export default function RoomManagement({}: Props) {
           ))}
         </thead>
         <tbody>
-          {table.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
-              {row.getVisibleCells().map((cell) => (
+          {table.getRowModel().rows.map((row, index) => (
+            <tr key={index}>
+              {row.getVisibleCells().map((cell, index) => (
                 <>
-                  <td key={cell.id}>
+                  <td key={index}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 </>
               ))}
               <td>
                 <div className="d-flex gap-2">
-                  <button className="btn btn-outline-warning">
+                  <button
+                    className="btn btn-outline-warning"
+                    onClick={() => showModal()}
+                  >
                     <i className="fa fa-search-plus"></i>
                   </button>
                   <button className="btn btn-outline-danger">
