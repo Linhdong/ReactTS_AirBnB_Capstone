@@ -1,9 +1,14 @@
-import React from 'react'
+import React from 'react';
+import axios from "axios";
+import {useNavigate} from "react-router-dom";
+
 
 type Props = {}
 
 export default function SignIn({ }: Props) {
+  const navigate = useNavigate();
   return (
+
     <div className="container">
       <div className="row">
         <div className="col-sm-9 col-md-7 col-lg-5 mx-auto">
@@ -42,8 +47,5 @@ export default function SignIn({ }: Props) {
         </div>
       </div>
     </div>
-
-
-
   )
 }

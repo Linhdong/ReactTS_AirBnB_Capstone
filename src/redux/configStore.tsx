@@ -8,6 +8,7 @@ export const store = configureStore({
     locationsReducer,
     roomReducer,
     positionReducer,
+    commentReducer
   },
 });
 

@@ -3,7 +3,6 @@ import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
 import Button from "../Button/Button";
 
 const logo = require("../../assets/img/airbnb-logo.png");
-
 type Props = {};
 
 export default function Header({}: Props) {
@@ -18,8 +17,8 @@ export default function Header({}: Props) {
     setSearchParams({maViTri: keywordRef.current});
   }
   // console.log(typeof(searchParams.get("maViTri")));
-  const location = `/roomlist/${searchParams.get("maViTri")}`;
-  
+  const location = `/roomlist?${searchParams.get("maViTri")}`;
+
   return (
     <header className="header bg-white shadow-sm">
       <div className="container py-4 d-flex justify-content-between align-items-center">
@@ -34,10 +33,9 @@ export default function Header({}: Props) {
         {/* middle section - search bar */}
         <div className="header__search-bar">
           <div className="search-bar d-flex align-items-center justify-content-between">
-            <input type="text" placeholder="Start your search" onChange={handleChange}/>
+            <input type="text" placeholder="Start your search" onChange={handleChange} id="maViTri"/>
             <Button
               path={location}
-              // path="/location"
               className="btn--primary btnSearch"
               onClick={() => {}}
             >

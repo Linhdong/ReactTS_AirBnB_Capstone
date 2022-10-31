@@ -26,7 +26,6 @@ const Profile = React.lazy(() => import("./pages/Profile/Profile"));
 const RoomList = React.lazy(() => import("./pages/RoomList/RoomList"));
 const RoomTemplate = React.lazy(() => import("./templates/RoomTemplate"));
 
-
 export const history = createBrowserHistory();
 
 const root = ReactDOM.createRoot(
@@ -70,15 +69,21 @@ root.render(
               </React.Suspense>
             }
           ></Route>
-          <Route path="roomlist">
-            <Route
+          <Route path="roomlist"
+            element=
+            {
+              <React.Suspense fallback={<Loading />}>
+                <RoomList />
+              </React.Suspense>
+            }>
+            {/* <Route
               path=":locationId"
               element={
                 <React.Suspense fallback={<Loading />}>
                   <RoomList />
                 </React.Suspense>
               }
-            ></Route>
+            ></Route> */}
           </Route>
         </Route>
         {/* home template */}
