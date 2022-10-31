@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
-import NavBar from "../components/NavBar/NavBar";
 import SideBar from "../components/SideBar/SideBar";
 
 type Props = {};
@@ -10,7 +9,7 @@ export default function AdminTemplate({}: Props) {
 
   const showSidebar = () => setSidebar(!sidebar);
 
-  const overlayStyles = {
+  const overlayStyles: React.CSSProperties = {
     background: "rgba(0, 0, 0, .5)",
     position: "absolute",
     top: 0,
@@ -21,24 +20,13 @@ export default function AdminTemplate({}: Props) {
 
   return (
     <div>
-      <NavBar showSidebar={showSidebar} />
-      <SideBar sidebar={sidebar} setSidebar={setSidebar} />
+      <SideBar
+        sidebar={sidebar}
+        setSidebar={setSidebar}
+        showSidebar={showSidebar}
+      />
       <div className="container py-4">
-        <div
-          className="overlay"
-          style={
-            sidebar
-              ? {
-                  background: "rgba(0, 0, 0, .5)",
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                }
-              : {}
-          }
-        ></div>
+        <div className="overlay" style={sidebar ? overlayStyles : {}}></div>
         <Outlet />
       </div>
     </div>

@@ -5,14 +5,14 @@
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   position: fixed;
   top: 0;
-  left: -100%;
-  transition: 850ms;
-  background-color: $bg-c1-light;
+  left: -250px;
+  transition: 450ms;
+  background-color: $bg-primary;
   z-index: 50;
 
   &.active {
     left: 0;
-    transition: 350ms;
+    transition: 450ms;
   }
 
   .sidebar__top {
@@ -24,23 +24,25 @@
       text-transform: uppercase;
       margin-left: 8px;
       margin-top: 2px;
-      @include text(1.3rem, $text-bold, $text-primary);
+      @include text(1.3rem, $text-bold, $text-c1-light);
     }
   }
 
   .sidebar__center {
+    i {
+      // float: right;
+    }
+
     a {
       width: 100%;
       padding: 0.8em;
       transition: all 0.3s ease-out;
       border-top-left-radius: 8px;
       border-bottom-left-radius: 8px;
-      color: $text-c1-gray;
+      color: #fff;
 
       &:hover {
         background-color: #ccc;
-        width: 105%;
-        border-radius: 8px;
       }
     }
   }

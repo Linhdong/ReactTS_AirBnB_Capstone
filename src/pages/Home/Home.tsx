@@ -29,7 +29,8 @@ export default function Home({}: Props) {
           <h2>Khám phá những điểm đến gần đây</h2>
           <div className="nearest-locations__content row">
             {arrLocations?.map((location) => {
-              return location.quocGia === "Việt Nam" ? (
+              return location.hinhAnh !== "" ||
+                location.tenViTri.length >= 10 ? (
                 <div className="col-6 col-md-4 col-lg-3" key={location.id}>
                   <HomeLocationItem location={location} />
                 </div>

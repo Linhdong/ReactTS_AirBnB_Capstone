@@ -2,19 +2,20 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { SideBarData } from "./SideBarData";
 
-const logo = require("../../assets/img/airbnb-logo.png");
+const logo = require("../../assets/img/airbnb-logo(white).png");
 
 type Props = {
   sidebar: boolean;
   setSidebar: React.Dispatch<React.SetStateAction<boolean>>;
+  showSidebar: () => void;
 };
 
-export default function SideBar({ sidebar, setSidebar }: Props) {
+export default function SideBar({ sidebar, setSidebar, showSidebar }: Props) {
   const activeLinkStyles = {
-    backgroundColor: "#e61d51",
-    color: "#fff",
+    backgroundColor: "#fff",
+    color: "#e61d51",
     fontWeight: "600",
-    boxShadow: "rgb(0 0 0 / 12%) 0px 6px 16px",
+    boxShadow: "rgb(0 0 0 / 10%) 0px 6px 16px",
   };
   return (
     <div className={sidebar ? "sidebar active" : "sidebar"}>
@@ -24,15 +25,19 @@ export default function SideBar({ sidebar, setSidebar }: Props) {
           <span>admin</span>
         </div>
         <button
-          className="btn--light"
+          className="btn text-light"
           onClick={() => setSidebar((prevSidebar) => !prevSidebar)}
         >
-          <i className="fa fa-angle-left"></i>
+          {sidebar ? (
+            <i className="fa fa-angle-left"></i>
+          ) : (
+            <i className="fa fa-angle-right"></i>
+          )}
         </button>
       </div>
       <div className="divider"></div>
       <div className="sidebar__center mt-3">
-        <ul>
+        <ul onClick={showSidebar}>
           {SideBarData.map((item, index) => (
             <li key={index}>
               <NavLink
