@@ -52,6 +52,17 @@ export const { setArrRooms, setRoom } = roomReducer.actions;
 export default roomReducer.reducer;
 
 // call api
+export const getAllRoomsApi = () => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const result = await http.get("/phong-thue");
+      dispatch(setArrRooms(result.data.content));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
 export const getArrRoomsApi = (locationId: undefined | string) => {
   return async (dispatch: AppDispatch) => {
     try {
@@ -66,7 +77,7 @@ export const getArrRoomsApi = (locationId: undefined | string) => {
   };
 };
 
-export const getRoomByIdApi = (roomId: undefined | string) => {
+export const getRoomByIdApi = (roomId: undefined | number | string) => {
   return async (dispatch: AppDispatch) => {
     try {
       const result = await http.get(`/phong-thue/${roomId}`);
