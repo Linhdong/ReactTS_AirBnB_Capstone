@@ -17,6 +17,7 @@ import UserManagement from "./pages/Admin/User/UserManagement";
 import LocationManagement from "./pages/Admin/LocationManagement/LocationManagement";
 import RoomManagement from "./pages/Admin/Room/RoomManagement";
 import BookingManagement from "./pages/Admin/BookingManagement/BookingManagement";
+import ModalAdmin from "./HOC/Admin/ModalAdmin";
 import UpdateInforUser from "./pages/Profile/UpdateInforUser";
 
 const Home = React.lazy(() => import("./pages/Home/Home"));
@@ -104,6 +105,7 @@ root.render(
         {/* admin template */}
         <Route>
           <Route path="admin" element={<AdminTemplate />}>
+            <Route path="" element={<ModalAdmin />}></Route>
             <Route path="users" element={<UserManagement />}></Route>
             <Route path="locations" element={<LocationManagement />}></Route>
             <Route path="rooms" element={<RoomManagement />}></Route>

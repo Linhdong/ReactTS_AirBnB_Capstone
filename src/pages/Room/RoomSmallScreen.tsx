@@ -10,7 +10,6 @@ import { AppDispatch, RootState } from "../../redux/configStore";
 import { getRoomByIdApi, Room } from "../../redux/reducers/roomReducer";
 import Comment from "../../components/Room/Comment/Comment";
 import CommentSlider from "../../components/Room/Comment/CommentSlider";
-import moment from "moment";
 import RoomBookingBox from "../../components/Room/BookingBox";
 
 type Props = {

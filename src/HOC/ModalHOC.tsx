@@ -2,9 +2,9 @@ import React, { ComponentElement } from "react";
 import { JsxElement } from "typescript";
 
 type Props = {
-  modalId: string;
-  title: string;
-  content: React.ReactNode;
+  modalId?: string;
+  title?: string;
+  content?: React.ReactNode;
 };
 
 export default function ModalHOC({ modalId, title, content }: Props) {
