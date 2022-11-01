@@ -1,8 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
+import FormViewDetailRoom from "../../components/Admin/FormViewDetailRoom";
 
-const initialState = {
-  isOpened: true,
-  // ChildrenComponent: () => <p>Default content</p>,
+interface ModalAdminState {
+  isOpened: boolean;
+  ChildrenComponent: React.ReactNode;
+  callbackSubmit: () => void;
+}
+
+const initialState: ModalAdminState = {
+  isOpened: false,
+  ChildrenComponent: <></>,
+  callbackSubmit: () => alert("submitted"),
 };
 
 const modalAdminReducer = createSlice({
@@ -15,11 +23,15 @@ const modalAdminReducer = createSlice({
     },
     hideModal: (state) => {
       state.isOpened = false;
-      console.log(state.isOpened);
+    },
+    openFormViewDetail: (state, action) => {
+      state.isOpened = true;
+      state.ChildrenComponent = action.payload;
     },
   },
 });
 
-export const { showModal, hideModal } = modalAdminReducer.actions;
+export const { showModal, hideModal, openFormViewDetail } =
+  modalAdminReducer.actions;
 
 export default modalAdminReducer.reducer;

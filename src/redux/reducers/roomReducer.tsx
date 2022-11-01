@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { http } from "../../util/setting";
 import { AppDispatch } from "../configStore";
-
 export interface Room {
   id: number;
   tenPhong: string;
@@ -26,7 +25,7 @@ export interface Room {
 
 type InititalState = {
   arrRooms: Room[];
-  room: Room;
+  room: Room ;
 };
 
 const initialState: InititalState = {
@@ -63,7 +62,7 @@ export const getAllRoomsApi = () => {
   };
 };
 
-export const getArrRoomsApi = (locationId: undefined | string) => {
+export const getRoomsByLocationId = (locationId: undefined | string) => {
   return async (dispatch: AppDispatch) => {
     try {
       const result = await http.get(

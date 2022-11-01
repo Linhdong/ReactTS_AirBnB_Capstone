@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   createColumnHelper,
   flexRender,
@@ -11,7 +11,9 @@ import {
 import { getAllRoomsApi, Room } from "../../../redux/reducers/roomReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/configStore";
-import { showModal } from "../../../redux/reducers/modalAdminReducer";
+import { openFormViewDetail } from "../../../redux/reducers/modalAdminReducer";
+import FormViewDetailRoom from "../../../components/Admin/FormViewDetailRoom";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const columnHelper = createColumnHelper<Room>();
 
@@ -27,7 +29,12 @@ const columns = [
   columnHelper.accessor("hinhAnh", {
     header: () => "Hình ảnh",
     cell: (info) => (
-      <img src={`${info.renderValue()}`} alt="..." style={{ width: "250px" }} />
+      <LazyLoadImage
+        src={`${info.renderValue()}`}
+        alt={info.row.original.tenPhong}
+        style={{ width: "250px" }}
+        effect="blur"
+      />
     ),
   }),
   columnHelper.accessor("moTa", {
@@ -75,7 +82,10 @@ export default function RoomManagement({}: Props) {
         Thêm phòng
         <i className="fa fa-plus ms-2"></i>
       </button>
-      <div className="admin__searchBar input-group mt-2">
+      <div
+        className="admin__searchBar input-group mt-2"
+        style={{ zIndex: "-1" }}
+      >
         <input
           type="text"
           className="form-control"
@@ -124,30 +134,43 @@ export default function RoomManagement({}: Props) {
           ))}
         </thead>
         <tbody>
-          {table.getRowModel().rows.map((row, index) => (
-            <tr key={index}>
-              {row.getVisibleCells().map((cell, index) => (
-                <>
-                  <td key={index}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                </>
-              ))}
-              <td>
-                <div className="d-flex gap-2">
-                  <button
-                    className="btn btn-outline-warning"
-                    onClick={() => showModal()}
-                  >
-                    <i className="fa fa-search-plus"></i>
-                  </button>
-                  <button className="btn btn-outline-danger">
-                    <i className="fa fa-trash"></i>
-                  </button>
-                </div>
-              </td>
-            </tr>
-          ))}
+          {table.getRowModel().rows.map((row) => {
+            return (
+              <tr key={row.id}>
+                {row.getVisibleCells().map((cell) => {
+                  return (
+                    <>
+                      <td key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </td>
+                    </>
+                  );
+                })}
+                <td>
+                  <div className="d-flex gap-2">
+                    <button
+                      className="btn btn-outline-warning"
+                      onClick={() =>
+                        dispatch(
+                          openFormViewDetail(
+                            <FormViewDetailRoom roomId={row.original.id} />
+                          )
+                        )
+                      }
+                    >
+                      <i className="fa fa-edit"></i>
+                    </button>
+                    <button className="btn btn-outline-danger">
+                      <i className="fa fa-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
       <div className="d-flex align-items-center justify-content-end gap-2">

@@ -1,30 +1,39 @@
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/configStore";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/configStore";
 import { hideModal, showModal } from "../../redux/reducers/modalAdminReducer";
+import { useFormikContext } from "formik";
 
 type Props = {};
 
 export default function ModalAdmin({}: Props) {
-  const { isOpened } = useSelector(
+  const { isOpened, ChildrenComponent, callbackSubmit } = useSelector(
     (state: RootState) => state.modalAdminReducer
   );
 
+  const dispatch: AppDispatch = useDispatch();
+
   return (
-    <>
-      <button onClick={showModal}>open</button>
-      <Modal show={isOpened}>
-        <Modal.Header>
-          <Modal.Title>Hi</Modal.Title>
-        </Modal.Header>
-        <Modal.Body></Modal.Body>
-        <Modal.Footer>
-          <button className="btn btn-secondary" onClick={hideModal}>
-            Close
-          </button>
-        </Modal.Footer>
-      </Modal>
-    </>
+    <Modal show={isOpened} size="lg" className="modal-dialog-scrollable">
+      <Modal.Header>
+        <Modal.Title>Hi</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>{ChildrenComponent}</Modal.Body>
+      <Modal.Footer>
+        <button
+          className="btn btn-secondary"
+          onClick={() => dispatch(hideModal())}
+        >
+          Close
+        </button>
+        <button
+          className="btn btn-success"
+          type="submit"
+        >
+          Submit
+        </button>
+      </Modal.Footer>
+    </Modal>
   );
 }

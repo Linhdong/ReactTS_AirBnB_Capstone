@@ -32,83 +32,85 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <Provider store={store}>
-    <HistoryRouter history={history}>
-      <Routes>
-        {/* home template */}
-        <Route path="" element={<HomeTemplate />}>
-          <Route
-            index
-            element={
-              <React.Suspense fallback={<Loading />}>
-                <Home />
-              </React.Suspense>
-            }
-          ></Route>
-          <Route
-            path="signin"
-            element={
-              <React.Suspense fallback={<Loading />}>
-                <SignIn />
-              </React.Suspense>
-            }
-          ></Route>
-          <Route
-            path="signup"
-            element={
-              <React.Suspense fallback={<Loading />}>
-                <SignUp />
-              </React.Suspense>
-            }
-          ></Route>
-          <Route
-            path="profile"
-            element={
-              <React.Suspense fallback={<Loading />}>
-                <Profile />
-              </React.Suspense>
-            }
-          ></Route>
-          <Route path="roomlist">
+  <>
+    <Provider store={store}>
+      <ModalAdmin />
+      <HistoryRouter history={history}>
+        <Routes>
+          {/* home template */}
+          <Route path="" element={<HomeTemplate />}>
             <Route
-              path=":locationId"
+              index
               element={
                 <React.Suspense fallback={<Loading />}>
-                  <RoomList />
+                  <Home />
+                </React.Suspense>
+              }
+            ></Route>
+            <Route
+              path="signin"
+              element={
+                <React.Suspense fallback={<Loading />}>
+                  <SignIn />
+                </React.Suspense>
+              }
+            ></Route>
+            <Route
+              path="signup"
+              element={
+                <React.Suspense fallback={<Loading />}>
+                  <SignUp />
+                </React.Suspense>
+              }
+            ></Route>
+            <Route
+              path="profile"
+              element={
+                <React.Suspense fallback={<Loading />}>
+                  <Profile />
+                </React.Suspense>
+              }
+            ></Route>
+            <Route path="roomlist">
+              <Route
+                path=":locationId"
+                element={
+                  <React.Suspense fallback={<Loading />}>
+                    <RoomList />
+                  </React.Suspense>
+                }
+              ></Route>
+            </Route>
+          </Route>
+          {/* home template */}
+
+          {/* room template */}
+          <Route path="roomdetail">
+            <Route
+              path=":roomId"
+              element={
+                <React.Suspense fallback={<Loading />}>
+                  <RoomTemplate />
                 </React.Suspense>
               }
             ></Route>
           </Route>
-        </Route>
-        {/* home template */}
+          {/* room template */}
 
-        {/* room template */}
-        <Route path="roomdetail">
-          <Route
-            path=":roomId"
-            element={
-              <React.Suspense fallback={<Loading />}>
-                <RoomTemplate />
-              </React.Suspense>
-            }
-          ></Route>
-        </Route>
-        {/* room template */}
-
-        {/* admin template */}
-        <Route>
-          <Route path="admin" element={<AdminTemplate />}>
-            <Route path="" element={<ModalAdmin />}></Route>
-            <Route path="users" element={<UserManagement />}></Route>
-            <Route path="locations" element={<LocationManagement />}></Route>
-            <Route path="rooms" element={<RoomManagement />}></Route>
-            <Route path="bookings" element={<BookingManagement />}></Route>
+          {/* admin template */}
+          <Route>
+            <Route path="admin" element={<AdminTemplate />}>
+              <Route path="users" element={<UserManagement />}></Route>
+              <Route path="locations" element={<LocationManagement />}></Route>
+              <Route path="rooms" element={<RoomManagement />}></Route>
+              <Route path="bookings" element={<BookingManagement />}></Route>
+            </Route>
           </Route>
-        </Route>
-        {/* admin template */}
+          {/* admin template */}
 
-        <Route path="*" element={<Navigate to="" />}></Route>
-      </Routes>
-    </HistoryRouter>
-  </Provider>
+          <Route path="*" element={<Navigate to="" />}></Route>
+        </Routes>
+      </HistoryRouter>
+    </Provider>
+  </>
 );
