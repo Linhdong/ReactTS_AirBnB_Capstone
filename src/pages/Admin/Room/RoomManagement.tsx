@@ -18,28 +18,28 @@ const columnHelper = createColumnHelper<Room>();
 const columns = [
   columnHelper.accessor("id", {
     header: () => "ID",
-    cell: (info) => info.renderValue(),
+    cell: (info:any) => info.renderValue(),
   }),
   columnHelper.accessor("tenPhong", {
     header: () => "Tên phòng",
-    cell: (info) => info.renderValue(),
+    cell: (info:any) => info.renderValue(),
   }),
   columnHelper.accessor("hinhAnh", {
     header: () => "Hình ảnh",
-    cell: (info) => (
+    cell: (info:any) => (
       <img src={`${info.renderValue()}`} alt="..." style={{ width: "250px" }} />
     ),
   }),
   columnHelper.accessor("moTa", {
     header: () => "Mô tả",
-    cell: (info) => {
+    cell: (info:any) => {
       const moTa = info.renderValue();
       return moTa?.slice(0, 100) + "...";
     },
   }),
   columnHelper.accessor("giaTien", {
     header: () => "Giá tiền",
-    cell: (info) => `$${info.renderValue()}`,
+    cell: (info:any) => `$${info.renderValue()}`,
   }),
 ];
 
@@ -92,9 +92,9 @@ export default function RoomManagement({}: Props) {
 
       <table className="table table-striped">
         <thead>
-          {table.getHeaderGroups().map((headerGroup) => (
+          {table.getHeaderGroups().map((headerGroup:any) => (
             <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
+              {headerGroup.headers.map((header:any) => {
                 return (
                   <th key={header.id} colSpan={header.colSpan}>
                     {header.isPlaceholder ? null : (
@@ -124,9 +124,9 @@ export default function RoomManagement({}: Props) {
           ))}
         </thead>
         <tbody>
-          {table.getRowModel().rows.map((row, index) => (
+          {table.getRowModel().rows.map((row:any, index:any) => (
             <tr key={index}>
-              {row.getVisibleCells().map((cell, index) => (
+              {row.getVisibleCells().map((cell:any, index:any) => (
                 <>
                   <td key={index}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}

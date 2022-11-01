@@ -4,17 +4,15 @@ import locationsReducer from "./reducers/locationsReducer";
 import modalAdminReducer from "./reducers/modalAdminReducer";
 import roomReducer from "./reducers/roomReducer";
 import positionReducer from "./reducers/positionReducer";
+import userReducer from "./reducers/userReducer";
 export const store = configureStore({
   reducer: {
     locationsReducer,
     roomReducer,
-<<<<<<< HEAD
     positionReducer,
-    commentReducer
-=======
     commentReducer,
     modalAdminReducer,
->>>>>>> main
+    userReducer
   },
 });
 
