@@ -5,9 +5,11 @@ import { AppDispatch, RootState } from "../../redux/configStore";
 import { hideModal, showModal } from "../../redux/reducers/modalAdminReducer";
 import { useFormikContext } from "formik";
 
-type Props = {};
+type Props = {
+  show: boolean
+};
 
-export default function ModalAdmin({}: Props) {
+export default function ModalAdmin({show}: Props) {
   const { isOpened, ChildrenComponent, callbackSubmit } = useSelector(
     (state: RootState) => state.modalAdminReducer
   );
@@ -27,10 +29,7 @@ export default function ModalAdmin({}: Props) {
         >
           Close
         </button>
-        <button
-          className="btn btn-success"
-          type="submit"
-        >
+        <button className="btn btn-success" type="submit">
           Submit
         </button>
       </Modal.Footer>

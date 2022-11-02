@@ -18,6 +18,8 @@ import LocationManagement from "./pages/Admin/LocationManagement/LocationManagem
 import RoomManagement from "./pages/Admin/Room/RoomManagement";
 import BookingManagement from "./pages/Admin/BookingManagement/BookingManagement";
 import ModalAdmin from "./HOC/Admin/ModalAdmin";
+import FormViewDetailRoom from "./components/Admin/FormViewDetailRoom";
+import AddRoom from "./pages/Admin/Room/AddRoom";
 
 const Home = React.lazy(() => import("./pages/Home/Home"));
 const SignIn = React.lazy(() => import("./pages/SignIn/SignIn"));
@@ -25,6 +27,10 @@ const SignUp = React.lazy(() => import("./pages/SignUp/SignUp"));
 const Profile = React.lazy(() => import("./pages/Profile/Profile"));
 const RoomList = React.lazy(() => import("./pages/RoomList/RoomList"));
 const RoomTemplate = React.lazy(() => import("./templates/RoomTemplate"));
+
+const RoomDetailEdit = React.lazy(
+  () => import("./pages/Admin/Room/RoomDetailEdit")
+);
 
 export const history = createBrowserHistory();
 
@@ -34,7 +40,6 @@ const root = ReactDOM.createRoot(
 root.render(
   <>
     <Provider store={store}>
-      <ModalAdmin />
       <HistoryRouter history={history}>
         <Routes>
           {/* home template */}
@@ -102,7 +107,18 @@ root.render(
             <Route path="admin" element={<AdminTemplate />}>
               <Route path="users" element={<UserManagement />}></Route>
               <Route path="locations" element={<LocationManagement />}></Route>
-              <Route path="rooms" element={<RoomManagement />}></Route>
+              <Route path="rooms">
+                <Route path="roomslist" element={<RoomManagement />}></Route>
+                <Route
+                  path=":roomId"
+                  element={
+                    <React.Suspense fallback={<Loading />}>
+                      <RoomDetailEdit />
+                    </React.Suspense>
+                  }
+                ></Route>
+                <Route path="addroom" element={<AddRoom />}></Route>
+              </Route>
               <Route path="bookings" element={<BookingManagement />}></Route>
             </Route>
           </Route>

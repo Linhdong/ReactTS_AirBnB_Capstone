@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
 import { Formik } from "formik";
+import { Room } from "../../redux/reducers/roomReducer";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/configStore";
-import { getRoomByIdApi, Room } from "../../redux/reducers/roomReducer";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import Loading from "../Loading/Loading";
+import { useEffect } from "react";
+import { getLocationByIdApi } from "../../redux/reducers/locationsReducer";
 
 interface Amenities {
   [key: string]: string | number | boolean;
@@ -57,28 +57,26 @@ const amenitiesNames: Amenities = {
 };
 
 type Props = {
-  roomId?: string | number;
+  room?: Room | any;
 };
 
-export default function FormViewDetailRoom({ roomId }: Props) {
-  const { room } = useSelector((state: RootState) => state.roomReducer);
+export default function FormViewDetailRoom({ room }: Props) {
+  const { location } = useSelector(
+    (state: RootState) => state.locationsReducer
+  );
 
-  console.log(room);
-
-  
-
-  const dispatch: AppDispatch = useDispatch();
-
-  const getAmenities = (values: Room) => {
+  const getAmenities = (values: any) => {
     for (const amenity of amenities) {
       amenity.value = values[amenity.key as keyof typeof room];
     }
     return [...amenities];
   };
 
+  const dispatch: AppDispatch = useDispatch();
+
   useEffect(() => {
-    dispatch(getRoomByIdApi(roomId));
-  }, [roomId]);
+    dispatch(getLocationByIdApi(room.maViTri));
+  }, [room.maViTri]);
 
   return (
     <Formik
@@ -103,7 +101,7 @@ export default function FormViewDetailRoom({ roomId }: Props) {
             </div>
             <div className="room-img">
               <LazyLoadImage
-                src={values && values?.hinhAnh}
+                src={values?.hinhAnh}
                 alt={values.tenPhong}
                 effect="blur"
               />
@@ -115,13 +113,13 @@ export default function FormViewDetailRoom({ roomId }: Props) {
             <div className="row mt-3 justify-content-between">
               <div className="col-6">
                 <div className="form-group mb-3">
-                  <label htmlFor="maViTri">Mã vị trí</label>
+                  <label htmlFor="tenViTri">Vị trí</label>
                   <input
                     type="text"
                     className="form-control w-75"
-                    value={values.maViTri}
-                    id="maViTri"
-                    name="maViTri"
+                    value={`${location.tenViTri} - ${location.tinhThanh}`}
+                    id="tenViTri"
+                    name="tenViTri"
                     disabled
                   />
                 </div>
@@ -254,9 +252,6 @@ export default function FormViewDetailRoom({ roomId }: Props) {
               </h4>
             </div>
           </div>
-          <button className="btn btn-primary" type="submit">
-            Submit
-          </button>
         </form>
       )}
     </Formik>

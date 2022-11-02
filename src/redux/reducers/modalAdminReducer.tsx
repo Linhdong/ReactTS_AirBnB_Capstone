@@ -9,7 +9,7 @@ interface ModalAdminState {
 
 const initialState: ModalAdminState = {
   isOpened: false,
-  ChildrenComponent: <></>,
+  ChildrenComponent: <p>default value</p>,
   callbackSubmit: () => alert("submitted"),
 };
 

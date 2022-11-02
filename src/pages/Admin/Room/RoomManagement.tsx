@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   createColumnHelper,
   flexRender,
@@ -11,9 +11,9 @@ import {
 import { getAllRoomsApi, Room } from "../../../redux/reducers/roomReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/configStore";
-import { openFormViewDetail } from "../../../redux/reducers/modalAdminReducer";
 import FormViewDetailRoom from "../../../components/Admin/FormViewDetailRoom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { Modal } from "react-bootstrap";
 
 const columnHelper = createColumnHelper<Room>();
 
@@ -53,7 +53,19 @@ const columns = [
 type Props = {};
 
 export default function RoomManagement({}: Props) {
-  const { arrRooms } = useSelector((state: RootState) => state.roomReducer);
+  const { arrRooms, room } = useSelector(
+    (state: RootState) => state.roomReducer
+  );
+
+  const { arrLocations } = useSelector(
+    (state: RootState) => state.locationsReducer
+  );
+
+  const [openModal, setOpenModal] = useState(false);
+
+  const selectedRoom = useRef<null | Room>(null);
+
+  console.log(room);
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
@@ -69,6 +81,15 @@ export default function RoomManagement({}: Props) {
     getSortedRowModel: getSortedRowModel(),
   });
 
+  const handleEdit = (room: Room) => {
+    setOpenModal(true);
+    selectedRoom.current = room;
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
@@ -78,14 +99,7 @@ export default function RoomManagement({}: Props) {
   return (
     <div className="admin-room">
       <h3>Quản lý thông tin phòng</h3>
-      <button id="btnAddRoom" className="btn btn-outline-secondary my-2">
-        Thêm phòng
-        <i className="fa fa-plus ms-2"></i>
-      </button>
-      <div
-        className="admin__searchBar input-group mt-2"
-        style={{ zIndex: "-1" }}
-      >
+      <div className="admin__searchBar input-group mt-2">
         <input
           type="text"
           className="form-control"
@@ -153,13 +167,7 @@ export default function RoomManagement({}: Props) {
                   <div className="d-flex gap-2">
                     <button
                       className="btn btn-outline-warning"
-                      onClick={() =>
-                        dispatch(
-                          openFormViewDetail(
-                            <FormViewDetailRoom roomId={row.original.id} />
-                          )
-                        )
-                      }
+                      onClick={() => handleEdit({ ...row.original })}
                     >
                       <i className="fa fa-edit"></i>
                     </button>
@@ -236,6 +244,28 @@ export default function RoomManagement({}: Props) {
           ))}
         </select>
       </div>
+
+      <Modal show={openModal} size="lg" className="modal-dialog-scrollable">
+        <Modal.Header>
+          <Modal.Title>
+            {selectedRoom.current ? "Cập nhật" : "Thêm phòng mới"}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <FormViewDetailRoom room={selectedRoom.current} />
+        </Modal.Body>
+        <Modal.Footer>
+          <button
+            className="btn btn-secondary"
+            onClick={() => handleCloseModal()}
+          >
+            Close
+          </button>
+          <button className="btn btn-success" type="submit">
+            Submit
+          </button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

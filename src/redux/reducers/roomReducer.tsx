@@ -25,7 +25,7 @@ export interface Room {
 
 type InititalState = {
   arrRooms: Room[];
-  room: Room ;
+  room: Room;
 };
 
 const initialState: InititalState = {
@@ -43,10 +43,16 @@ const roomReducer = createSlice({
     setRoom: (state: InititalState, action: PayloadAction<Room>) => {
       state.room = action.payload;
     },
+    setRoomById: (state: InititalState, action: PayloadAction<number>) => {
+      const index = state.arrRooms.findIndex(
+        (room) => room.id === action.payload
+      );
+      state.room = state.arrRooms[index];
+    },
   },
 });
 
-export const { setArrRooms, setRoom } = roomReducer.actions;
+export const { setArrRooms, setRoom, setRoomById } = roomReducer.actions;
 
 export default roomReducer.reducer;
 
