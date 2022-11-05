@@ -3,13 +3,14 @@ import React from "react";
 type Props = {
   postsPerPage: number;
   setCurrentPage: (value: number) => void;
+  totalRow:number
 };
 
-export default function Pagination({ postsPerPage, setCurrentPage }: Props) {
-  let totalPosts = 83;
+export default function Pagination({ postsPerPage, setCurrentPage, totalRow }: Props) {
+  // let totalPosts = 83;
   let pages:number[] = [];
   let currentPage = 1;
-  for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
+  for (let i = 1; i <= Math.ceil(totalRow / postsPerPage); i++) {
     pages.push(i);
   }
   return (

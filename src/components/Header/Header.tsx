@@ -79,7 +79,7 @@ export default function Header({}: Props) {
               onClick={showDropdown}
             >
               <NavLink to="/signin" className="dropdown__item">
-                Log in
+                Sign in
               </NavLink>
               <NavLink to="/signup" className="dropdown__item">
                 Sign up

@@ -5,6 +5,7 @@ import modalAdminReducer from "./reducers/modalAdminReducer";
 import roomReducer from "./reducers/roomReducer";
 import positionReducer from "./reducers/positionReducer";
 import userReducer from "./reducers/userReducer";
+import signInReducer from "./reducers/signInReducer";
 export const store = configureStore({
   reducer: {
     locationsReducer,
@@ -12,7 +13,8 @@ export const store = configureStore({
     positionReducer,
     commentReducer,
     modalAdminReducer,
-    userReducer
+    userReducer, 
+    signInReducer
   },
 });
 
