@@ -4,7 +4,7 @@ import data from "./../Profile/data";
 import SearchMap from "./SearchMap";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/configStore";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams, NavLink  } from "react-router-dom";
 import { getIdRoomApi } from "../../redux/reducers/positionReducer";
 
 
@@ -118,7 +118,9 @@ export default function RoomList({}: Props) {
                             <h5 className="name-room mt-2 me-3 lh-sm">
                               {item.tenPhong}
                             </h5>
+                            <NavLink to={`/roomdetail/${item.id}`}>
                             <i className="far fa-heart icon"></i>
+                            </NavLink>
                           </div>
                           <div className="card-body">
                             <div className="top-line" />

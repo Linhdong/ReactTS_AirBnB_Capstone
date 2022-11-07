@@ -1,17 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { http } from "../../util/setting";
 import { signInApi } from "../../redux/reducers/signInReducer";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "./../../redux/configStore"
+import { useDispatch, useSelector } from "react-redux";
+import {getStore} from "./../../util/setting"
+import { AppDispatch, RootState } from "./../../redux/configStore";
+
 
 type Props = {};
 
 export default function SignIn({}: Props) {
+  const { userLogin } = useSelector((state: RootState) => state.signInReducer);
   const navigate = useNavigate();
+  const [page, setPage] = useState(getStore("userLogin"));
   const dispatch:AppDispatch = useDispatch()
   const formik = useFormik<{
     email: string;
@@ -22,7 +25,7 @@ export default function SignIn({}: Props) {
       password: "",
     },
     onSubmit: async (values) => {
-      console.log(values);
+      
       const action = signInApi(values);
       dispatch(action)
     },
@@ -36,6 +39,14 @@ export default function SignIn({}: Props) {
     }),
   });
 
+  useEffect(() => {
+    if (userLogin) {
+      navigate("/")
+    } else {
+      navigate("/signin");
+    }
+  }, [userLogin]);
+  
   return (
     <div className="container">
       <div className="row">
@@ -56,13 +67,13 @@ export default function SignIn({}: Props) {
                     placeholder="name@example.com"
                     onChange={formik.handleChange}
                   />
-                  {/* {formik.errors.email ? (
+                  {formik.errors.email ? (
                     <p className="text-danger mt-1">
                       {formik.errors.email}
                     </p>
                   ) : (
                     ""
-                  )} */}
+                  )}
                 </div>
                 <div className="form-group mb-3">
                   <label className="my-1">Password</label>
@@ -73,13 +84,13 @@ export default function SignIn({}: Props) {
                     placeholder="password"
                     onChange={formik.handleChange}
                   />
-                  {/* {formik.errors.password ? (
+                  {formik.errors.password ? (
                     <p className="text-danger mt-1">
                       {formik.errors.password}
                     </p>
                   ) : (
                     ""
-                  )} */}
+                  )}
                 </div>
                 <div className="d-grid">
                   <button className="  btn-login  fw-bold" type="submit">
