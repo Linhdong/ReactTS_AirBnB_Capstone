@@ -11,9 +11,13 @@ import {
 import { getAllRoomsApi, Room } from "../../../redux/reducers/roomReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/configStore";
-import FormViewDetailRoom from "../../../components/Admin/FormViewDetailRoom";
+import FormViewDetailRoom from "./RoomEditForm";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Modal } from "react-bootstrap";
+import { useFormikContext } from "formik";
+import RoomAddNewForm from "./RoomAddNewForm";
+import RoomEditForm from "./RoomEditForm";
+import { getLocationsApi } from "../../../redux/reducers/locationsReducer";
 
 const columnHelper = createColumnHelper<Room>();
 
@@ -57,17 +61,13 @@ export default function RoomManagement({}: Props) {
     (state: RootState) => state.roomReducer
   );
 
-  const { arrLocations } = useSelector(
-    (state: RootState) => state.locationsReducer
-  );
-
   const [openModal, setOpenModal] = useState(false);
 
+  const [isAddNew, setIsAddNew] = useState(false);
+
+  const [sorting, setSorting] = useState<SortingState>([]);
+
   const selectedRoom = useRef<null | Room>(null);
-
-  console.log(room);
-
-  const [sorting, setSorting] = React.useState<SortingState>([]);
 
   const table = useReactTable({
     data: arrRooms,
@@ -83,7 +83,13 @@ export default function RoomManagement({}: Props) {
 
   const handleEdit = (room: Room) => {
     setOpenModal(true);
+    setIsAddNew(false);
     selectedRoom.current = room;
+  };
+
+  const onClickAddNew = () => {
+    setOpenModal(true);
+    setIsAddNew(true);
   };
 
   const handleCloseModal = () => {
@@ -99,6 +105,10 @@ export default function RoomManagement({}: Props) {
   return (
     <div className="admin-room">
       <h3>Quản lý thông tin phòng</h3>
+      <button className="btn btn-outline-secondary" onClick={onClickAddNew}>
+        <i className="fa fa-plus me-2"></i>
+        Thêm phòng
+      </button>
       <div className="admin__searchBar input-group mt-2">
         <input
           type="text"
@@ -252,19 +262,15 @@ export default function RoomManagement({}: Props) {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <FormViewDetailRoom room={selectedRoom.current} />
+          {isAddNew ? (
+            <RoomAddNewForm handleCloseModal={handleCloseModal} />
+          ) : (
+            <RoomEditForm
+              room={selectedRoom.current}
+              handleCloseModal={handleCloseModal}
+            />
+          )}
         </Modal.Body>
-        <Modal.Footer>
-          <button
-            className="btn btn-secondary"
-            onClick={() => handleCloseModal()}
-          >
-            Close
-          </button>
-          <button className="btn btn-success" type="submit">
-            Submit
-          </button>
-        </Modal.Footer>
       </Modal>
     </div>
   );

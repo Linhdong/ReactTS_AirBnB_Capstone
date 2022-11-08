@@ -26,11 +26,13 @@ export interface Room {
 type InititalState = {
   arrRooms: Room[];
   room: Room;
+  arrRoomId: number[];
 };
 
 const initialState: InititalState = {
   arrRooms: [],
   room: {} as Room,
+  arrRoomId: [],
 };
 
 const roomReducer = createSlice({
@@ -43,16 +45,10 @@ const roomReducer = createSlice({
     setRoom: (state: InititalState, action: PayloadAction<Room>) => {
       state.room = action.payload;
     },
-    setRoomById: (state: InititalState, action: PayloadAction<number>) => {
-      const index = state.arrRooms.findIndex(
-        (room) => room.id === action.payload
-      );
-      state.room = state.arrRooms[index];
-    },
   },
 });
 
-export const { setArrRooms, setRoom, setRoomById } = roomReducer.actions;
+export const { setArrRooms, setRoom } = roomReducer.actions;
 
 export default roomReducer.reducer;
 
@@ -92,3 +88,11 @@ export const getRoomByIdApi = (roomId: undefined | number | string) => {
     }
   };
 };
+
+// export const editRoom = (roomId: undefined | number | string) => {
+//   return async (dispatch: AppDispatch) => {
+//     try {
+//       const result = await http.put()
+//     }
+//   }
+// }

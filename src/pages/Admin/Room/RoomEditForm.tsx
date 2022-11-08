@@ -1,10 +1,20 @@
 import { Formik } from "formik";
-import { Room } from "../../redux/reducers/roomReducer";
+import { Room } from "../../../redux/reducers/roomReducer";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../redux/configStore";
-import { useEffect } from "react";
-import { getLocationByIdApi } from "../../redux/reducers/locationsReducer";
+import { AppDispatch, RootState } from "../../../redux/configStore";
+import {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import {
+  getLocationByIdApi,
+  getLocationsApi,
+} from "../../../redux/reducers/locationsReducer";
 
 interface Amenities {
   [key: string]: string | number | boolean;
@@ -58,12 +68,26 @@ const amenitiesNames: Amenities = {
 
 type Props = {
   room?: Room | any;
+  handleCloseModal: () => void;
 };
 
-export default function FormViewDetailRoom({ room }: Props) {
-  const { location } = useSelector(
+export default function RoomEditForm({ room, handleCloseModal }: Props) {
+  const { arrLocations } = useSelector(
     (state: RootState) => state.locationsReducer
   );
+
+  const getLocationName = () => {
+    let result = "";
+    for (let location of arrLocations) {
+      if (location.tenViTri !== "" && room.maViTri !== "") {
+        let index = arrLocations.findIndex(
+          (viTri) => viTri.id === room.maViTri
+        );
+        result = arrLocations[index].tenViTri;
+      }
+    }
+    return result;
+  };
 
   const getAmenities = (values: any) => {
     for (const amenity of amenities) {
@@ -75,8 +99,8 @@ export default function FormViewDetailRoom({ room }: Props) {
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getLocationByIdApi(room.maViTri));
-  }, [room.maViTri]);
+    dispatch(getLocationsApi());
+  }, []);
 
   return (
     <Formik
@@ -101,7 +125,7 @@ export default function FormViewDetailRoom({ room }: Props) {
             </div>
             <div className="room-img">
               <LazyLoadImage
-                src={values?.hinhAnh}
+                src={values.hinhAnh}
                 alt={values.tenPhong}
                 effect="blur"
               />
@@ -117,7 +141,6 @@ export default function FormViewDetailRoom({ room }: Props) {
                   <input
                     type="text"
                     className="form-control w-75"
-                    value={`${location.tenViTri} - ${location.tinhThanh}`}
                     id="tenViTri"
                     name="tenViTri"
                     disabled
@@ -137,10 +160,10 @@ export default function FormViewDetailRoom({ room }: Props) {
                 <div className="form-group mb-3">
                   <label htmlFor="giaTien">Giá tiền</label>
                   <input
-                    type="text"
+                    type="number"
                     className="form-control w-75"
                     placeholder="Đơn vị: USD"
-                    value={`$${values.giaTien}`}
+                    value={room.giaTien}
                     id="giaTien"
                     name="giaTien"
                     onChange={handleChange}
@@ -251,6 +274,15 @@ export default function FormViewDetailRoom({ room }: Props) {
                 ></textarea>
               </h4>
             </div>
+          </div>
+          <hr />
+          <div className="form-btns d-flex justify-content-end gap-2">
+            <button className="btn btn-secondary" onClick={handleCloseModal}>
+              Close
+            </button>
+            <button className="btn btn-success" type="submit">
+              Submit
+            </button>
           </div>
         </form>
       )}

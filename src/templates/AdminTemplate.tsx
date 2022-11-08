@@ -3,7 +3,7 @@ import "antd/dist/antd.css";
 import { UserOutlined, CompassOutlined, HomeOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Layout, Menu, Breadcrumb } from "antd";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 
 const logo = require("../assets/img/airbnb-logo(white).png");
 
@@ -31,7 +31,6 @@ const items = [
   getItem("Quản lý thông tin phòng", "/", <HomeOutlined />, [
     getItem("Danh sách phòng", "/admin/rooms/roomslist"),
     getItem("Thêm phòng mới", "/admin/rooms/addroom"),
-    // getItem("Chi tiết phòng", "/admin/rooms/"),
   ]),
 ];
 
@@ -39,6 +38,8 @@ type Props = {};
 
 export default function AdminTemplate({}: Props) {
   const [collapsed, setCollapsed] = useState(false);
+
+  const location = useLocation();
 
   const navigate = useNavigate();
 
@@ -58,12 +59,10 @@ export default function AdminTemplate({}: Props) {
         </div>
         <Menu
           theme="dark"
-          // defaultSelectedKeys={["/admin/users"]}
           mode="inline"
           items={items}
-          onClick={({ key }) => {
-            navigate(key);
-          }}
+          onClick={({ key }) => navigate(key)}
+          selectedKeys={[location.pathname]}
         ></Menu>
       </Sider>
       <Layout className="site-layout">
