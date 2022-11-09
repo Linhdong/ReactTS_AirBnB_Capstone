@@ -63,6 +63,7 @@ export const {
   clearLocalStorage,
 } = configs;
 
+const TOKEN_ADMIN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE0MDMiLCJlbWFpbCI6ImtoYWluZ3V5ZW5AZ21haWwuY29tIiwicm9sZSI6IkFETUlOIiwibmJmIjoxNjY3ODMwMzE0LCJleHAiOjE2Njg0MzUxMTR9.blX-8J3tgpWSiZnASnA1BCWB1CW1hTRrcYUEita2JqE"
 const TOKEN_CYBERSOFT =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAyOCIsIkhldEhhblN0cmluZyI6IjI1LzAyLzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY3NzI4MzIwMDAwMCIsIm5iZiI6MTY0Nzk2ODQwMCwiZXhwIjoxNjc3NDMwODAwfQ.wEdmkKpVZbDB4s4L_cmLwJ1O8le8Cc-VMgLZCI-HvLA";
 
@@ -80,7 +81,7 @@ http.interceptors.request.use(
     //Cấu hình tất cả header add thêm thuộc tính Authorization
     configs.headers = {
       ...configs.headers,
-      ["Authorization"]: `Bearer ${getStore(ACCESS_TOKEN)}`,
+      ["token"]: TOKEN_ADMIN,
       ["TokenCybersoft"]: TOKEN_CYBERSOFT,
     };
 
