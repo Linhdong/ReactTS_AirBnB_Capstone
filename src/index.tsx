@@ -17,7 +17,6 @@ import UserManagement from "./pages/Admin/User/UserManagement";
 import LocationManagement from "./pages/Admin/LocationManagement/LocationManagement";
 import RoomManagement from "./pages/Admin/Room/RoomManagement";
 import BookingManagement from "./pages/Admin/BookingManagement/BookingManagement";
-import FormViewDetailRoom from "./pages/Admin/Room/RoomEditForm";
 
 const Home = React.lazy(() => import("./pages/Home/Home"));
 const SignIn = React.lazy(() => import("./pages/SignIn/SignIn"));

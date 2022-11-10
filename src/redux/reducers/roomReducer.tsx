@@ -89,10 +89,49 @@ export const getRoomByIdApi = (roomId: undefined | number | string) => {
   };
 };
 
-// export const editRoom = (roomId: undefined | number | string) => {
-//   return async (dispatch: AppDispatch) => {
-//     try {
-//       const result = await http.put()
-//     }
-//   }
-// }
+export const addRoomApi = (room: Room) => {
+  return async () => {
+    try {
+      const result = await http.post("/phong-thue", room);
+      console.log(result.data.content);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const deleteRoomApi = (roomId: number) => {
+  return async () => {
+    try {
+      const result = await http.delete(`/phong-thue/${roomId}`);
+      console.log(result.data.content);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const editRoomApi = (room: Room) => {
+  return async () => {
+    try {
+      const result = await http.put(`/phong-thue/${room.id}`, room);
+      console.log(result.data.content);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const uploadRoomImgApi = (roomId: number, imgFile: string | Blob) => {
+  return async () => {
+    try {
+      const result = await http.post(
+        `/phong-thue/upload-hinh-phong?maPhong=${roomId}`,
+        imgFile
+      );
+      console.log(result.data.content);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};

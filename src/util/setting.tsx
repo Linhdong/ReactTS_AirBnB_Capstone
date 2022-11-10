@@ -110,7 +110,7 @@ http.interceptors.response.use(
   },
   (err) => {
     // const originalRequest = error.config;
-    console.log(err.response.status);
+    console.log(err.response?.status);
     if (err.response.status === 400 || err.response.status === 404) {
       history.push("/");
       return Promise.reject(err);
