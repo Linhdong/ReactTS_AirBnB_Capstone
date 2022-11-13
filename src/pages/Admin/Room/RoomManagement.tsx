@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import {
   deleteRoomApi,
-  getAllRoomsApi,
   Room,
+  searchRoomApi,
 } from "../../../redux/reducers/roomReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/configStore";
@@ -15,6 +15,37 @@ import {
 import SortButton from "../../../components/SortButton/SortButton";
 import _ from "lodash";
 import RoomAdminForm from "./RoomAdminForm";
+import TablePagination from "../../../components/TablePagination/TablePagination";
+
+let timeout: ReturnType<typeof setTimeout>;
+
+// table header
+const tableHeaders: { key: keyof Room; label: string }[] = [
+  {
+    key: "id",
+    label: "Mã phòng",
+  },
+  {
+    key: "tenPhong",
+    label: "Tên phòng",
+  },
+  {
+    key: "hinhAnh",
+    label: "Hình ảnh",
+  },
+  {
+    key: "maViTri",
+    label: "Vị trí",
+  },
+  {
+    key: "moTa",
+    label: "Mô tả",
+  },
+  {
+    key: "giaTien",
+    label: "Giá tiền",
+  },
+];
 
 // type for sort table
 export type SortKeys = keyof Room;
@@ -25,7 +56,7 @@ export type SortOrder = "asc" | "desc" | null;
 type Props = {};
 
 export default function RoomManagement({}: Props) {
-  const { arrRooms, room } = useSelector(
+  const { arrRooms, totalRow } = useSelector(
     (state: RootState) => state.roomReducer
   );
 
@@ -33,10 +64,18 @@ export default function RoomManagement({}: Props) {
     (state: RootState) => state.locationsReducer
   );
 
-  const [openModal, setOpenModal] = useState(false);
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
   const selectedRoom = useRef<null | Room>(null);
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const keyword = useRef("");
+
+  const handleSearchTermChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
+
+  // render room location based on room.maViTri
   const renderRoomLocation = (maViTri: number) => {
     if (arrLocations.length > 0) {
       let index = arrLocations?.findIndex(
@@ -54,28 +93,19 @@ export default function RoomManagement({}: Props) {
   };
 
   // ------------------ table pagination --------------
-  const [paginatedRooms, setPaginatedRooms] = useState([] as Room[]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
-  const [currentPage, setCurrentPage] = useState(1);
+  const pageIndex = useRef<string>("1");
 
   const pageSize = 10;
-  const pageCount = arrRooms ? Math.ceil(arrRooms.length / pageSize) : 0;
 
   const handlePagination = (page: number) => {
     setCurrentPage(page);
-    const startIndex = (page - 1) * pageSize;
-    const paginatedRooms = _(arrRooms).slice(startIndex).take(pageSize).value();
-    setPaginatedRooms([...paginatedRooms]);
-  };
-
-  const setPaginatedAction = () => {
-    if (arrRooms.length > 0) {
-      setPaginatedRooms(_(arrRooms).slice(0).take(pageSize).value());
-    }
+    pageIndex.current = page.toString();
   };
   // -------------------------------------
 
-  // ----------------- sort table function ------------------------
+  // --------------- sort table function ------------------
   const [sortKey, setSortKey] = useState<SortKeys>("id");
 
   const [sortOrder, setSortOrder] = useState<SortOrder>(null);
@@ -89,10 +119,14 @@ export default function RoomManagement({}: Props) {
     sortKey: SortKeys;
     reverse: boolean;
   }) => {
-    if (paginatedRooms.length > 0) {
+    if (arrRooms.length > 0) {
       if (!sortKey || !sortOrder) return tableData;
 
-      const sortedData = [...paginatedRooms].sort((a, b) => {
+      const sortedData = [...arrRooms].sort((a, b) => {
+        if (sortKey === "tenPhong" || sortKey === "moTa") {
+          return a[sortKey].toLowerCase() > b[sortKey].toLowerCase() ? 1 : -1;
+        }
+
         return a[sortKey] > b[sortKey] ? 1 : -1;
       });
 
@@ -107,30 +141,38 @@ export default function RoomManagement({}: Props) {
   const sortedData = useCallback(
     () =>
       handleSort({
-        tableData: paginatedRooms,
+        tableData: arrRooms,
         sortKey,
         reverse: sortOrder === "desc",
       }),
-    [paginatedRooms, sortKey, sortOrder]
+    [arrRooms, sortKey, sortOrder]
   );
 
   const changeSort = (key: SortKeys) => {
-    if (!sortOrder) {
+    if (sortKey !== key && sortOrder) {
       setSortOrder("asc");
-    }
-    if (sortOrder) {
-      setSortOrder(sortOrder === "asc" ? "desc" : null);
+      setSortKey(key);
+    } else {
+      if (!sortOrder) {
+        setSortOrder("asc");
+      }
+
+      if (sortOrder) {
+        setSortOrder(sortOrder === "asc" ? "desc" : null);
+      }
     }
     setSortKey(key);
   };
   // ------------------------------------
 
-  const handleEdit = (room: Room) => {
+  // onClick edit button
+  const handleClickEdit = (room: Room) => {
     setOpenModal(true);
     selectedRoom.current = room;
   };
 
-  const onClickAddNew = () => {
+  // onClick add button
+  const handleClickAdd = () => {
     setOpenModal(true);
     selectedRoom.current = null;
   };
@@ -155,97 +197,78 @@ export default function RoomManagement({}: Props) {
   };
 
   useEffect(() => {
-    dispatch(getAllRoomsApi());
-    dispatch(getLocationsApi());
+    dispatch(searchRoomApi(pageIndex.current, pageSize.toString(), searchTerm));
+    console.log("on mounted");
   }, []);
 
   useEffect(() => {
-    setPaginatedAction();
-  }, [arrRooms.length]);
+    timeout = setTimeout(() => {
+      if (searchTerm.length > 0) {
+        dispatch(
+          searchRoomApi(pageIndex.current, pageSize.toString(), searchTerm)
+        );
+        console.log("on search");
+      }
+    }, 1000);
+    return () => {
+      if (timeout) {
+        clearTimeout(timeout);
+        console.log("unmouting");
+      }
+    };
+  }, [pageIndex.current, pageSize, searchTerm]);
 
-  if (pageCount === 1) return null;
-  const pages = _.range(1, pageCount + 1);
+  useEffect(() => {
+    dispatch(getLocationsApi());
+  }, []);
 
   return (
     <div className="admin-room">
       <h3>Quản lý thông tin phòng</h3>
-      <button className="btn btn-outline-secondary" onClick={onClickAddNew}>
+      <button className="btn btn-outline-secondary" onClick={handleClickAdd}>
         <i className="fa fa-plus me-2"></i>
         Thêm phòng
       </button>
-      <div className="admin__searchBar input-group mt-2">
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Start your search"
-          aria-label="Start your search"
-          aria-describedby="basic-addon2"
-        />
-        <div className="input-group-append">
-          <button className="btn btn-outline-secondary" type="button">
-            <i className="fa fa-search"></i>
-          </button>
+      <form>
+        <div className="admin__searchBar input-group mt-2">
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={handleSearchTermChange}
+            className="form-control"
+            placeholder="Start your search"
+            aria-label="Start your search"
+            aria-describedby="basic-addon2"
+          />
+          <div className="input-group-append">
+            <button className="btn btn-outline-secondary" type="button">
+              <i className="fa fa-search"></i>
+            </button>
+          </div>
         </div>
-      </div>
+      </form>
 
       <table className="table table-striped">
         <thead>
           <tr>
-            <th onClick={() => changeSort("id")}>
-              <div className="d-flex">
-                <span>Mã phòng</span>
-                <SortButton
-                  colKey="id"
-                  {...{
-                    sortKey,
-                    sortOrder,
-                  }}
-                />
-              </div>
-            </th>
-            <th onClick={() => changeSort("tenPhong")}>
-              <div className="d-flex">
-                <span>Tên phòng</span>
-                <SortButton
-                  colKey="tenPhong"
-                  {...{
-                    sortKey,
-                    sortOrder,
-                  }}
-                />
-              </div>
-            </th>
-            <th>Hình ảnh</th>
-            <th onClick={() => changeSort("maViTri")}>
-              <div className="d-flex">
-                <span>Vị trí</span>
-                <SortButton
-                  colKey="maViTri"
-                  {...{
-                    sortKey,
-                    sortOrder,
-                  }}
-                />
-              </div>
-            </th>
-            <th>Mô tả</th>
-            <th onClick={() => changeSort("giaTien")}>
-              <div className="d-flex">
-                <span>Giá tiền</span>
-                <SortButton
-                  colKey="giaTien"
-                  {...{
-                    sortKey,
-                    sortOrder,
-                  }}
-                />
-              </div>
-            </th>
-            <th></th>
+            {tableHeaders.map((header) => (
+              <th onClick={() => changeSort(header.key)}>
+                <div className="d-flex align-items-center justify-content-between">
+                  <span>{header.label}</span>
+                  <SortButton
+                    colKey={header.key}
+                    {...{
+                      sortKey,
+                      sortOrder,
+                    }}
+                  />
+                </div>
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
-          {paginatedRooms.length > 0 &&
+          {arrRooms.length > 0 &&
             sortedData()?.map((room) => (
               <tr key={room.id}>
                 <td>{room.id}</td>
@@ -273,7 +296,7 @@ export default function RoomManagement({}: Props) {
                       <button
                         className="btn btn-outline-warning"
                         onClick={() => {
-                          handleEdit(room);
+                          handleClickEdit(room);
                         }}
                       >
                         <i className="fa fa-edit"></i>
@@ -294,67 +317,14 @@ export default function RoomManagement({}: Props) {
         </tbody>
       </table>
       {/* table pagination */}
-      <nav className="d-flex justify-content-end">
-        <ul className="pagination">
-          <li className="page-item">
-            <button
-              className={currentPage - 1 <= 0 ? "d-none" : "page-link"}
-              onClick={() => handlePagination(1)}
-            >
-              {"<<"}
-            </button>
-          </li>
-          <li className="page-item">
-            <button
-              className={currentPage - 1 <= 0 ? "d-none" : "page-link"}
-              onClick={() =>
-                handlePagination(
-                  currentPage - 1 <= 0 ? currentPage : currentPage - 1
-                )
-              }
-            >
-              {"<"}
-            </button>
-          </li>
-          {pages.map((page) => (
-            <li
-              className={
-                page === currentPage ? "page-item active" : "page-item"
-              }
-              key={page}
-              style={{ cursor: "pointer" }}
-              onClick={() => handlePagination(page)}
-            >
-              <button className="page-link">{page}</button>
-            </li>
-          ))}
-          <li className="page-item">
-            <button
-              className={
-                pages.length - currentPage <= 0 ? "d-none" : "page-link"
-              }
-              onClick={() =>
-                handlePagination(
-                  currentPage + 1 > pageCount ? currentPage : currentPage + 1
-                )
-              }
-            >
-              {">"}
-            </button>
-          </li>
-          <li className="page-item">
-            <button
-              className={
-                pages.length - currentPage <= 0 ? "d-none" : "page-link"
-              }
-              onClick={() => handlePagination(pages.slice(-1)[0])}
-            >
-              {">>"}
-            </button>
-          </li>
-        </ul>
-      </nav>
+      <TablePagination
+        totalRow={totalRow}
+        pageSize={pageSize}
+        currentPage={currentPage}
+        handlePagination={handlePagination}
+      />
 
+      {/* modal */}
       <Modal show={openModal} size="lg" className="modal-dialog-scrollable">
         <Modal.Header>
           <Modal.Title>

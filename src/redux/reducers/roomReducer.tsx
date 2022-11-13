@@ -27,12 +27,14 @@ type InititalState = {
   arrRooms: Room[];
   room: Room;
   arrRoomId: number[];
+  totalRow: number;
 };
 
 const initialState: InititalState = {
   arrRooms: [],
   room: {} as Room,
   arrRoomId: [],
+  totalRow: 0,
 };
 
 const roomReducer = createSlice({
@@ -45,10 +47,13 @@ const roomReducer = createSlice({
     setRoom: (state: InititalState, action: PayloadAction<Room>) => {
       state.room = action.payload;
     },
+    setTotalRow: (state: InititalState, action: PayloadAction<number>) => {
+      state.totalRow = action.payload;
+    },
   },
 });
 
-export const { setArrRooms, setRoom } = roomReducer.actions;
+export const { setArrRooms, setRoom, setTotalRow } = roomReducer.actions;
 
 export default roomReducer.reducer;
 
@@ -130,6 +135,25 @@ export const uploadRoomImgApi = (roomId: number, imgFile: string | Blob) => {
         imgFile
       );
       console.log(result.data.content);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const searchRoomApi = (
+  pageIndex: string,
+  pageSize: string,
+  keyword: string | null
+) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const result = await http.get(
+        `/phong-thue/phan-trang-tim-kiem?pageIndex=${pageIndex}&pageSize=${pageSize}&keyword=${keyword}`
+      );
+      console.log(result.data.content.data);
+      dispatch(setArrRooms(result.data.content.data));
+      dispatch(setTotalRow(result.data.content.totalRow));
     } catch (err) {
       console.log(err);
     }
