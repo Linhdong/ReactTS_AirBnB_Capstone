@@ -3,7 +3,8 @@ import ReactDOM from "react-dom/client";
 import "./assets/scss/style.scss";
 import { Provider } from "react-redux";
 import { store } from "./redux/configStore";
-import { createBrowserHistory } from "history";
+import { createBrowserHistory, History } from "history";
+import type { BrowserHistory, HashHistory, MemoryHistory } from "history";
 import {
   unstable_HistoryRouter as HistoryRouter,
   Routes,
@@ -69,22 +70,15 @@ root.render(
               </React.Suspense>
             }
           ></Route>
-          <Route
-            path="roomlist"
-            element={
-              <React.Suspense fallback={<Loading />}>
-                <RoomList />
-              </React.Suspense>
-            }
-          >
-            {/* <Route
+          <Route path="roomlist">
+            <Route
               path=":locationId"
               element={
                 <React.Suspense fallback={<Loading />}>
                   <RoomList />
                 </React.Suspense>
               }
-            ></Route> */}
+            ></Route>
           </Route>
         </Route>
         {/* home template */}

@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { openNotificationWithIcon } from "../../util/notification";
+import { http } from "../../util/setting";
 
 export interface Booking {
-  id: number;
+  id?: number;
   maPhong: number;
   ngayDen: string;
   ngayDi: string;
@@ -28,3 +30,14 @@ const bookingReducer = createSlice({
 export const {} = bookingReducer.actions;
 
 export default bookingReducer.reducer;
+
+export const bookingApi = (bookingInfo: Booking) => {
+  return async () => {
+    try {
+      const result = await http.post("/dat-phong", bookingInfo);
+      console.log(result.data.content);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};

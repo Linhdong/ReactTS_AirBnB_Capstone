@@ -10,14 +10,14 @@ export default function HomeLocationItem({ location }: Props) {
   return (
     <div className="nearest-location__item d-flex">
       <NavLink
-        to={`/roomList/${location.id}`}
+        to={`/roomlist/${location.id}`}
         className="nearest-location__item-img"
       >
         <img src={location.hinhAnh} alt={location.tenViTri} />
       </NavLink>
       <div className="nearest-location__item-info ms-2">
         <h5>
-          <NavLink to={`/roomList/${location.id}`}>{location.tenViTri}</NavLink>
+          <NavLink to={`/roomlist/${location.id}`}>{location.tenViTri}</NavLink>
         </h5>
         <p>15 phút lái xe</p>
       </div>

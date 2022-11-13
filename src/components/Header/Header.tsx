@@ -1,6 +1,8 @@
 import React, { useRef, useState } from "react";
 import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
+import { getStoreJSON } from "../../util/setting";
 import Button from "../Button/Button";
+import Dropdown from "./Dropdown";
 
 const logo = require("../../assets/img/airbnb-logo.png");
 type Props = {};
@@ -9,13 +11,14 @@ export default function Header({}: Props) {
   const [isClicked, setIsClicked] = useState(false);
   const [path, setPath] = useState<string>("");
   const navigate = useNavigate();
+  const userLogin = getStoreJSON("userLogin");
   const [searchParams, setSearchParams] = useSearchParams();
   const keywordRef = useRef<string>("");
-  const handleChange = (e:{target:HTMLInputElement}) => {
-    const {value, id} = e.target;
+  const handleChange = (e: { target: HTMLInputElement }) => {
+    const { value, id } = e.target;
     keywordRef.current = value;
-    setSearchParams({maViTri: keywordRef.current});
-  }
+    setSearchParams({ maViTri: keywordRef.current });
+  };
   // console.log(typeof(searchParams.get("maViTri")));
   const location = `/roomlist?${searchParams.get("maViTri")}`;
 
@@ -35,7 +38,12 @@ export default function Header({}: Props) {
         {/* middle section - search bar */}
         <div className="header__search-bar">
           <div className="search-bar d-flex align-items-center justify-content-between">
-            <input type="text" placeholder="Start your search" onChange={handleChange} id="maViTri"/>
+            <input
+              type="text"
+              placeholder="Start your search"
+              onChange={handleChange}
+              id="maViTri"
+            />
             <Button
               path={location}
               className="btn--primary btnSearch"
@@ -76,24 +84,10 @@ export default function Header({}: Props) {
               className={`dropdown__content ${
                 isClicked ? "d-block" : "d-none"
               }`}
-              onClick={showDropdown}
             >
-              <NavLink to="/signin" className="dropdown__item">
-                Sign in
-              </NavLink>
-              <NavLink to="/signup" className="dropdown__item">
-                Sign up
-              </NavLink>
-              <hr />
-              <a href="/" className="dropdown__item">
-                Host your home
-              </a>
-              <a href="/" className="dropdown__item">
-                Host an experience
-              </a>
-              <a href="/" className="dropdown__item">
-                Help
-              </a>
+              <ul onClick={() => setIsClicked(false)}>
+                <Dropdown />
+              </ul>
             </div>
           </div>
         </div>

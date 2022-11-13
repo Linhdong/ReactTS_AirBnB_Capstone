@@ -1,22 +1,26 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import Button from "../Button/Button";
 import { DateRangePicker, DateRangePickerValue } from "@mantine/dates";
 import { MantineProvider } from "@mantine/core";
 import { useWindowWidth } from "../../Hooks/useWindowWidth";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/configStore";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/configStore";
 import moment from "moment";
+import { getStoreJSON } from "../../util/setting";
+import { Booking, bookingApi } from "../../redux/reducers/bookingReducer";
+import { openNotificationWithIcon } from "../../util/notification";
 
 type Props = {};
 
 export default function BookingBox({}: Props) {
   const [value, setValue] = useState<DateRangePickerValue>([null, null]);
-  console.log(moment(value[0]).format("L"));
 
   const [guestNum, setGuestNum] = useState(1);
 
   const { room } = useSelector((state: RootState) => state.roomReducer);
+
+  const navigate = useNavigate();
 
   const handleChangeGuestNum = (increOrDecre: boolean) => {
     if (increOrDecre) {
@@ -41,7 +45,37 @@ export default function BookingBox({}: Props) {
 
   let width = useWindowWidth();
 
-  const handleBooking = () => {};
+  const user = getStoreJSON("userLogin");
+
+  const dispatch: AppDispatch = useDispatch();
+
+  const handleBooking = () => {
+    if (user && value[0] && value[1]) {
+      const bookingInfo: Booking = {
+        maPhong: room.id,
+        ngayDen: moment(value[0]).format("L").toString(),
+        ngayDi: moment(value[1]).format("L").toString(),
+        soLuongKhach: guestNum,
+        maNguoiDung: user.user.id,
+      };
+      console.log(bookingInfo);
+      dispatch(bookingApi(bookingInfo));
+      openNotificationWithIcon(
+        "success",
+        "Đặt phòng thành công",
+        <p>
+          Tiếp tục đặt phòng hoặc di chuyển tới{" "}
+          <a href="/profile">Lịch sử đặt phòng</a>
+        </p>
+      );
+    } else if (!user) {
+      openNotificationWithIcon(
+        "error",
+        "Vui lòng đăng nhập để đặt phòng!",
+        <a href="/signin">Đi tới trang đăng nhập</a>
+      );
+    }
+  };
 
   return (
     <div className="booking-box">
@@ -107,7 +141,7 @@ export default function BookingBox({}: Props) {
           <Button
             path="#"
             className="btn btn--primary"
-            onClick={() => {}}
+            onClick={() => handleBooking()}
             disabled={value[0] === null || value[1] === null ? true : false}
           >
             Đặt phòng

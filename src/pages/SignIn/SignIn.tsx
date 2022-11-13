@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { signInApi } from "../../redux/reducers/signInReducer";
 import { useDispatch, useSelector } from "react-redux";
-import {getStore} from "./../../util/setting"
+import { getStore } from "./../../util/setting";
 import { AppDispatch, RootState } from "./../../redux/configStore";
-
+import { history } from "../../index";
 
 type Props = {};
 
@@ -15,7 +15,7 @@ export default function SignIn({}: Props) {
   const { userLogin } = useSelector((state: RootState) => state.signInReducer);
   const navigate = useNavigate();
   const [page, setPage] = useState(getStore("userLogin"));
-  const dispatch:AppDispatch = useDispatch()
+  const dispatch: AppDispatch = useDispatch();
   const formik = useFormik<{
     email: string;
     password: string;
@@ -25,9 +25,8 @@ export default function SignIn({}: Props) {
       password: "",
     },
     onSubmit: async (values) => {
-      
       const action = signInApi(values);
-      dispatch(action)
+      dispatch(action);
     },
     validationSchema: Yup.object().shape({
       email: Yup.string()
@@ -41,12 +40,12 @@ export default function SignIn({}: Props) {
 
   useEffect(() => {
     if (userLogin) {
-      navigate("/")
+      navigate("/");
     } else {
       navigate("/signin");
     }
   }, [userLogin]);
-  
+
   return (
     <div className="container">
       <div className="row">
@@ -68,9 +67,7 @@ export default function SignIn({}: Props) {
                     onChange={formik.handleChange}
                   />
                   {formik.errors.email ? (
-                    <p className="text-danger mt-1">
-                      {formik.errors.email}
-                    </p>
+                    <p className="text-danger mt-1">{formik.errors.email}</p>
                   ) : (
                     ""
                   )}
@@ -85,9 +82,7 @@ export default function SignIn({}: Props) {
                     onChange={formik.handleChange}
                   />
                   {formik.errors.password ? (
-                    <p className="text-danger mt-1">
-                      {formik.errors.password}
-                    </p>
+                    <p className="text-danger mt-1">{formik.errors.password}</p>
                   ) : (
                     ""
                   )}

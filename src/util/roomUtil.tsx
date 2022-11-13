@@ -8,34 +8,50 @@ export const amenities: Amenities[] = [
   {
     key: `banLa`,
     value: false,
+    icon: "fas fa-tshirt",
+    name: "Bàn là"
   },
   {
     key: "mayGiat",
     value: false,
+    icon: "fas fa-tshirt",
+    name: "Máy giặt"
   },
   {
     key: "tivi",
     value: false,
+    icon: "fas fa-tv",
+    name: "Tivi"
   },
   {
     key: "wifi",
     value: false,
+    icon: "fas fa-wifi",
+    name: "Wifi"
   },
   {
     key: "hoBoi",
     value: false,
+    icon: "fas fa-swimming-pool",
+    name: "Hồ bơi"
   },
   {
     key: "doXe",
     value: false,
+    icon: "fas fa-parking",
+    name: "Đỗ xe"
   },
   {
     key: "bep",
     value: false,
+    icon: "fas fa-utensils",
+    name: "Bếp"
   },
   {
     key: "dieuHoa",
     value: false,
+    icon: "fas fa-wind",
+    name: "Điều hoà"
   },
 ];
 
@@ -51,8 +67,8 @@ export const amenitiesNames: Amenities = {
 };
 
 export const getAmenities = (values: any, room: Room) => {
-    for (const amenity of amenities) {
-      amenity.value = values[amenity.key as keyof typeof room];
-    }
-    return [...amenities];
-  };
+  for (const amenity of amenities) {
+    amenity.value = values[amenity.key as keyof typeof room];
+  }
+  return [...amenities];
+};
