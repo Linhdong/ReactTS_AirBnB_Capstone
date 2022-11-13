@@ -15,7 +15,6 @@
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
     "@types/react-lazy-load-image-component": "^1.5.2",
-    "@types/react-router-dom": "^5.3.3",
     "antd": "^4.24.0",
     "axios": "^1.1.2",
     "bootstrap": "^5.2.2",

@@ -3,12 +3,13 @@ import ReactDOM from "react-dom/client";
 import "./assets/scss/style.scss";
 import { Provider } from "react-redux";
 import { store } from "./redux/configStore";
-import { createBrowserHistory } from "history";
+import { createBrowserHistory, History } from "history";
 import {
   unstable_HistoryRouter as HistoryRouter,
   Routes,
   Route,
   Navigate,
+  HistoryRouterProps,
 } from "react-router-dom";
 import HomeTemplate from "./templates/HomeTemplate";
 import Loading from "./components/Loading/Loading";
@@ -25,7 +26,7 @@ const Profile = React.lazy(() => import("./pages/Profile/Profile"));
 const RoomList = React.lazy(() => import("./pages/RoomList/RoomList"));
 const RoomTemplate = React.lazy(() => import("./templates/RoomTemplate"));
 
-export const history = createBrowserHistory();
+export const history = createBrowserHistory({ window });
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
