@@ -28,10 +28,7 @@ function getItem(
 const items = [
   getItem("Quản lý người dùng", "/admin/users", <UserOutlined />),
   getItem("Quản lý vị trí", "/admin/locations", <CompassOutlined />),
-  getItem("Quản lý thông tin phòng", "/", <HomeOutlined />, [
-    getItem("Danh sách phòng", "/admin/rooms/roomslist"),
-    getItem("Thêm phòng mới", "/admin/rooms/addroom"),
-  ]),
+  getItem("Quản lý thông tin phòng", "/admin/rooms", <HomeOutlined />),
 ];
 
 type Props = {};

@@ -16,6 +16,7 @@ import SortButton from "../../../components/SortButton/SortButton";
 import _ from "lodash";
 import RoomAdminForm from "./RoomAdminForm";
 import TablePagination from "../../../components/TablePagination/TablePagination";
+import { useParams } from "react-router-dom";
 
 let timeout: ReturnType<typeof setTimeout>;
 
@@ -59,6 +60,7 @@ export default function RoomManagement({}: Props) {
   const { arrRooms, totalRow } = useSelector(
     (state: RootState) => state.roomReducer
   );
+  console.log(totalRow);
 
   const { arrLocations } = useSelector(
     (state: RootState) => state.locationsReducer
@@ -199,7 +201,7 @@ export default function RoomManagement({}: Props) {
   useEffect(() => {
     dispatch(searchRoomApi(pageIndex.current, pageSize.toString(), searchTerm));
     console.log("on mounted");
-  }, []);
+  }, [pageIndex.current, pageSize.toString()]);
 
   useEffect(() => {
     timeout = setTimeout(() => {

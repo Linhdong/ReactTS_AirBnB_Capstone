@@ -9,7 +9,6 @@ type Props = {
 };
 
 export default function RoomDetailContent({ room }: Props) {
-  console.log(history.location);
   const amenities = getAmenities(room, room);
 
   return (
