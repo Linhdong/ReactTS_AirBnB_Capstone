@@ -6,13 +6,25 @@ import { MantineProvider } from "@mantine/core";
 import { useWindowWidth } from "../../Hooks/useWindowWidth";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/configStore";
+import moment from "moment";
 
 type Props = {};
 
 export default function BookingBox({}: Props) {
   const [value, setValue] = useState<DateRangePickerValue>([null, null]);
+  console.log(moment(value[0]).format("L"));
+
+  const [guestNum, setGuestNum] = useState(1);
 
   const { room } = useSelector((state: RootState) => state.roomReducer);
+
+  const handleChangeGuestNum = (increOrDecre: boolean) => {
+    if (increOrDecre) {
+      setGuestNum((prevState) => prevState + 1);
+    } else {
+      setGuestNum((prevState) => prevState - 1);
+    }
+  };
 
   let startDateTime = value[0]?.getTime();
   let endDateTime = value[1]?.getTime();
@@ -28,6 +40,8 @@ export default function BookingBox({}: Props) {
     numOfDays !== undefined ? room.giaTien * numOfDays : 0;
 
   let width = useWindowWidth();
+
+  const handleBooking = () => {};
 
   return (
     <div className="booking-box">
@@ -51,7 +65,7 @@ export default function BookingBox({}: Props) {
           theme={{ fontFamily: "'Nunito Sans', sans-serif", fontSizes: "1rem" }}
         >
           <DateRangePicker
-            label="CHECK-IN - CHECK-OUT"
+            label={<strong>CHECK-IN - CHECK-OUT</strong>}
             placeholder="Chọn ngày nhận - trả phòng"
             value={value}
             onChange={setValue}
@@ -63,10 +77,36 @@ export default function BookingBox({}: Props) {
           />
         </MantineProvider>
 
+        <div
+          className="guests-num mt-3"
+          hidden={value[0] === null || value[1] === null ? true : false}
+        >
+          <h5>
+            <strong>Số lượng khách</strong>
+          </h5>
+          <div className="d-flex justify-content-between align-items-center">
+            <button
+              className="btn btn--primary py-2 px-3"
+              onClick={() => handleChangeGuestNum(false)}
+              disabled={guestNum <= 1 ? true : false}
+            >
+              -
+            </button>
+            <strong>{guestNum}</strong>
+            <button
+              className="btn btn--primary py-2 px-3"
+              onClick={() => handleChangeGuestNum(true)}
+              disabled={guestNum >= room.khach ? true : false}
+            >
+              +
+            </button>
+          </div>
+        </div>
+
         <div className="bookingBtn">
           <Button
             path="#"
-            className="btn--primary"
+            className="btn btn--primary"
             onClick={() => {}}
             disabled={value[0] === null || value[1] === null ? true : false}
           >
