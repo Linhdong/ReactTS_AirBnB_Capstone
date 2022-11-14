@@ -19,6 +19,7 @@ import RoomManagement from "./pages/Admin/Room/RoomManagement";
 import BookingManagement from "./pages/Admin/BookingManagement/BookingManagement";
 import ModalAdmin from "./HOC/Admin/ModalAdmin";
 import UpdateInforUser from "./pages/Profile/UpdateInforUser";
+import AddLocation from "./components/Admin/Location/AddLocation";
 
 const Home = React.lazy(() => import("./pages/Home/Home"));
 const SignIn = React.lazy(() => import("./pages/SignIn/SignIn"));
@@ -70,13 +71,14 @@ root.render(
               </React.Suspense>
             }
           ></Route>
-          <Route path="roomlist"
-            element=
-            {
+          <Route
+            path="roomlist"
+            element={
               <React.Suspense fallback={<Loading />}>
                 <RoomList />
               </React.Suspense>
-            }>
+            }
+          >
             {/* <Route
               path=":locationId"
               element={
@@ -113,6 +115,14 @@ root.render(
           </Route>
         </Route>
         {/* admin template */}
+        <Route
+          path="addLocation"
+          element={
+            <React.Suspense fallback={<Loading />}>
+              <AddLocation />
+            </React.Suspense>
+          }
+        ></Route>
 
         <Route path="*" element={<Navigate to="" />}></Route>
       </Routes>
