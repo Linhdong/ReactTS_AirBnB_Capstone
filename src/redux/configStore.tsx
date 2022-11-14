@@ -1,7 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import commentReducer from "./reducers/commentReducer";
 import locationsReducer from "./reducers/locationsReducer";
-import modalAdminReducer from "./reducers/modalAdminReducer";
 import roomReducer from "./reducers/roomReducer";
 import positionReducer from "./reducers/positionReducer";
 import userReducer from "./reducers/userReducer";
@@ -12,7 +11,6 @@ export const store = configureStore({
     roomReducer,
     positionReducer,
     commentReducer,
-    modalAdminReducer,
     userReducer, 
     signInReducer
   },

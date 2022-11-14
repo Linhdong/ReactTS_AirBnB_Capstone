@@ -44,7 +44,7 @@ export default function UserManagement({}: Props) {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, id } = e.target;
-    console.log("UserName: ", value);
+    console.log("UserName: ", value.toLocaleLowerCase());
     setUserName(value);
   };
 
@@ -84,7 +84,7 @@ export default function UserManagement({}: Props) {
       pageIndex: pageIndex.current,
       pageSize: pageSize.current,
     });
-  }, [currentPage]);
+  }, [currentPage, pageIndex.current]);
 
   useEffect(() => {
     timeout = setTimeout(() => {
@@ -200,7 +200,7 @@ export default function UserManagement({}: Props) {
                     </td>
                     <td>{user?.phone}</td>
                     <td>
-                      {user?.role === "admin" ? (
+                      {user?.role === "ADMIN" ? (
                         <span className="badge rounded-pill bg-success text-white">
                           Admin
                         </span>
@@ -234,7 +234,7 @@ export default function UserManagement({}: Props) {
             </tbody>
           </table>
         </div>
-        <div className="pagination">
+        <div className="pagination d-flex justify-content-center">
           <Pagination
             postsPerPage={postsPerPage}
             setCurrentPage={setCurrentPage}

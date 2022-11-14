@@ -1,18 +1,34 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import Button from "../Button/Button";
 import { DateRangePicker, DateRangePickerValue } from "@mantine/dates";
 import { MantineProvider } from "@mantine/core";
 import { useWindowWidth } from "../../Hooks/useWindowWidth";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/configStore";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/configStore";
+import moment from "moment";
+import { getStoreJSON } from "../../util/setting";
+import { Booking, bookingApi } from "../../redux/reducers/bookingReducer";
+import { openNotificationWithIcon } from "../../util/notification";
 
 type Props = {};
 
 export default function BookingBox({}: Props) {
   const [value, setValue] = useState<DateRangePickerValue>([null, null]);
 
+  const [guestNum, setGuestNum] = useState(1);
+
   const { room } = useSelector((state: RootState) => state.roomReducer);
+
+  const navigate = useNavigate();
+
+  const handleChangeGuestNum = (increOrDecre: boolean) => {
+    if (increOrDecre) {
+      setGuestNum((prevState) => prevState + 1);
+    } else {
+      setGuestNum((prevState) => prevState - 1);
+    }
+  };
 
   let startDateTime = value[0]?.getTime();
   let endDateTime = value[1]?.getTime();
@@ -28,6 +44,38 @@ export default function BookingBox({}: Props) {
     numOfDays !== undefined ? room.giaTien * numOfDays : 0;
 
   let width = useWindowWidth();
+
+  const user = getStoreJSON("userLogin");
+
+  const dispatch: AppDispatch = useDispatch();
+
+  const handleBooking = () => {
+    if (user && value[0] && value[1]) {
+      const bookingInfo: Booking = {
+        maPhong: room.id,
+        ngayDen: moment(value[0]).format("L").toString(),
+        ngayDi: moment(value[1]).format("L").toString(),
+        soLuongKhach: guestNum,
+        maNguoiDung: user.user.id,
+      };
+      console.log(bookingInfo);
+      dispatch(bookingApi(bookingInfo));
+      openNotificationWithIcon(
+        "success",
+        "Đặt phòng thành công",
+        <p>
+          Tiếp tục đặt phòng hoặc di chuyển tới{" "}
+          <a href="/profile">Lịch sử đặt phòng</a>
+        </p>
+      );
+    } else if (!user) {
+      openNotificationWithIcon(
+        "error",
+        "Vui lòng đăng nhập để đặt phòng!",
+        <a href="/signin">Đi tới trang đăng nhập</a>
+      );
+    }
+  };
 
   return (
     <div className="booking-box">
@@ -51,7 +99,7 @@ export default function BookingBox({}: Props) {
           theme={{ fontFamily: "'Nunito Sans', sans-serif", fontSizes: "1rem" }}
         >
           <DateRangePicker
-            label="CHECK-IN - CHECK-OUT"
+            label={<strong>CHECK-IN - CHECK-OUT</strong>}
             placeholder="Chọn ngày nhận - trả phòng"
             value={value}
             onChange={setValue}
@@ -63,11 +111,37 @@ export default function BookingBox({}: Props) {
           />
         </MantineProvider>
 
+        <div
+          className="guests-num mt-3"
+          hidden={value[0] === null || value[1] === null ? true : false}
+        >
+          <h5>
+            <strong>Số lượng khách</strong>
+          </h5>
+          <div className="d-flex justify-content-between align-items-center">
+            <button
+              className="btn btn--primary py-2 px-3"
+              onClick={() => handleChangeGuestNum(false)}
+              disabled={guestNum <= 1 ? true : false}
+            >
+              -
+            </button>
+            <strong>{guestNum}</strong>
+            <button
+              className="btn btn--primary py-2 px-3"
+              onClick={() => handleChangeGuestNum(true)}
+              disabled={guestNum >= room.khach ? true : false}
+            >
+              +
+            </button>
+          </div>
+        </div>
+
         <div className="bookingBtn">
           <Button
             path="#"
-            className="btn--primary"
-            onClick={() => {}}
+            className="btn btn--primary"
+            onClick={() => handleBooking()}
             disabled={value[0] === null || value[1] === null ? true : false}
           >
             Đặt phòng

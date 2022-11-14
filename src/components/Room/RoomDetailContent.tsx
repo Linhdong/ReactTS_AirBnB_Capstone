@@ -1,12 +1,16 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { history } from "../../index";
 import { Room } from "../../redux/reducers/roomReducer";
+import { getAmenities } from "../../util/roomUtil";
 
 type Props = {
   room: Room;
 };
 
 export default function RoomDetailContent({ room }: Props) {
+  const amenities = getAmenities(room, room);
+
   return (
     <div className="room__details">
       {/* title */}
@@ -79,19 +83,20 @@ export default function RoomDetailContent({ room }: Props) {
 
       <div className="divider"></div>
 
-      <div className="room__amenities">
-        <div className="room__amenities--item">
-          <i className="fas fa-utensils stroke-transparent me-4"></i>
-          <span>Bếp</span>
-        </div>
-        <div className="room__amenities--item">
-          <i className="fas fa-utensils stroke-transparent me-4"></i>
-          <span>Bếp</span>
-        </div>
-        <div className="room__amenities--item">
-          <i className="fas fa-utensils stroke-transparent me-4"></i>
-          <span>Bếp</span>
-        </div>
+      <div className="room__amenities row">
+        <h3>Tiện nghi</h3>
+        {amenities &&
+          amenities.map(
+            (item, index) =>
+              item.value && (
+                <div className="col-6" key={index}>
+                  <div className="room__amenities--item">
+                    <i className={`${item.icon} stroke-transparent me-4`}></i>
+                    <span>{item.name}</span>
+                  </div>
+                </div>
+              )
+          )}
       </div>
     </div>
   );

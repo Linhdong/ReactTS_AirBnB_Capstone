@@ -2,7 +2,9 @@ import React, { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
 import { RootState } from "../../redux/configStore";
+import { getStoreJSON } from "../../util/setting";
 import Button from "../Button/Button";
+import Dropdown from "./Dropdown";
 
 const logo = require("../../assets/img/airbnb-logo.png");
 type Props = {};
@@ -13,6 +15,7 @@ export default function Header({ }: Props) {
   const [isClicked, setIsClicked] = useState(false);
   const [path, setPath] = useState<string>("");
   const navigate = useNavigate();
+  // const userLogin = getStoreJSON("userLogin");
   const [searchParams, setSearchParams] = useSearchParams();
   const keywordRef = useRef<string>("");
   const handleChange = (e: { target: HTMLInputElement }) => {
@@ -40,6 +43,12 @@ export default function Header({ }: Props) {
         <div className="header__search-bar">
           <div className="search-bar d-flex align-items-center justify-content-between">
             <input type="text" placeholder="Start your search" onChange={handleChange} id="maViTri" />
+            <input
+              type="text"
+              placeholder="Start your search"
+              onChange={handleChange}
+              id="maViTri"
+            />
             <Button
               path={location}
               className="btn--primary btnSearch"
@@ -128,6 +137,13 @@ export default function Header({ }: Props) {
 
                 </>
               )}
+              className={`dropdown__content ${
+                isClicked ? "d-block" : "d-none"
+              }`}
+            
+              <ul onClick={() => setIsClicked(false)}>
+                <Dropdown />
+              </ul>
             </div>
           </div>
         </div>

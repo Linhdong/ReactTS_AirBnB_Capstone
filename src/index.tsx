@@ -3,7 +3,8 @@ import ReactDOM from "react-dom/client";
 import "./assets/scss/style.scss";
 import { Provider } from "react-redux";
 import { store } from "./redux/configStore";
-import { createBrowserHistory } from "history";
+import { createBrowserHistory, History } from "history";
+import type { BrowserHistory, HashHistory, MemoryHistory } from "history";
 import {
   unstable_HistoryRouter as HistoryRouter,
   Routes,
@@ -17,8 +18,8 @@ import UserManagement from "./pages/Admin/User/UserManagement";
 import LocationManagement from "./pages/Admin/LocationManagement/LocationManagement";
 import RoomManagement from "./pages/Admin/Room/RoomManagement";
 import BookingManagement from "./pages/Admin/BookingManagement/BookingManagement";
-import ModalAdmin from "./HOC/Admin/ModalAdmin";
 import UpdateInforUser from "./pages/Profile/UpdateInforUser";
+import AddLocation from "./components/Admin/Location/AddLocation";
 
 const Home = React.lazy(() => import("./pages/Home/Home"));
 const SignIn = React.lazy(() => import("./pages/SignIn/SignIn"));
@@ -34,7 +35,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <Provider store={store}>
-    <HistoryRouter history={history}>
+    <HistoryRouter history={history as any}>
       <Routes>
         {/* home template */}
         <Route path="" element={<HomeTemplate />}>
@@ -70,22 +71,14 @@ root.render(
               </React.Suspense>
             }
           ></Route>
-          <Route path="roomlist"
-            element=
-            {
+          <Route
+            path="roomlist"
+            element={
               <React.Suspense fallback={<Loading />}>
                 <RoomList />
               </React.Suspense>
-            }>
-            {/* <Route
-              path=":locationId"
-              element={
-                <React.Suspense fallback={<Loading />}>
-                  <RoomList />
-                </React.Suspense>
-              }
-            ></Route> */}
-          </Route>
+            }
+          ></Route>
         </Route>
         {/* home template */}
 
@@ -105,7 +98,6 @@ root.render(
         {/* admin template */}
         <Route>
           <Route path="admin" element={<AdminTemplate />}>
-            <Route path="" element={<ModalAdmin />}></Route>
             <Route path="users" element={<UserManagement />}></Route>
             <Route path="locations" element={<LocationManagement />}></Route>
             <Route path="rooms" element={<RoomManagement />}></Route>
@@ -113,6 +105,14 @@ root.render(
           </Route>
         </Route>
         {/* admin template */}
+        <Route
+          path="addLocation"
+          element={
+            <React.Suspense fallback={<Loading />}>
+              <AddLocation />
+            </React.Suspense>
+          }
+        ></Route>
 
         <Route path="*" element={<Navigate to="" />}></Route>
       </Routes>

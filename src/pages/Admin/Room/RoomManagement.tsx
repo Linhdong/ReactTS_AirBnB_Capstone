@@ -1,218 +1,340 @@
-import React, { useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import {
-  createColumnHelper,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-  getPaginationRowModel,
-  SortingState,
-  getSortedRowModel,
-} from "@tanstack/react-table";
-import { getAllRoomsApi, Room } from "../../../redux/reducers/roomReducer";
+  deleteRoomApi,
+  Room,
+  searchRoomApi,
+} from "../../../redux/reducers/roomReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/configStore";
-import { showModal } from "../../../redux/reducers/modalAdminReducer";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import { Modal } from "react-bootstrap";
+import {
+  getLocationsApi,
+  Location,
+} from "../../../redux/reducers/locationsReducer";
+import SortButton from "../../../components/SortButton/SortButton";
+import _ from "lodash";
+import RoomAdminForm from "./RoomAdminForm";
+import TablePagination from "../../../components/TablePagination/TablePagination";
+import { useParams } from "react-router-dom";
 
-const columnHelper = createColumnHelper<Room>();
+let timeout: ReturnType<typeof setTimeout>;
 
-const columns = [
-  columnHelper.accessor("id", {
-    header: () => "ID",
-    cell: (info:any) => info.renderValue(),
-  }),
-  columnHelper.accessor("tenPhong", {
-    header: () => "Tên phòng",
-    cell: (info:any) => info.renderValue(),
-  }),
-  columnHelper.accessor("hinhAnh", {
-    header: () => "Hình ảnh",
-    cell: (info:any) => (
-      <img src={`${info.renderValue()}`} alt="..." style={{ width: "250px" }} />
-    ),
-  }),
-  columnHelper.accessor("moTa", {
-    header: () => "Mô tả",
-    cell: (info:any) => {
-      const moTa = info.renderValue();
-      return moTa?.slice(0, 100) + "...";
-    },
-  }),
-  columnHelper.accessor("giaTien", {
-    header: () => "Giá tiền",
-    cell: (info:any) => `$${info.renderValue()}`,
-  }),
+// table header
+const tableHeaders: { key: keyof Room; label: string }[] = [
+  {
+    key: "id",
+    label: "Mã phòng",
+  },
+  {
+    key: "tenPhong",
+    label: "Tên phòng",
+  },
+  {
+    key: "hinhAnh",
+    label: "Hình ảnh",
+  },
+  {
+    key: "maViTri",
+    label: "Vị trí",
+  },
+  {
+    key: "moTa",
+    label: "Mô tả",
+  },
+  {
+    key: "giaTien",
+    label: "Giá tiền",
+  },
 ];
+
+// type for sort table
+export type SortKeys = keyof Room;
+
+export type SortOrder = "asc" | "desc" | null;
+// ----------------------
 
 type Props = {};
 
 export default function RoomManagement({}: Props) {
-  const { arrRooms } = useSelector((state: RootState) => state.roomReducer);
+  const { arrRooms, totalRow } = useSelector(
+    (state: RootState) => state.roomReducer
+  );
+  console.log(totalRow);
 
-  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const { arrLocations } = useSelector(
+    (state: RootState) => state.locationsReducer
+  );
 
-  const table = useReactTable({
-    data: arrRooms,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    state: {
-      sorting,
-    },
-    onSortingChange: setSorting,
-    getSortedRowModel: getSortedRowModel(),
-  });
+  const [openModal, setOpenModal] = useState<boolean>(false);
+
+  const selectedRoom = useRef<null | Room>(null);
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const keyword = useRef("");
+
+  const handleSearchTermChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
+
+  // render room location based on room.maViTri
+  const renderRoomLocation = (maViTri: number) => {
+    if (arrLocations.length > 0) {
+      let index = arrLocations?.findIndex(
+        (location: Location) => location.id === maViTri
+      );
+      let location = arrLocations[index];
+      return (
+        location?.tenViTri +
+        ", " +
+        location?.tinhThanh +
+        ", " +
+        location?.quocGia
+      );
+    }
+  };
+
+  // ------------------ table pagination --------------
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
+  const pageIndex = useRef<string>("1");
+
+  const pageSize = 10;
+
+  const handlePagination = (page: number) => {
+    setCurrentPage(page);
+    pageIndex.current = page.toString();
+  };
+  // -------------------------------------
+
+  // --------------- sort table function ------------------
+  const [sortKey, setSortKey] = useState<SortKeys>("id");
+
+  const [sortOrder, setSortOrder] = useState<SortOrder>(null);
+
+  const handleSort = ({
+    tableData,
+    sortKey,
+    reverse,
+  }: {
+    tableData: Room[];
+    sortKey: SortKeys;
+    reverse: boolean;
+  }) => {
+    if (arrRooms.length > 0) {
+      if (!sortKey || !sortOrder) return tableData;
+
+      const sortedData = [...arrRooms].sort((a, b) => {
+        if (sortKey === "tenPhong" || sortKey === "moTa") {
+          return a[sortKey].toLowerCase() > b[sortKey].toLowerCase() ? 1 : -1;
+        }
+
+        return a[sortKey] > b[sortKey] ? 1 : -1;
+      });
+
+      if (reverse) {
+        return sortedData.reverse();
+      }
+
+      return sortedData;
+    }
+  };
+
+  const sortedData = useCallback(
+    () =>
+      handleSort({
+        tableData: arrRooms,
+        sortKey,
+        reverse: sortOrder === "desc",
+      }),
+    [arrRooms, sortKey, sortOrder]
+  );
+
+  const changeSort = (key: SortKeys) => {
+    if (sortKey !== key && sortOrder) {
+      setSortOrder("asc");
+      setSortKey(key);
+    } else {
+      if (!sortOrder) {
+        setSortOrder("asc");
+      }
+
+      if (sortOrder) {
+        setSortOrder(sortOrder === "asc" ? "desc" : null);
+      }
+    }
+    setSortKey(key);
+  };
+  // ------------------------------------
+
+  // onClick edit button
+  const handleClickEdit = (room: Room) => {
+    setOpenModal(true);
+    selectedRoom.current = room;
+  };
+
+  // onClick add button
+  const handleClickAdd = () => {
+    setOpenModal(true);
+    selectedRoom.current = null;
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+
+  const renderRoomAdminForm = useCallback(() => {
+    return (
+      <RoomAdminForm
+        room={selectedRoom.current ? selectedRoom.current : null}
+        handleCloseModal={handleCloseModal}
+      />
+    );
+  }, [selectedRoom.current]);
 
   const dispatch: AppDispatch = useDispatch();
 
+  const handleDeleteRoom = (roomId: number) => {
+    dispatch(deleteRoomApi(roomId));
+  };
+
   useEffect(() => {
-    dispatch(getAllRoomsApi());
+    dispatch(searchRoomApi(pageIndex.current, pageSize.toString(), searchTerm));
+    console.log("on mounted");
+  }, [pageIndex.current, pageSize.toString()]);
+
+  useEffect(() => {
+    timeout = setTimeout(() => {
+      if (searchTerm.length > 0) {
+        dispatch(
+          searchRoomApi(pageIndex.current, pageSize.toString(), searchTerm)
+        );
+        console.log("on search");
+      }
+    }, 1000);
+    return () => {
+      if (timeout) {
+        clearTimeout(timeout);
+        console.log("unmouting");
+      }
+    };
+  }, [pageIndex.current, pageSize, searchTerm]);
+
+  useEffect(() => {
+    dispatch(getLocationsApi());
   }, []);
 
   return (
     <div className="admin-room">
       <h3>Quản lý thông tin phòng</h3>
-      <button id="btnAddRoom" className="btn btn-outline-secondary my-2">
+      <button className="btn btn-outline-secondary" onClick={handleClickAdd}>
+        <i className="fa fa-plus me-2"></i>
         Thêm phòng
-        <i className="fa fa-plus ms-2"></i>
       </button>
-      <div className="admin__searchBar input-group mt-2">
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Start your search"
-          aria-label="Start your search"
-          aria-describedby="basic-addon2"
-        />
-        <div className="input-group-append">
-          <button className="btn btn-outline-secondary" type="button">
-            <i className="fa fa-search"></i>
-          </button>
+      <form>
+        <div className="admin__searchBar input-group mt-2">
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={handleSearchTermChange}
+            className="form-control"
+            placeholder="Start your search"
+            aria-label="Start your search"
+            aria-describedby="basic-addon2"
+          />
+          <div className="input-group-append">
+            <button className="btn btn-outline-secondary" type="button">
+              <i className="fa fa-search"></i>
+            </button>
+          </div>
         </div>
-      </div>
+      </form>
 
       <table className="table table-striped">
         <thead>
-          {table.getHeaderGroups().map((headerGroup:any) => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header:any) => {
-                return (
-                  <th key={header.id} colSpan={header.colSpan}>
-                    {header.isPlaceholder ? null : (
-                      <div
-                        {...{
-                          className: header.column.getCanSort()
-                            ? "cursor-pointer select-none"
-                            : "",
-                          onClick: header.column.getToggleSortingHandler(),
-                        }}
-                      >
-                        {flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                        {{
-                          asc: " 🔼",
-                          desc: " 🔽",
-                        }[header.column.getIsSorted() as string] ?? null}
-                      </div>
-                    )}
-                  </th>
-                );
-              })}
-              <th></th>
-            </tr>
-          ))}
+          <tr>
+            {tableHeaders.map((header) => (
+              <th onClick={() => changeSort(header.key)}>
+                <div className="d-flex align-items-center justify-content-between">
+                  <span>{header.label}</span>
+                  <SortButton
+                    colKey={header.key}
+                    {...{
+                      sortKey,
+                      sortOrder,
+                    }}
+                  />
+                </div>
+              </th>
+            ))}
+          </tr>
         </thead>
         <tbody>
-          {table.getRowModel().rows.map((row:any, index:any) => (
-            <tr key={index}>
-              {row.getVisibleCells().map((cell:any, index:any) => (
-                <>
-                  <td key={index}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                </>
-              ))}
-              <td>
-                <div className="d-flex gap-2">
-                  <button
-                    className="btn btn-outline-warning"
-                    onClick={() => showModal()}
-                  >
-                    <i className="fa fa-search-plus"></i>
-                  </button>
-                  <button className="btn btn-outline-danger">
-                    <i className="fa fa-trash"></i>
-                  </button>
-                </div>
-              </td>
-            </tr>
-          ))}
+          {arrRooms.length > 0 &&
+            sortedData()?.map((room) => (
+              <tr key={room.id}>
+                <td>{room.id}</td>
+                <td>{room.tenPhong}</td>
+                <td>
+                  <LazyLoadImage
+                    src={room.hinhAnh}
+                    alt={room.tenPhong}
+                    effect="blur"
+                    style={{ width: "200px" }}
+                  />
+                </td>
+                <td>
+                  {arrLocations.length > 0 && renderRoomLocation(room.maViTri)}
+                </td>
+                <td>
+                  {room.moTa.length > 100
+                    ? room.moTa.slice(0, 100) + "..."
+                    : room.moTa}
+                </td>
+                <td>${room.giaTien}</td>
+                <td>
+                  <div className="d-flex">
+                    <div className="btnEdit me-2">
+                      <button
+                        className="btn btn-outline-warning"
+                        onClick={() => {
+                          handleClickEdit(room);
+                        }}
+                      >
+                        <i className="fa fa-edit"></i>
+                      </button>
+                    </div>
+                    <div className="btnDelete">
+                      <button
+                        className="btn btn-outline-danger"
+                        onClick={() => handleDeleteRoom(room.id)}
+                      >
+                        <i className="fa fa-trash"></i>
+                      </button>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
-      <div className="d-flex align-items-center justify-content-end gap-2">
-        <div className="tbl-pagination-btns">
-          <button
-            className="border rounded p-1"
-            onClick={() => table.setPageIndex(0)}
-            disabled={!table.getCanPreviousPage()}
-          >
-            {"<<"}
-          </button>
-          <button
-            className="border rounded p-1"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            {"<"}
-          </button>
-          <button
-            className="border rounded p-1"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            {">"}
-          </button>
-          <button
-            className="border rounded p-1"
-            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-            disabled={!table.getCanNextPage()}
-          >
-            {">>"}
-          </button>
-        </div>
-        <span className="flex items-center">
-          Page{" "}
-          <strong>
-            {table.getState().pagination.pageIndex + 1} of{" "}
-            {table.getPageCount()}
-          </strong>
-        </span>
-        <span className="flex items-center gap-1">
-          | Go to page:
-          <input
-            type="number"
-            defaultValue={table.getState().pagination.pageIndex + 1}
-            onChange={(e) => {
-              const page = e.target.value ? Number(e.target.value) - 1 : 0;
-              table.setPageIndex(page);
-            }}
-            className="form-control w-25 d-inline"
-          />
-        </span>
-        <select
-          value={table.getState().pagination.pageSize}
-          onChange={(e) => {
-            table.setPageSize(Number(e.target.value));
-          }}
-        >
-          {[10, 20, 30, 40, 50].map((pageSize) => (
-            <option key={pageSize} value={pageSize}>
-              Show {pageSize}
-            </option>
-          ))}
-        </select>
-      </div>
+      {/* table pagination */}
+      <TablePagination
+        totalRow={totalRow}
+        pageSize={pageSize}
+        currentPage={currentPage}
+        handlePagination={handlePagination}
+      />
+
+      {/* modal */}
+      <Modal show={openModal} size="lg" className="modal-dialog-scrollable">
+        <Modal.Header>
+          <Modal.Title>
+            {selectedRoom.current ? "Cập nhật" : "Thêm phòng mới"}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{renderRoomAdminForm()}</Modal.Body>
+      </Modal>
     </div>
   );
 }
