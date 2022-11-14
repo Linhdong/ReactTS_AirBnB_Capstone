@@ -1,6 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { http } from "../../util/setting";
+import { Await } from "react-router-dom";
+import Swal from "sweetalert2";
 import { AppDispatch } from "../configStore";
+import { getUserInfoAction, setUserLogin } from "./signInReducer";
+import {
+  ACCESS_TOKEN,
+  setStore,
+  setStoreJSON,
+  USER_LOGIN,
+  getStore,
+  http,
+  clearLocalStorage,
+} from "./../../util/setting";
 
 export interface User {
   id: number;
@@ -14,16 +25,31 @@ export interface User {
   role: string;
 }
 
+export interface RentedRoom {
+  "id": number,
+  "maPhong": number,
+  "ngayDen": Date,
+  "ngayDi": Date,
+  "soLuongKhach": number,
+  "maNguoiDung": number,
+  "hinhAnh": string,
+  "tenPhong": string
+}
+
 type UserState = {
   arrUsers: User[];
   totalRow: number;
   editUser: any;
+  userInfo: any;
+  rentedRoom: RentedRoom[];
 };
 
 const initialState: UserState = {
   arrUsers: [],
   totalRow: 0,
   editUser: {},
+  rentedRoom: [],
+  userInfo: {},
 };
 
 const userReducer = createSlice({
@@ -38,11 +64,17 @@ const userReducer = createSlice({
     },
     setUserByID: (state: UserState, action: PayloadAction<User[]>) => {
       state.editUser = action.payload;
+    },
+    getRentedRoom: (state: UserState, action: PayloadAction<RentedRoom[]>) => {
+      state.rentedRoom = action.payload;
+    },
+    setUserInfo: (state: UserState, action: PayloadAction<User[]>) => {
+      state.userInfo = action.payload;
     }
   },
 });
 
-export const { setArrUser, setTotalRow, setUserByID } = userReducer.actions;
+export const { setArrUser, setTotalRow, setUserByID, getRentedRoom, setUserInfo } = userReducer.actions;
 
 export default userReducer.reducer;
 
@@ -98,6 +130,86 @@ export const editUserByIDAction = (id: number) => {
         console.log(result.data.content);
         dispatch(setUserByID(result.data.content))
       }
-    } catch (err) {}
+    } catch (err) { }
   };
 };
+//Call api getProfile
+
+
+//call rented room by each user
+
+export const getRentedRoomByEachUser = (id: number) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      if (id !== null) {
+        const result = await http.get(`/dat-phong/lay-theo-nguoi-dung/${id}`);
+        console.log(result.data.content);
+        dispatch(getRentedRoom(result.data.content))
+      }
+    }
+    catch (err) {
+
+    }
+  }
+}
+
+
+export const editUserAction = (userId: number, userInfo: any) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const result = await http.put(`users/${userId}`, userInfo);
+      if (result.status === 200) {
+        Swal.fire({
+          title: 'Update Successfully!',
+          icon: 'success',
+          confirmButtonColor: '#44c020'
+        })
+        setUserInfo(result.data.content);
+      }
+      // console.log('result', result);
+    } catch (errors: any) {
+      Swal.fire({
+        icon: 'error',
+        title: errors.response?.data.message,
+        text: `${errors.response?.data.content}`,
+      })
+    }
+  }
+}
+
+
+//UPDATE USER INFOR
+// export const capNhatThongTinNguoiDungAction = (id:number, formData) => {
+//   return async (dispatch: AppDispatch) => {
+//     try {
+//       const result = await quanLyNguoiDungService.capNhatThongTinNguoiDung(
+//         id,
+//         formData
+//       );
+//       if (result.status === 200) {
+//         dispatch({
+//           type: CAP_NHAT_THONG_TIN_NGUOI_DUNG,
+//           thongTinnguoiDungCapNhat: result.data,
+//         });
+//         alert("Update infomation successfully");
+//         dispatch(layThongTinChiTietNguoiDungAction(idNguoiDung));
+
+//         // Sau khi cập nhật thành công nếu là tài khoản của admin đăng đăng nhập thì quay về infoadmin, nếu chỉnh trong danh sách thì quay về danh sách
+//         if (
+//           result.data._id ===
+//           JSON.parse(localStorage.getItem("USER_LOGIN")).user._id
+//         ) {
+//           history.push("/admin/infoadmin");
+//           window.location.reload();
+//         } else {
+//           history.push("/admin/listaccount");
+//           window.location.reload();
+//         }
+//       }
+//     } catch (error) {
+//       alert("Update infomation failed, please check again");
+//       console.log("error", error.response);
+//     }
+//   };
+// };
+

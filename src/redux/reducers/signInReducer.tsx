@@ -9,6 +9,7 @@ import {
   getStore,
   http,
 } from "./../../util/setting";
+import { setUserInfo } from "./userReducer";
 
 export interface UserSignIn {
   email: string;
@@ -52,8 +53,28 @@ export const signInApi = (userLogin:UserSignIn) => {
             setStoreJSON(USER_LOGIN, result.data.content);
             const action = setUserLogin(result.data.content);
             dispatch(action);
+            // setUserInfo(result.data.content);
         }catch(err){
             console.log(err)
         }
     }
+}
+
+export const getUserInfoAction = () => {
+  return async (dispatch: AppDispatch) => {
+
+    try {
+      const result = await http.post('/users');
+
+      if (result.status === 200) {
+        setUserLogin(result.data.content);
+      }
+
+      console.log('result', result);
+
+
+    } catch (errors: any) {
+      console.log('errors', errors.response?.data);
+    }
+  }
 }

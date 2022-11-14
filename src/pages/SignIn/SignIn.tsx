@@ -28,6 +28,7 @@ export default function SignIn({}: Props) {
       
       const action = signInApi(values);
       dispatch(action)
+      navigate('/');
     },
     validationSchema: Yup.object().shape({
       email: Yup.string()
@@ -38,13 +39,15 @@ export default function SignIn({}: Props) {
         .min(8, "Password must have at least 8 characters"),
     }),
   });
+  
 
   useEffect(() => {
-    if (userLogin) {
-      navigate("/")
-    } else {
-      navigate("/signin");
-    }
+    // if (userLogin) {
+    //   navigate("/")
+    // } else {
+    //   navigate("/signin");
+    // }
+    !userLogin && navigate("/signin")
   }, [userLogin]);
   
   return (
@@ -78,7 +81,7 @@ export default function SignIn({}: Props) {
                 <div className="form-group mb-3">
                   <label className="my-1">Password</label>
                   <input
-                    type="text"
+                    type="password"
                     className="form-control"
                     id="password"
                     placeholder="password"

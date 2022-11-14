@@ -34,16 +34,6 @@ export default function ModalHOC({ modalId, title, content }: Props) {
             <div className="container-fluid">{content}</div>
           </div>
           <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button type="button" className="btn btn-primary">
-              Save
-            </button>
           </div>
         </div>
       </div>

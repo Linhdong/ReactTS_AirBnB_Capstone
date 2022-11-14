@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Formik, useFormik, FormikProps } from "formik";
 import * as Yup from "yup";
 import { http } from "../../util/setting";
+import { useNavigate } from "react-router-dom";
 
 type Props = {};
 
@@ -10,6 +11,9 @@ export default function SignUp({}: Props) {
     // 👇️ get number between min (inclusive) and max (inclusive)
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
+
+  const navigate = useNavigate();
+
 
   const [num, setNum] = useState(randomNumberInRange(0, 1000000));
 
@@ -202,13 +206,13 @@ export default function SignUp({}: Props) {
 
                 <div className="d-grid">
                   <button className="  btn-login  fw-bold" type="submit">
-                    Sign In
+                    Sign Up
                   </button>
                 </div>
                 <hr className="my-4" />
                 <div className="d-grid">
-                  <button className="  btn-login  fw-bold" type="submit">
-                    Sign Up
+                  <button className="  btn-login  fw-bold" onClick={() => navigate('/signin')}>
+                    Sign In
                   </button>
                 </div>
               </form>
