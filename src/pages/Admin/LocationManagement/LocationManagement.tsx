@@ -8,21 +8,13 @@ import { useParams, useSearchParams } from "react-router-dom";
 import {
   deleteLocationApi,
   getLocationPaginationApi,
+  getLocationByIdApi
 } from "../../../redux/reducers/locationsReducer";
 import EditLocation from "../../../components/Admin/Location/EditLocation";
 import UploadPicure from "../../../components/Admin/Location/UploadPicutre";
 
 type Props = {};
 let timeout: ReturnType<typeof setTimeout>;
-const arrLocation = [
-  {
-    id: 1,
-    tenViTri: "Quận 1",
-    tinhThanh: "Hồ Chí Minh",
-    quocGia: "Việt Nam",
-    hinhAnh: "https://airbnbnew.cybersoft.edu.vn/images/vt1.jpg",
-  },
-];
 
 export default function LocationManagement({}: Props) {
   const navigate = useNavigate();
@@ -32,6 +24,7 @@ export default function LocationManagement({}: Props) {
   const [editAction, setEditAction] = useState<boolean>(false);
   const [reload, setReload] = useState<boolean>(false);
   const [idLocation, setIdLocation] = useState<number>(1);
+  const [id, setId] = useState<string>("");
   const { arrLocationPageIndex, totalRow } = useSelector(
     (state: RootState) => state.locationsReducer
   );
@@ -52,6 +45,17 @@ export default function LocationManagement({}: Props) {
   const handleAdd = () => {
     navigate("/addLocation");
   };
+
+  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { value, id } = e.target;
+  //   console.log("ID: ", value.toLocaleLowerCase());
+  //   setId(value);
+  // };
+
+  // const handleSearchID = () => {
+  //   const actionSearch = getLocationByIdApi(Number(id));
+  //   dispatch(actionSearch);
+  // }
 
   const handleEdit = (id:number) => {
     setOpenModal(true);
@@ -95,7 +99,6 @@ export default function LocationManagement({}: Props) {
     };
   }, [editAction]);
 
-
   const handleCloseModal = () => {
     setOpenModal(false);
     setEditAction(true);
@@ -114,7 +117,7 @@ export default function LocationManagement({}: Props) {
               className="form-control"
               placeholder="Locations Name"
               // onChange={handleChange}
-              // value={username}
+              // value={id}
             />
             <button className="btn btn-outline-danger">Search</button>
           </div>
@@ -133,7 +136,7 @@ export default function LocationManagement({}: Props) {
               </tr>
             </thead>
             <tbody>
-              {arrLocationPageIndex?.map((locate, index) => {
+              {arrLocationPageIndex?.map((locate:any, index:React.Key) => {
                 return (
                   <tr key={index}>
                     <td>{locate?.id}</td>
@@ -183,7 +186,7 @@ export default function LocationManagement({}: Props) {
             </tbody>
           </table>
         </div>
-        <div className="pagination">
+        <div className="pagination d-flex justify-content-center">
           <Pagination
             postsPerPage={postsPerPage}
             setCurrentPage={setCurrentPage}

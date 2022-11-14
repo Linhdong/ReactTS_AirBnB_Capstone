@@ -8,6 +8,7 @@ import {
   USER_LOGIN,
   getStore,
   http,
+  clearLocalStorage
 } from "./../../util/setting";
 
 export interface UserSignIn {
@@ -17,12 +18,14 @@ export interface UserSignIn {
 
 type SignInState = {
   userLogin: any;
+  stateLogin: string
 };
 
 const initialState: SignInState = {
   userLogin: localStorage.getItem(USER_LOGIN)
     ? JSON.parse(localStorage.getItem(USER_LOGIN) as string)
     : null,
+  stateLogin: ""
 };
 
 const signInReducer = createSlice({
@@ -35,10 +38,16 @@ const signInReducer = createSlice({
     ) => {
       state.userLogin = action.payload;
     },
+    setStateLogin: (
+      state: SignInState,
+      action: PayloadAction<string>
+    ) => {
+      state.stateLogin = action.payload;
+    }
   },
 });
 
-export const {setUserLogin} = signInReducer.actions;
+export const {setUserLogin, setStateLogin} = signInReducer.actions;
 
 export default signInReducer.reducer;
 
@@ -52,8 +61,12 @@ export const signInApi = (userLogin:UserSignIn) => {
             setStoreJSON(USER_LOGIN, result.data.content);
             const action = setUserLogin(result.data.content);
             dispatch(action);
+            const actionState = setStateLogin("okay")
+            dispatch(actionState)
         }catch(err){
             console.log(err)
+            const actionState = setStateLogin("fail");
+            dispatch(actionState);
         }
     }
 }

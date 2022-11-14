@@ -21,7 +21,6 @@ import BookingManagement from "./pages/Admin/BookingManagement/BookingManagement
 import UpdateInforUser from "./pages/Profile/UpdateInforUser";
 import AddLocation from "./components/Admin/Location/AddLocation";
 
-
 const Home = React.lazy(() => import("./pages/Home/Home"));
 const SignIn = React.lazy(() => import("./pages/SignIn/SignIn"));
 const SignUp = React.lazy(() => import("./pages/SignUp/SignUp"));
@@ -72,16 +71,14 @@ root.render(
               </React.Suspense>
             }
           ></Route>
-          <Route path="roomlist">
-            <Route
-              path=":locationId"
-              element={
-                <React.Suspense fallback={<Loading />}>
-                  <RoomList />
-                </React.Suspense>
-              }
-            ></Route>
-          </Route>
+          <Route
+            path="roomlist"
+            element={
+              <React.Suspense fallback={<Loading />}>
+                <RoomList />
+              </React.Suspense>
+            }
+          ></Route>
         </Route>
         {/* home template */}
 

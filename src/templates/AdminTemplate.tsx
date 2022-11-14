@@ -47,13 +47,13 @@ export default function AdminTemplate({}: Props) {
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
       >
-        <div className="logo" style={{ height: "60px" }}>
+        <NavLink to="/" className="logo" style={{ height: "60px" }}>
           <img
             src={logo}
             alt="logo"
             style={{ width: "100px", padding: "15px 0 15px 15px" }}
           />
-        </div>
+        </NavLink>
         <Menu
           theme="dark"
           mode="inline"

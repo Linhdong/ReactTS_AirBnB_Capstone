@@ -3,12 +3,11 @@ import { NavLink } from "react-router-dom";
 import { User } from "../../redux/reducers/userReducer";
 import { clearLocalStorage, getStoreJSON } from "../../util/setting";
 
-type Props = {
-};
+type Props = {};
 
-export default function Dropdown({  }: Props) {
+export default function Dropdown({}: Props) {
   const userLogin = getStoreJSON("userLogin");
-  
+  console.log(userLogin.user.role);
   const handleLogout = () => {
     clearLocalStorage("userLogin");
     clearLocalStorage("accessToken");
@@ -25,9 +24,18 @@ export default function Dropdown({  }: Props) {
           </li>
           <hr />
           <li>
-            <a href="#" className="dropdown__item">
+            {/* <a href="#" className="dropdown__item">
               Host your home
-            </a>
+            </a> */}
+            {userLogin.user.role === "ADMIN" ? (
+              <NavLink to="/admin" className="dropdown__item">
+                Admin Management{" "}
+              </NavLink>
+            ) : (
+              <a href="#" className="dropdown__item">
+                Host your home
+              </a>
+            )}
           </li>
           <li>
             <a href="#" className="dropdown__item">

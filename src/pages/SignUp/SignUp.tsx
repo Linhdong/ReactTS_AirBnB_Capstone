@@ -95,6 +95,7 @@ export default function SignUp({}: Props) {
                     id="name"
                     placeholder="User name"
                     onChange={formik.handleChange}
+                    style={{textTransform:'lowercase'}}
                   />
                   {formik.errors.name ? (
                     <p className="text-danger mt-1">

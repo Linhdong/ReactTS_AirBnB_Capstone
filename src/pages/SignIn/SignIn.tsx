@@ -4,17 +4,16 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { signInApi } from "../../redux/reducers/signInReducer";
-import { useDispatch, useSelector } from "react-redux";
-import { getStore } from "./../../util/setting";
+import { useDispatch } from "react-redux";
+import { getStore, getStoreJSON } from "./../../util/setting";
 import { AppDispatch, RootState } from "./../../redux/configStore";
 import { history } from "../../index";
 
 type Props = {};
 
 export default function SignIn({}: Props) {
-  const { userLogin } = useSelector((state: RootState) => state.signInReducer);
+  const userLogin = getStoreJSON("userLogin");
   const navigate = useNavigate();
-  const [page, setPage] = useState(getStore("userLogin"));
   const dispatch: AppDispatch = useDispatch();
   const formik = useFormik<{
     email: string;
