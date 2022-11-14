@@ -177,39 +177,3 @@ export const editUserAction = (userId: number, userInfo: any) => {
   }
 }
 
-
-//UPDATE USER INFOR
-// export const capNhatThongTinNguoiDungAction = (id:number, formData) => {
-//   return async (dispatch: AppDispatch) => {
-//     try {
-//       const result = await quanLyNguoiDungService.capNhatThongTinNguoiDung(
-//         id,
-//         formData
-//       );
-//       if (result.status === 200) {
-//         dispatch({
-//           type: CAP_NHAT_THONG_TIN_NGUOI_DUNG,
-//           thongTinnguoiDungCapNhat: result.data,
-//         });
-//         alert("Update infomation successfully");
-//         dispatch(layThongTinChiTietNguoiDungAction(idNguoiDung));
-
-//         // Sau khi cập nhật thành công nếu là tài khoản của admin đăng đăng nhập thì quay về infoadmin, nếu chỉnh trong danh sách thì quay về danh sách
-//         if (
-//           result.data._id ===
-//           JSON.parse(localStorage.getItem("USER_LOGIN")).user._id
-//         ) {
-//           history.push("/admin/infoadmin");
-//           window.location.reload();
-//         } else {
-//           history.push("/admin/listaccount");
-//           window.location.reload();
-//         }
-//       }
-//     } catch (error) {
-//       alert("Update infomation failed, please check again");
-//       console.log("error", error.response);
-//     }
-//   };
-// };
-

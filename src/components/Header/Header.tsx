@@ -137,13 +137,13 @@ export default function Header({ }: Props) {
 
                 </>
               )}
-              className={`dropdown__content ${
+              {/* className={`dropdown__content ${
                 isClicked ? "d-block" : "d-none"
-              }`}
+              }`} */}
             
-              <ul onClick={() => setIsClicked(false)}>
+              {/* <ul onClick={() => setIsClicked(false)}>
                 <Dropdown />
-              </ul>
+              </ul> */}
             </div>
           </div>
         </div>
