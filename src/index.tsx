@@ -19,6 +19,8 @@ import LocationManagement from "./pages/Admin/LocationManagement/LocationManagem
 import RoomManagement from "./pages/Admin/Room/RoomManagement";
 import BookingManagement from "./pages/Admin/BookingManagement/BookingManagement";
 import UpdateInforUser from "./pages/Profile/UpdateInforUser";
+import AddLocation from "./components/Admin/Location/AddLocation";
+
 
 const Home = React.lazy(() => import("./pages/Home/Home"));
 const SignIn = React.lazy(() => import("./pages/SignIn/SignIn"));
@@ -34,7 +36,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <Provider store={store}>
-    <HistoryRouter history={history}>
+    <HistoryRouter history={history as any}>
       <Routes>
         {/* home template */}
         <Route path="" element={<HomeTemplate />}>
@@ -106,6 +108,14 @@ root.render(
           </Route>
         </Route>
         {/* admin template */}
+        <Route
+          path="addLocation"
+          element={
+            <React.Suspense fallback={<Loading />}>
+              <AddLocation />
+            </React.Suspense>
+          }
+        ></Route>
 
         <Route path="*" element={<Navigate to="" />}></Route>
       </Routes>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 
 type Props = {
   postsPerPage: number;
@@ -7,7 +7,7 @@ type Props = {
 };
 
 export default function Pagination({ postsPerPage, setCurrentPage, totalRow }: Props) {
-  // let totalPosts = 83;
+  const[active, setActive] = useState('btn btn-warning  mx-2 rounded-0 btnPagination');
   let pages:number[] = [];
   let currentPage = 1;
   for (let i = 1; i <= Math.ceil(totalRow / postsPerPage); i++) {
@@ -18,10 +18,11 @@ export default function Pagination({ postsPerPage, setCurrentPage, totalRow }: P
       {pages.map((page, index) => {
         return (
           <button
-            className="btn btn-warning mx-2 rounded-0 btnPagination"
+            className={active}
             key={index}
             onClick={() => {
                 setCurrentPage(page);
+                // setActive('btn btn-warning  mx-2 rounded-0 btnPagination')
             }}
           >
             {page}

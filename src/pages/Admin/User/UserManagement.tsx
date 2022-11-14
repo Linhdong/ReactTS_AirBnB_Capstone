@@ -200,7 +200,7 @@ export default function UserManagement({}: Props) {
                     </td>
                     <td>{user?.phone}</td>
                     <td>
-                      {user?.role === "admin" ? (
+                      {user?.role === "ADMIN" ? (
                         <span className="badge rounded-pill bg-success text-white">
                           Admin
                         </span>
