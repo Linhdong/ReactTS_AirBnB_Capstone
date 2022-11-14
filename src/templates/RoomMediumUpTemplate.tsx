@@ -13,28 +13,6 @@ type Props = {
 };
 
 export default function RoomMediumUpTemplate({ room }: Props) {
-  //   const { room } = useSelector((state: RootState) => state.roomReducer);
-
-  //   const { roomId } = useParams();
-
-  //   const dispatch: AppDispatch = useDispatch();
-
-  //   const renderRoomAmenities = (amenity: boolean, key: string) =>
-  //     amenity ? (
-  //       <div className="room-amenity__item d-flex">
-  //         <div className="room-amenity__item--icon">
-  //           <i className={`${amenitiesIcons[key]} stroke-transparent`}></i>
-  //         </div>
-  //         <span className="ms-3">{amenitiesNames[key]}</span>
-  //       </div>
-  //     ) : (
-  //       ""
-  //     );
-
-  //   useEffect(() => {
-  //     dispatch(getRoomByIdApi(roomId));
-  //   }, [roomId]);
-
   return (
     <>
       <Header />
@@ -59,7 +37,7 @@ export default function RoomMediumUpTemplate({ room }: Props) {
           </div>
           <RoomImagesGallery />
           <div className="room__content row py-4 justify-content-between">
-            <div className="col-7">
+            <div className="col-8">
               <RoomDetailContent room={room} />
             </div>
             <div className="col-4 wrapper" style={{ position: "relative" }}>

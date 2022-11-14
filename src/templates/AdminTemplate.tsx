@@ -44,13 +44,18 @@ export default function AdminTemplate({}: Props) {
   const navigate = useNavigate();
 
   return (
-    <Layout style={{ minHeight: "100vh" }}>
+    <Layout style={{ minHeight: "100vh", position: "relative" }}>
       <Sider
         collapsible
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
+        style={{ position: "absolute", minHeight: "100%", zIndex: "150" }}
       >
-        <div className="logo" style={{ height: "60px" }}>
+        <div
+          className="logo"
+          style={{ height: "60px" }}
+          onClick={() => navigate("/admin")}
+        >
           <img
             src={logo}
             alt="logo"
@@ -68,15 +73,13 @@ export default function AdminTemplate({}: Props) {
       <Layout className="site-layout">
         <Header className="site-layout-background" style={{ padding: 0 }} />
         <Content style={{ margin: "0 16px" }}>
-          {/* <Breadcrumb style={{ margin: "16px 0" }}>
-            <Breadcrumb.Item>User</Breadcrumb.Item>
-            <Breadcrumb.Item>Bill</Breadcrumb.Item>
-          </Breadcrumb> */}
-          <div
-            className="site-layout-background"
-            style={{ padding: 24, minHeight: 360 }}
-          >
-            <Outlet />
+          <div className="container">
+            <div
+              className="site-layout-background"
+              style={{ padding: 24, minHeight: 360 }}
+            >
+              <Outlet />
+            </div>
           </div>
         </Content>
       </Layout>

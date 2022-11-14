@@ -12,7 +12,6 @@ type Props = {};
 
 export default function BookingBox({}: Props) {
   const [value, setValue] = useState<DateRangePickerValue>([null, null]);
-  console.log(moment(value[0]).format("L"));
 
   const [guestNum, setGuestNum] = useState(1);
 
@@ -86,7 +85,7 @@ export default function BookingBox({}: Props) {
           </h5>
           <div className="d-flex justify-content-between align-items-center">
             <button
-              className="btn btn--primary py-2 px-3"
+              className="btn--primary py-2 px-3"
               onClick={() => handleChangeGuestNum(false)}
               disabled={guestNum <= 1 ? true : false}
             >
@@ -94,7 +93,7 @@ export default function BookingBox({}: Props) {
             </button>
             <strong>{guestNum}</strong>
             <button
-              className="btn btn--primary py-2 px-3"
+              className="btn--primary py-2 px-3"
               onClick={() => handleChangeGuestNum(true)}
               disabled={guestNum >= room.khach ? true : false}
             >
@@ -106,7 +105,7 @@ export default function BookingBox({}: Props) {
         <div className="bookingBtn">
           <Button
             path="#"
-            className="btn btn--primary"
+            className="btn--primary"
             onClick={() => {}}
             disabled={value[0] === null || value[1] === null ? true : false}
           >

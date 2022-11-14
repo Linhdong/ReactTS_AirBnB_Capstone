@@ -199,7 +199,7 @@ export default function RoomManagement({}: Props) {
   useEffect(() => {
     dispatch(searchRoomApi(pageIndex.current, pageSize.toString(), searchTerm));
     console.log("on mounted");
-  }, []);
+  }, [pageIndex.current]);
 
   useEffect(() => {
     timeout = setTimeout(() => {
@@ -230,7 +230,9 @@ export default function RoomManagement({}: Props) {
         Thêm phòng
       </button>
       <form>
-        <div className="admin__searchBar input-group mt-2">
+        <div
+          className="admin__searchBar input-group mt-2"
+        >
           <input
             type="text"
             value={searchTerm}
