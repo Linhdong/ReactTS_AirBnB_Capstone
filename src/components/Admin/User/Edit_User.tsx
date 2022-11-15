@@ -55,7 +55,7 @@ export default function Edit_User({ idUser }: Props) {
       try {
         let result = await http.put(`/users/${idUser}`, values);
         console.log(result.data.content);
-        console.log("Update User Successfully !");
+        alert("Update User Successfully !");
       } catch (err) {
         console.log(err);
       }
@@ -136,7 +136,7 @@ export default function Edit_User({ idUser }: Props) {
                   className="form-control"
                   id="role"
                   placeholder="Your role"
-                  value={formik.values?.role?.toUpperCase()}
+                  value={formik.values?.role?.toLocaleUpperCase()}
                   onChange={formik.handleChange}
                 />
               </div>

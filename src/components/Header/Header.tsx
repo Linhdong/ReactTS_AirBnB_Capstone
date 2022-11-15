@@ -9,7 +9,7 @@ import Dropdown from "./Dropdown";
 const logo = require("../../assets/img/airbnb-logo.png");
 type Props = {};
 
-export default function Header({ }: Props) {
+export default function Header({}: Props) {
   const { userLogin } = useSelector((state: RootState) => state.signInReducer);
 
   const [isClicked, setIsClicked] = useState(false);
@@ -22,7 +22,7 @@ export default function Header({ }: Props) {
     const { value, id } = e.target;
     keywordRef.current = value;
     setSearchParams({ maViTri: keywordRef.current });
-  }
+  };
   // console.log(typeof(searchParams.get("maViTri")));
   const location = `/roomlist?${searchParams.get("maViTri")}`;
 
@@ -42,17 +42,22 @@ export default function Header({ }: Props) {
         {/* middle section - search bar */}
         <div className="header__search-bar">
           <div className="search-bar d-flex align-items-center justify-content-between">
-            <input type="text" placeholder="Start your search" onChange={handleChange} id="maViTri" />
             <input
               type="text"
               placeholder="Start your search"
               onChange={handleChange}
               id="maViTri"
             />
+            {/* <input
+              type="text"
+              placeholder="Start your search"
+              onChange={handleChange}
+              id="maViTri"
+            /> */}
             <Button
               path={location}
               className="btn--primary btnSearch"
-              onClick={() => { }}
+              onClick={() => {}}
             >
               <i className="fas fa-search"></i>
             </Button>
@@ -68,7 +73,7 @@ export default function Header({ }: Props) {
           <Button
             path="#"
             className="btn--light btnLanguage"
-            onClick={() => { }}
+            onClick={() => {}}
           >
             <i className="fas fa-globe"></i>
           </Button>
@@ -86,8 +91,9 @@ export default function Header({ }: Props) {
             </Button>
             <div
               id="user__dropdown"
-              className={`dropdown__content ${isClicked ? "d-block" : "d-none"
-                }`}
+              className={`dropdown__content ${
+                isClicked ? "d-block" : "d-none"
+              }`}
               onClick={showDropdown}
             >
               {/* chua login  */}
@@ -104,15 +110,17 @@ export default function Header({ }: Props) {
               {/* profile */}
               {userLogin && (
                 <>
-                  <NavLink to="/profile" className="dropdown__item" onClick={() => {
-                  }}>
+                  <NavLink
+                    to="/profile"
+                    className="dropdown__item"
+                    onClick={() => {}}
+                  >
                     Profile
                   </NavLink>
-
                 </>
               )}
               <hr />
-              <a href="/" className="dropdown__item">
+              {/* <a href="/" className="dropdown__item">
                 Host your home
               </a>
               <a href="/" className="dropdown__item">
@@ -120,27 +128,42 @@ export default function Header({ }: Props) {
               </a>
               <a href="/" className="dropdown__item">
                 Help
+              </a> */}
+              {userLogin?.user?.role === "ADMIN" ? (
+                <NavLink to="/admin" className="dropdown__item">
+                  Admin Management
+                </NavLink>
+              ) : (
+                <a href="/" className="dropdown__item">
+                  Host your home
+                </a>
+              )}
+              <a href="/" className="dropdown__item">
+                Help
               </a>
 
               {userLogin && (
                 <>
-                  <NavLink to="/logout" className="dropdown__item" onClick={() => {
-                    //logout
-                    localStorage.removeItem('userLogin');
-                    // localStorage.removeItem(ACCESS_TOKEN);
-                    // history.push('/');
-                    navigate('/')
-                    window.location.reload();
-                  }}>
+                  <NavLink
+                    to="/logout"
+                    className="dropdown__item"
+                    onClick={() => {
+                      //logout
+                      localStorage.removeItem("userLogin");
+                      // localStorage.removeItem(ACCESS_TOKEN);
+                      // history.push('/');
+                      navigate("/");
+                      window.location.reload();
+                    }}
+                  >
                     Log out
                   </NavLink>
-
                 </>
               )}
               {/* className={`dropdown__content ${
                 isClicked ? "d-block" : "d-none"
               }`} */}
-            
+
               {/* <ul onClick={() => setIsClicked(false)}>
                 <Dropdown />
               </ul> */}

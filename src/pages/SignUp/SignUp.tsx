@@ -35,14 +35,14 @@ export default function SignUp({}: Props) {
       phone: "",
       birthday: "",
       gender: "",
-      role: "user",
+      role: "",
     },
     onSubmit: async (values) => {
       console.log(values);
       try {
         let result = await http.post("auth/signup", values);
         console.log(result.data.content);
-        console.log("Create User Account Successfully !");
+        alert("Create User Account Successfully !");
       } catch (err) {
         console.log(err);
       }

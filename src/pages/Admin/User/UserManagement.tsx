@@ -84,7 +84,7 @@ export default function UserManagement({}: Props) {
       pageIndex: pageIndex.current,
       pageSize: pageSize.current,
     });
-  }, [currentPage, pageIndex.current]);
+  }, [currentPage]);
 
   useEffect(() => {
     timeout = setTimeout(() => {
@@ -181,7 +181,7 @@ export default function UserManagement({}: Props) {
               </tr>
             </thead>
             <tbody>
-              {arrUsers?.map((user, index) => {
+              {arrUsers?.map((user:any , index:number) => {
                 return (
                   <tr key={index}>
                     <td>{user?.id}</td>
