@@ -8,7 +8,8 @@ import UserManagement from "../Admin/User/UserManagement";
 import data from "./data";
 import UpdateInforUser from "./UpdateInforUser";
 import moment from 'moment';
-import { getAllRoomsApi } from "../../redux/reducers/roomReducer";
+import roomReducer, { getAllRoomsApi } from "../../redux/reducers/roomReducer";
+import Room from "../../templates/RoomTemplate";
 
 
 type Props = {};
@@ -16,13 +17,16 @@ type Props = {};
 export default function Profile({ }: Props) {
 
 
-  const { rentedRoom, userInfo } = useSelector((state: RootState) => state.userReducer)
-  const [rentedRoomList, setRentedRoomList] = useState<RentedRoom[]>(rentedRoom as RentedRoom[]);
-
   const { arrRooms } = useSelector((state: RootState) => state.roomReducer);
 
   const { userLogin } = useSelector((state: RootState) => state.signInReducer);
-  const { user }: any = Object.keys(userInfo).length === 0 ?  userLogin : userInfo;
+  const { rentedRoom, userInfo } = useSelector((state: RootState) => state.userReducer)
+  const [rentedRoomList, setRentedRoomList] = useState<RentedRoom[]>(rentedRoom as RentedRoom[]);
+
+
+
+
+  const { user }: any = Object.keys(userInfo).length === 0 ? userLogin : userInfo;
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -34,7 +38,8 @@ export default function Profile({ }: Props) {
     dispatch(getAllRoomsApi());
     getRentedRoom();
     setRentedRoomList(rentedRoom as RentedRoom[]);
-  }, []);
+
+  }, [rentedRoom]);
 
 
   const getRentedRoom = async () => {
@@ -130,12 +135,13 @@ export default function Profile({ }: Props) {
               <div className="rent-history mt-4">
                 <h5>Rented Room</h5>
                 {rentedRoomList.length > 0 && (
-                  <div className="room-list">
+                  <div className="room-list" >
                     {rentedRoomList.map((item, index) => {
                       {
                         arrRooms.map((room) => {
                           if (item.maPhong == room.id) {
-                            item = { ...item, hinhAnh: room.hinhAnh, tenPhong: room.tenPhong }
+                            item = { ...item, hinhAnh: room.hinhAnh, tenPhong: room.tenPhong, giaTien: room.giaTien,dieuHoa:room.dieuHoa, mayGiat:room.mayGiat,
+                              banLa:room.banLa, tivi:room.tivi,wifi:room.wifi,phongNgu:room.phongNgu,phongTam:room.phongTam }
                           }
                         })
                       }
@@ -162,17 +168,17 @@ export default function Profile({ }: Props) {
                                 </div>
                                 <div className="card-body border-0">
                                   <p className="my-2">
-                                    {item.soLuongKhach} Guests - Studio Room - 1 Bed - 1 Bath
+                                    {item.soLuongKhach} Guests - Studio Room -{item.phongNgu} bed - {item.phongTam} bath
                                   </p>
                                   <p>
-                                    Wifi - Kitchen - Air Condition - Washing
+                                    {item.wifi} - Kitchen - Air Condition - Washing
                                     Machine
                                   </p>
                                 </div>
                                 <div className="card-footer text-end border-0">
+                                  <p className="mt-2">{item.giaTien} $/Night</p>
                                   <p className="mt-2">Check in: {moment(item.ngayDen).format('hh:mm A, dddd ,DD/MM/YYYY')}</p>
                                   <p className="mt-2">Check out: {moment(item.ngayDi).format('hh:mm A, dddd ,DD/MM/YYYY')}</p>
-
                                 </div>
                               </div>
                             </div>

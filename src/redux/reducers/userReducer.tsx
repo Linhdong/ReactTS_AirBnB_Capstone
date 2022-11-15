@@ -33,7 +33,17 @@ export interface RentedRoom {
   "soLuongKhach": number,
   "maNguoiDung": number,
   "hinhAnh": string,
-  "tenPhong": string
+  "tenPhong": string,
+  "giaTien": number,
+  "mayGiat": boolean,
+  "banLa": boolean,
+  "tivi": boolean,
+  "dieuHoa": boolean,
+  "wifi": boolean
+  "phongNgu": number,
+  "phongTam": number,
+
+
 }
 
 type UserState = {
