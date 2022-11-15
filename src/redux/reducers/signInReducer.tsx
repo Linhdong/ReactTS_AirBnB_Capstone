@@ -8,7 +8,7 @@ import {
   USER_LOGIN,
   getStore,
   http,
-  clearLocalStorage
+  clearLocalStorage,
 } from "./../../util/setting";
 import { setUserInfo } from "./userReducer";
 
@@ -19,75 +19,67 @@ export interface UserSignIn {
 
 type SignInState = {
   userLogin: any;
-  stateLogin: string
+  stateLogin: string;
 };
 
 const initialState: SignInState = {
   userLogin: localStorage.getItem(USER_LOGIN)
     ? JSON.parse(localStorage.getItem(USER_LOGIN) as string)
     : null,
-  stateLogin: ""
+  stateLogin: "",
 };
 
 const signInReducer = createSlice({
   name: "signInReducer",
   initialState,
   reducers: {
-    setUserLogin: (
-      state: SignInState,
-      action: PayloadAction<UserSignIn[]>
-    ) => {
+    setUserLogin: (state: SignInState, action: PayloadAction<UserSignIn[]>) => {
       state.userLogin = action.payload;
     },
-    setStateLogin: (
-      state: SignInState,
-      action: PayloadAction<string>
-    ) => {
+    setStateLogin: (state: SignInState, action: PayloadAction<string>) => {
       state.stateLogin = action.payload;
-    }
+    },
   },
 });
 
-export const {setUserLogin, setStateLogin} = signInReducer.actions;
+export const { setUserLogin, setStateLogin } = signInReducer.actions;
 
 export default signInReducer.reducer;
 
 //Api
-export const signInApi = (userLogin:UserSignIn) => {
-    return async (dispatch:AppDispatch) => {
-        try{
-            let result = await http.post("auth/signin", userLogin);
-            console.log(result.data.content);
-            setStore(ACCESS_TOKEN, result.data.content.accessToken);
-            setStoreJSON(USER_LOGIN, result.data.content);
-            const action = setUserLogin(result.data.content);
-            dispatch(action);
-            // setUserInfo(result.data.content);
-            const actionState = setStateLogin("okay")
-            dispatch(actionState)
-        }catch(err){
-            console.log(err)
-            const actionState = setStateLogin("fail");
-            dispatch(actionState);
-        }
+export const signInApi = (userLogin: UserSignIn) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      let result = await http.post("auth/signin", userLogin);
+      console.log(result.data.content);
+      setStore(ACCESS_TOKEN, result.data.content.accessToken);
+      setStoreJSON(USER_LOGIN, result.data.content);
+      const action = setUserLogin(result.data.content);
+      dispatch(action);
+      dispatch(setUserInfo(result.data.content.user));
+      // setUserInfo(result.data.content);
+      const actionState = setStateLogin("okay");
+      dispatch(actionState);
+    } catch (err) {
+      console.log(err);
+      const actionState = setStateLogin("fail");
+      dispatch(actionState);
     }
-}
+  };
+};
 
 export const getUserInfoAction = () => {
   return async (dispatch: AppDispatch) => {
-
     try {
-      const result = await http.post('/users');
+      const result = await http.post("/users");
 
       if (result.status === 200) {
         setUserLogin(result.data.content);
       }
 
-      console.log('result', result);
-
-
+      console.log("result", result);
     } catch (errors: any) {
-      console.log('errors', errors.response?.data);
+      console.log("errors", errors.response?.data);
     }
-  }
-}
+  };
+};

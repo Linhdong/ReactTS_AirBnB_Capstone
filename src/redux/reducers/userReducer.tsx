@@ -11,6 +11,7 @@ import {
   getStore,
   http,
   clearLocalStorage,
+  getStoreJSON,
 } from "./../../util/setting";
 
 export interface User {
@@ -26,24 +27,22 @@ export interface User {
 }
 
 export interface RentedRoom {
-  "id": number,
-  "maPhong": number,
-  "ngayDen": Date,
-  "ngayDi": Date,
-  "soLuongKhach": number,
-  "maNguoiDung": number,
-  "hinhAnh": string,
-  "tenPhong": string,
-  "giaTien": number,
-  "mayGiat": boolean,
-  "banLa": boolean,
-  "tivi": boolean,
-  "dieuHoa": boolean,
-  "wifi": boolean
-  "phongNgu": number,
-  "phongTam": number,
-
-
+  id: number;
+  maPhong: number;
+  ngayDen: Date;
+  ngayDi: Date;
+  soLuongKhach: number;
+  maNguoiDung: number;
+  hinhAnh: string;
+  tenPhong: string;
+  giaTien: number;
+  mayGiat: boolean;
+  banLa: boolean;
+  tivi: boolean;
+  dieuHoa: boolean;
+  wifi: boolean;
+  phongNgu: number;
+  phongTam: number;
 }
 
 type UserState = {
@@ -80,11 +79,17 @@ const userReducer = createSlice({
     },
     setUserInfo: (state: UserState, action: PayloadAction<User[]>) => {
       state.userInfo = action.payload;
-    }
+    },
   },
 });
 
-export const { setArrUser, setTotalRow, setUserByID, getRentedRoom, setUserInfo } = userReducer.actions;
+export const {
+  setArrUser,
+  setTotalRow,
+  setUserByID,
+  getRentedRoom,
+  setUserInfo,
+} = userReducer.actions;
 
 export default userReducer.reducer;
 
@@ -138,13 +143,12 @@ export const editUserByIDAction = (id: number) => {
       if (id !== null) {
         const result = await http.get(`/users/${id}`);
         console.log(result.data.content);
-        dispatch(setUserByID(result.data.content))
+        dispatch(setUserByID(result.data.content));
       }
-    } catch (err) { }
+    } catch (err) {}
   };
 };
 //Call api getProfile
-
 
 //call rented room by each user
 
@@ -154,15 +158,11 @@ export const getRentedRoomByEachUser = (id: number) => {
       if (id !== null) {
         const result = await http.get(`/dat-phong/lay-theo-nguoi-dung/${id}`);
         console.log(result.data.content);
-        dispatch(getRentedRoom(result.data.content))
+        dispatch(getRentedRoom(result.data.content));
       }
-    }
-    catch (err) {
-
-    }
-  }
-}
-
+    } catch (err) {}
+  };
+};
 
 export const editUserAction = (userId: number, userInfo: any) => {
   return async (dispatch: AppDispatch) => {
@@ -170,20 +170,20 @@ export const editUserAction = (userId: number, userInfo: any) => {
       const result = await http.put(`users/${userId}`, userInfo);
       if (result.status === 200) {
         Swal.fire({
-          title: 'Update Successfully!',
-          icon: 'success',
-          confirmButtonColor: '#44c020'
-        })
-        setUserInfo(result.data.content);
+          title: "Update Successfully!",
+          icon: "success",
+          confirmButtonColor: "#44c020",
+        });
+        dispatch(setUserInfo(result.data.content));
+        setStoreJSON(USER_LOGIN, { user: result.data.content });
       }
       // console.log('result', result);
     } catch (errors: any) {
       Swal.fire({
-        icon: 'error',
+        icon: "error",
         title: errors.response?.data.message,
         text: `${errors.response?.data.content}`,
-      })
+      });
     }
-  }
-}
-
+  };
+};
