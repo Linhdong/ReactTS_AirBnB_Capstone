@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import "antd/dist/antd.css";
 import { UserOutlined, CompassOutlined, HomeOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Layout, Menu, Breadcrumb } from "antd";
-import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Layout, Menu } from "antd";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 const logo = require("../assets/img/airbnb-logo(white).png");
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -37,7 +37,7 @@ const items = [
 type Props = {};
 
 export default function AdminTemplate({}: Props) {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
 
   const location = useLocation();
 
@@ -59,21 +59,45 @@ export default function AdminTemplate({}: Props) {
           <img
             src={logo}
             alt="logo"
-            style={{ width: "100px", padding: "15px 0 15px 15px" }}
+            style={{
+              width: "100px",
+              padding: "15px 0 15px 15px",
+              cursor: "pointer",
+            }}
           />
         </div>
         <Menu
           theme="dark"
           mode="inline"
           items={items}
-          onClick={({ key }) => navigate(key)}
+          onClick={({ key }) => {
+            navigate(key);
+            setCollapsed(true);
+          }}
           selectedKeys={[location.pathname]}
         ></Menu>
       </Sider>
       <Layout className="site-layout">
-        <Header className="site-layout-background" style={{ padding: 0 }} />
+        <Header className="site-layout-background" style={{ padding: 0 }}>
+          <Menu
+            mode="inline"
+            theme="dark"
+            className="d-flex justify-content-end"
+          >
+            <button className="btn admin-toggles">
+              <img
+                src="https://i.pravatar.cc/200"
+                alt="adminname"
+                style={{ width: "50px", height: "50px", borderRadius: "50%" }}
+              />
+            </button>
+            <button className="btn text-light">
+              <i className="fas fa-sign-out-alt"></i>
+            </button>
+          </Menu>
+        </Header>
         <Content style={{ margin: "0 16px" }}>
-          <div className="container">
+          <div style={{ padding: "0 80px" }}>
             <div
               className="site-layout-background"
               style={{ padding: 24, minHeight: 360 }}
