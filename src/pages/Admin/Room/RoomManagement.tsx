@@ -232,7 +232,9 @@ export default function RoomManagement({}: Props) {
         Thêm phòng
       </button>
       <form>
-        <div className="admin__searchBar input-group mt-2">
+        <div
+          className="admin__searchBar input-group mt-2"
+        >
           <input
             type="text"
             value={searchTerm}

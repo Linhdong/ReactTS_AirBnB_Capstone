@@ -30,7 +30,7 @@ export default function Header({ }: Props) {
 
   return (
     <header className="header bg-white shadow-sm">
-      <div className="container py-4 d-flex justify-content-between align-items-center">
+      <div className="container d-flex justify-content-between align-items-center">
         {/* left section - logo */}
         <div className="header__logo">
           <NavLink to="/">
@@ -62,7 +62,7 @@ export default function Header({ }: Props) {
 
         {/* right section */}
         <div className="header__right d-flex">
-          <Button path="#" className="btn--light" onClick={() => { }}>
+          <Button path="#" className="btn--light btnHost" onClick={() => {}}>
             Become a host
           </Button>
           <Button

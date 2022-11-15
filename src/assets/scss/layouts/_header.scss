@@ -1,9 +1,14 @@
 .header {
+  padding: 25px 0;
   .container {
     // left section
     .header__logo {
       img {
         width: 109px;
+
+        @include res-between($sm-min, $md-max) {
+          width: 90px;
+        }
       }
     }
     // left section
@@ -42,6 +47,11 @@
 
     // right section
     .header__right {
+      .btnHost {
+        @include res-between($sm-min, $md-max) {
+          display: none;
+        }
+      }
       .btnLanguage {
         padding: 0.7em;
       }

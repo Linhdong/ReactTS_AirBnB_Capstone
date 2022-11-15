@@ -21,6 +21,7 @@
   background: $bg-primary;
   padding: 1em 1.5em;
   border-radius: 10px;
+  border: 1px solid transparent;
   @include text($text-base, $text-bold, $text-c1-light);
 }
 
