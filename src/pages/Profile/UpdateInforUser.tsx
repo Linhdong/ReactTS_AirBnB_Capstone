@@ -4,19 +4,14 @@ import { AppDispatch, RootState } from "../../redux/configStore";
 import { signInApi } from "../../redux/reducers/signInReducer";
 import * as Yup from "yup";
 import React, { useState, useEffect } from "react";
-import { http } from "../../util/setting";
+import { getStoreJSON, http } from "../../util/setting";
 import { editUserAction } from "../../redux/reducers/userReducer";
-
-
 
 type Props = {};
 
-export default function UpdateInforUser({ }: Props) {
-
-
-  const { userLogin } = useSelector((state: RootState) => state.signInReducer);
-  // const { userInfo } = useSelector((state: RootState) => state.userReducer);
-  const { user }: any = userLogin;
+export default function UpdateInforUser({}: Props) {
+  const userLogin = getStoreJSON("userLogin");
+  const { userInfo } = useSelector((state: RootState) => state.userReducer);
   const randomNumberInRange = (min: number, max: number) => {
     // 👇️ get number between min (inclusive) and max (inclusive)
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -24,6 +19,8 @@ export default function UpdateInforUser({ }: Props) {
   const dispatch: AppDispatch = useDispatch();
 
   const [num, setNum] = useState(randomNumberInRange(0, 1000000));
+
+  const [show, setShow] = useState(false);
 
   const avatar = require("./../../assets/img/Imag_1.png");
   const formik = useFormik<{
@@ -37,32 +34,36 @@ export default function UpdateInforUser({ }: Props) {
     role: string;
   }>({
     initialValues: {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      password: user.password,
-      phone: user.phone,
-      birthday: user.birthday,
-      gender: user.gender,
-      role: user.role,
+      id: userInfo.id || userLogin.user.id,
+      name: userInfo.name || userLogin.user.name,
+      email: userInfo.email || userLogin.user.email,
+      password: userInfo.password || userLogin.user.password,
+      phone: userInfo.phone || userLogin.user.phone,
+      birthday: userInfo.birthday || userLogin.user.birthday,
+      gender: userInfo.gender || userLogin.user.gender,
+      role: userInfo.role || userLogin.user.role,
     },
     validationSchema: Yup.object().shape({
       name: Yup.string().required("Name is required!"),
-      email: Yup.string().required("Email is required!").email("Invalid email!"),
+      email: Yup.string()
+        .required("Email is required!")
+        .email("Invalid email!"),
       // password: Yup.string().required("Password is required!").min(8, "Password must have at least 8 characters"),
-      phone: Yup.string().required("Phone is required!").min(10, "Phone must have at least 10 number"),
+      phone: Yup.string()
+        .required("Phone is required!")
+        .min(10, "Phone must have at least 10 number"),
       // birthday: Yup.string().required("birthday is required!"),
     }),
     onSubmit: async (values) => {
-      const action = editUserAction(user.id, values);
+      const action = editUserAction(userInfo.id, values);
       await dispatch(action);
-      console.log('hello')
-    }
-  })
+      console.log("hello");
+    },
+  });
 
   useEffect(() => {
     setNum(randomNumberInRange(0, 1000000));
-    console.log(user.id)
+    console.log(userInfo.id);
     formik.setFieldValue("id", num);
   }, []);
 
@@ -74,7 +75,7 @@ export default function UpdateInforUser({ }: Props) {
       <form onSubmit={formik.handleSubmit}>
         <div className="row">
           <div className="col-lg-2 col-md-12 col-sm-12 image-user">
-            <div className="avatar" style={{ marginTop: '20px' }}>
+            <div className="avatar" style={{ marginTop: "20px" }}>
               <img
                 src={avatar}
                 className="rounded-circle"
@@ -97,9 +98,7 @@ export default function UpdateInforUser({ }: Props) {
                 onChange={formik.handleChange}
               />
               {formik.errors.email ? (
-                <p className="text-danger mt-1">
-                  {formik.errors.email}
-                </p>
+                <p className="text-danger mt-1">{formik.errors.email}</p>
               ) : (
                 ""
               )}
@@ -112,7 +111,8 @@ export default function UpdateInforUser({ }: Props) {
                 className="form-control"
                 id="phone"
                 aria-describedby="emailHelp"
-                placeholder="Phone number" value={formik.values.phone}
+                placeholder="Phone number"
+                value={formik.values.phone}
                 onChange={formik.handleChange}
               />
               {formik.errors.phone ? (
@@ -133,13 +133,12 @@ export default function UpdateInforUser({ }: Props) {
                 className="form-control"
                 id="name"
                 aria-describedby="emailHelp"
-                placeholder="Your name" value={formik.values.name}
+                placeholder="Your name"
+                value={formik.values.name}
                 onChange={formik.handleChange}
               />
               {formik.errors.name ? (
-                <p className="text-danger mt-1">
-                  {formik.errors.name}
-                </p>
+                <p className="text-danger mt-1">{formik.errors.name}</p>
               ) : (
                 ""
               )}
@@ -178,6 +177,10 @@ export default function UpdateInforUser({ }: Props) {
           <button
             className="btn btn-outline-success btn-md me-4 rounded-pill px-4"
             type="submit"
+            data-bs-dismiss="modal"
+            onClick={() => {
+              setShow(true);
+            }}
           >
             Update
           </button>
