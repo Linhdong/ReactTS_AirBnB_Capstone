@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "antd/dist/antd.css";
-import { UserOutlined, CompassOutlined, HomeOutlined } from "@ant-design/icons";
+import { UserOutlined, CompassOutlined, HomeOutlined, ProfileOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Layout, Menu } from "antd";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
@@ -26,9 +26,10 @@ function getItem(
 }
 
 const items = [
-  getItem("Quản lý người dùng", "/admin/users", <UserOutlined />),
-  getItem("Quản lý vị trí", "/admin/locations", <CompassOutlined />),
-  getItem("Quản lý thông tin phòng", "/admin/rooms", <HomeOutlined />),
+  getItem("Users Management", "/admin/users", <UserOutlined />),
+  getItem("Positions Management", "/admin/locations", <CompassOutlined />),
+  getItem("Room Information Management", "/admin/rooms", <HomeOutlined />),
+  getItem("Order Room Management", "/admin/bookings", <ProfileOutlined />),
 ];
 
 type Props = {};

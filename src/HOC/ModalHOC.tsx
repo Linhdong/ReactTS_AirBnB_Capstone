@@ -4,7 +4,7 @@ import { JsxElement } from "typescript";
 type Props = {
   modalId?: string;
   title?: string;
-  content?: React.ReactNode;
+  content?: JSX.Element | JSX.Element[];
 };
 
 export default function ModalHOC({ modalId, title, content }: Props) {
