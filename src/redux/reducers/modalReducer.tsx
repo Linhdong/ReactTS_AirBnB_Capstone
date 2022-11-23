@@ -13,7 +13,7 @@ const initialState = {
     submitForm: () => {
       alert('SubmitForm');
     }, 
-    idLocation:0
+    idOrderRoom:0
 };
 
 const modalReducer = createSlice({
@@ -33,7 +33,7 @@ const modalReducer = createSlice({
       const {title, Component, ID} = action.payload;
       state.tilte = title;
       state.Component = Component;
-      state.idLocation = ID;
+      state.idOrderRoom = ID;
   }
   },
 });
@@ -41,14 +41,3 @@ const modalReducer = createSlice({
 export const { setModalAction, setSubmitAction, setDeleteAction } = modalReducer.actions;
 
 export default modalReducer.reducer;
-
-export const deleteOrderRoomApi =  (viTri: number) => {
-  return async () => {
-    try {
-      alert(`Delete Successfullt ${viTri}!!`)
-      
-    } catch (err) {
-      
-    }
-  }
-};

@@ -8,7 +8,7 @@ import { useParams, useSearchParams } from "react-router-dom";
 import {
   deleteLocationApi,
   getLocationPaginationApi,
-  getLocationByIdApi
+  getLocationByIdApi,
 } from "../../../redux/reducers/locationsReducer";
 import EditLocation from "../../../components/Admin/Location/EditLocation";
 import UploadPicure from "../../../components/Admin/Location/UploadPicutre";
@@ -57,13 +57,13 @@ export default function LocationManagement({}: Props) {
   //   dispatch(actionSearch);
   // }
 
-  const handleEdit = (id:number) => {
+  const handleEdit = (id: number) => {
     setOpenModal(true);
     setOpenPopUp(false);
     setIdLocation(id);
   };
 
-  const handlePicture = (id:number) => {
+  const handlePicture = (id: number) => {
     setOpenModal(true);
     setOpenPopUp(true);
     setIdLocation(id);
@@ -94,7 +94,7 @@ export default function LocationManagement({}: Props) {
     return () => {
       if (timeout !== null) {
         clearTimeout(timeout);
-        setEditAction(false)
+        setEditAction(false);
       }
     };
   }, [editAction]);
@@ -122,6 +122,7 @@ export default function LocationManagement({}: Props) {
             <button className="btn btn-outline-danger">Search</button>
           </div>
         </form>
+      
         <div className="table-responsive">
           <table className="table table-hover">
             {/* <caption>List of users</caption> */}
@@ -136,7 +137,7 @@ export default function LocationManagement({}: Props) {
               </tr>
             </thead>
             <tbody>
-              {arrLocationPageIndex?.map((locate:any, index:React.Key) => {
+              {arrLocationPageIndex?.map((locate: any, index: React.Key) => {
                 return (
                   <tr key={index}>
                     <td>{locate?.id}</td>
@@ -194,23 +195,27 @@ export default function LocationManagement({}: Props) {
           />
         </div>
         <Modal show={openModal} size="lg" className="modal-dialog-scrollable">
-        <Modal.Header>
-          <Modal.Title>
-              { openPopUp ? 'Upload Picture' : 'Edit Location Infor'}
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-            {openPopUp ? <UploadPicure id={String(idLocation)}/> : <EditLocation id={idLocation}/>}
-        </Modal.Body>
-        <Modal.Footer>
-          <button
-            className="btn btn-secondary"
-            onClick={() => handleCloseModal()}
-          >
-            Close
-          </button>
-        </Modal.Footer>
-      </Modal>
+          <Modal.Header>
+            <Modal.Title>
+              {openPopUp ? "Upload Picture" : "Edit Location Infor"}
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {openPopUp ? (
+              <UploadPicure id={String(idLocation)} />
+            ) : (
+              <EditLocation id={idLocation} />
+            )}
+          </Modal.Body>
+          <Modal.Footer>
+            <button
+              className="btn btn-secondary"
+              onClick={() => handleCloseModal()}
+            >
+              Close
+            </button>
+          </Modal.Footer>
+        </Modal>
       </div>
     </div>
   );

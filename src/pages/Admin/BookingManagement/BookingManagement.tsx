@@ -8,15 +8,21 @@ import {
   setModalAction,
   setDeleteAction,
 } from "../../../redux/reducers/modalReducer";
-import { getOrderRoomsApi, getOrderRoomsByIdApi } from "../../../redux/reducers/orderRoomReducer";
+import {
+  deleteOrderRoomByIdApi,
+  getOrderRoomsApi,
+  getOrderRoomsByIdApi,
+} from "../../../redux/reducers/orderRoomReducer";
 import { AppDispatch, RootState } from "./../../../redux/configStore";
 import Moment from "react-moment";
 import Info_OrderRoom from "../../../components/Admin/OrderRoom/Info_OrderRoom";
+import Delete_OrderRoom from "../../../components/Admin/OrderRoom/Delete_OrderRoom";
+import Add_OrderRoom from "../../../components/Admin/OrderRoom/Add_OrderRoom";
 
 type Props = {};
 
 export default function BookingManagement({}: Props) {
-  const { arrOrderRooms } = useSelector(
+  const { arrOrderRooms, statusAction } = useSelector(
     (state: RootState) => state.orderRoomReducer
   );
   const dispatch: AppDispatch = useDispatch();
@@ -29,12 +35,12 @@ export default function BookingManagement({}: Props) {
     firstPostIndex,
     lastPostIndex
   );
-  let now = Moment;
+
   useEffect(() => {
     const action = getOrderRoomsApi();
     dispatch(action);
-  }, []);
-  console.log("OrderRooms: ", currentArrOrderRooms);
+  }, [statusAction]);
+
   const renderOrderRooms = () => {
     return currentArrOrderRooms?.map((room, index) => {
       return (
@@ -75,7 +81,16 @@ export default function BookingManagement({}: Props) {
               </button>
               <button
                 className="btn btn-outline-danger btn-sm rounded-5"
-                onClick={(event: React.MouseEvent<HTMLElement>) => {}}
+                data-bs-toggle="modal"
+                data-bs-target="#modalId"
+                onClick={(event: React.MouseEvent<HTMLElement>) => {
+                  const actionComponent = setDeleteAction({
+                    Component: Delete_OrderRoom,
+                    title: "Delete Order Room",
+                    ID: room?.id,
+                  });
+                  dispatch(actionComponent);
+                }}
               >
                 <i className="fas fa-trash-alt"></i>
               </button>
@@ -159,10 +174,21 @@ export default function BookingManagement({}: Props) {
     // </div>
     <div>
       <Modaltest />
-      <div className="titlePage">
+      <div className="titlePage pb-2">
         <h3>Order Rooms Management</h3>
-        <h5 style={{ cursor: "pointer" }}>
-          <i className="fas fa-plus-circle me-2"></i>
+        <h5
+          style={{ cursor: "pointer" }}
+          data-bs-toggle="modal"
+          data-bs-target="#modalId"
+          onClick={() => {
+            const actionComponent = setModalAction({
+              Component: Add_OrderRoom,
+              title: "Add Order Room",
+            });
+            dispatch(actionComponent);
+          }}
+        >
+          <i className="fas fa-plus-circle me-1"></i>
           Add new order room
         </h5>
       </div>

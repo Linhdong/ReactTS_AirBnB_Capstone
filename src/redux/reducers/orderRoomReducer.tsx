@@ -5,20 +5,22 @@ import { AppDispatch } from "../configStore";
 export interface orderRoom {
   id:           number;
   maPhong:      number;
-  ngayDen:      Date;
-  ngayDi:       Date;
+  ngayDen:      Date | string;
+  ngayDi:       Date | string;
   soLuongKhach: number;
   maNguoiDung:  number;
 }
 
 type InitialState = {
   arrOrderRooms: orderRoom[]
-  inforOrderRoom: orderRoom
+  inforOrderRoom: orderRoom,
+  statusAction: number
 }
 
 const initialState:InitialState = {
   arrOrderRooms: [],
-  inforOrderRoom: {} as orderRoom
+  inforOrderRoom: {} as orderRoom,
+  statusAction: 0
 }
 const orderRoomReducer = createSlice({
   name: "orderRoomReducer",
@@ -29,11 +31,14 @@ const orderRoomReducer = createSlice({
     },
     setInforRoomAction: (state:InitialState, action:PayloadAction<orderRoom>) => {
       state.inforOrderRoom = action.payload;
+    },
+    setStatusAction: (state:InitialState, action:PayloadAction<number>) => {
+      state.statusAction = action.payload;
     }
   },
 });
 
-export const { setArrOrderRoomsAction, setInforRoomAction } = orderRoomReducer.actions;
+export const { setArrOrderRoomsAction, setInforRoomAction, setStatusAction } = orderRoomReducer.actions;
 
 export default orderRoomReducer.reducer;
 
@@ -50,7 +55,7 @@ export const getOrderRoomsApi = () => {
     }
   }
 }
-//Get API DatPhong ID
+//Get DatPhong By ID
 export const getOrderRoomsByIdApi = (id:number) => {
   return async (dispatch: AppDispatch) => {
     try{
@@ -61,6 +66,35 @@ export const getOrderRoomsByIdApi = (id:number) => {
     }
   }
 }
+//Delete DatPhong By ID
+export const deleteOrderRoomByIdApi = (id:number) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const result = await http.delete(`/dat-phong/${id}`);
+      dispatch(setStatusAction(result.status));
+    } catch (err) {
+      console.log(err)
+    }
+  }
+}
 
+//Clear StatusAction 
+export const clearStatusAction = () => {
+  return async (dispatch: AppDispatch) => {
+    dispatch(setStatusAction(0));
+  }
+}
 
+//Post DatPhong
+export const postOrderRoomApi = (roomInfor:orderRoom) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const result = await http.post("/dat-phong", roomInfor);
+      console.log(result.status);
+      dispatch(setStatusAction(result.status));
+    } catch (err) {
+      console.log(err);
+    }
+  }
+}
 
