@@ -45,9 +45,9 @@ export default function Modaltest() {
               >
                 Close
               </button>
-              <button type="button" className="btn btn-primary" onClick={submitForm}>
+              {/* <button type="button" className="btn btn-primary" onClick={submitForm}>
                 Submit
-              </button>
+              </button> */}
             </div>
           </div>
         </div>

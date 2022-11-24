@@ -7,6 +7,7 @@ import Modaltest from "../../../HOC/Modaltest";
 import {
   setModalAction,
   setDeleteAction,
+  setEditAction,
 } from "../../../redux/reducers/modalReducer";
 import {
   deleteOrderRoomByIdApi,
@@ -18,6 +19,7 @@ import Moment from "react-moment";
 import Info_OrderRoom from "../../../components/Admin/OrderRoom/Info_OrderRoom";
 import Delete_OrderRoom from "../../../components/Admin/OrderRoom/Delete_OrderRoom";
 import Add_OrderRoom from "../../../components/Admin/OrderRoom/Add_OrderRoom";
+import Edit_OrderRoom from "../../../components/Admin/OrderRoom/Edit_OrderRoom";
 
 type Props = {};
 
@@ -75,7 +77,18 @@ export default function BookingManagement({}: Props) {
               </button>
               <button
                 className="btn btn-outline-warning btn-sm rounded-5 mx-1"
-                onClick={(event: React.MouseEvent<HTMLElement>) => {}}
+                data-bs-toggle="modal"
+                data-bs-target="#modalId"
+                onClick={(event: React.MouseEvent<HTMLElement>) => {
+                  const actionEdit = getOrderRoomsByIdApi(room?.id);
+                  const actionComponent = setEditAction({
+                    Component: Edit_OrderRoom,
+                    title: "Edit Order Room",
+                    ID: room?.id
+                  });
+                  dispatch(actionEdit);
+                  dispatch(actionComponent);
+                }}
               >
                 <i className="fas fa-edit"></i>
               </button>
