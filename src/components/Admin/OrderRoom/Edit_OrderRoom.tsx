@@ -78,26 +78,6 @@ export default function Edit_OrderRoom({}: Props) {
     formik.setFieldValue("maNguoiDung", inforOrderRoom.maNguoiDung);
   };
 
-  //   const handleUpdateInfor = () => {
-  //     const orderRoomInfor: orderRoom = {
-  //       id: 0,
-  //       maPhong: roomCode,
-  //       ngayDen: moment(value[0]).format("L").toString(),
-  //       ngayDi: moment(value[1]).format("L").toString(),
-  //       soLuongKhach: guestNum,
-  //       maNguoiDung: userCode,
-  //     };
-  //     const postRoomAction = postOrderRoomApi(orderRoomInfor);
-  //     dispatch(postRoomAction);
-  //     setSubmit(1);
-  //     resetFieldValue();
-  //     openNotificationWithIcon(
-  //       "success",
-  //       "Đặt phòng thành công",
-  //       <p>Return room table to review information !</p>
-  //     );
-  //   };
-
   const resetFieldValue = () => {
     formik.setFieldValue("id", 0);
     formik.setFieldValue("maPhong", 0);
@@ -114,7 +94,7 @@ export default function Edit_OrderRoom({}: Props) {
 
   useEffect(() => {
     setFieldValue();
-  }, [inforOrderRoom])
+  }, [inforOrderRoom]);
 
   useEffect(() => {
     timeout = setTimeout(() => {
