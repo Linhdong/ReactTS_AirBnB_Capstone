@@ -95,19 +95,18 @@ export default userReducer.reducer;
 
 // call api
 export const getUserPaginationAction = (
-  pageIndex: string | null,
-  pageSize: string | null,
+  pageIndex: string | null | number,
+  pageSize: string | null | number,
   keyword?: string | null
 ) => {
   return async (dispatch: AppDispatch) => {
     try {
-      if (keyword === null) {
-        const result = await http.get(
-          `/users/phan-trang-tim-kiem?pageIndex=${pageIndex}&pageSize=${pageSize}`
-        );
-        dispatch(setArrUser(result.data.content.data));
-        dispatch(setTotalRow(result.data.content.totalRow));
-      }
+      const result = await http.get(
+        `/users/phan-trang-tim-kiem?pageIndex=${pageIndex}&pageSize=${pageSize}`
+      );
+      console.log('User: ', result.data.content.data)
+      dispatch(setArrUser(result.data.content.data));
+      dispatch(setTotalRow(result.data.content.totalRow));
     } catch (err) {
       console.log(err);
     }

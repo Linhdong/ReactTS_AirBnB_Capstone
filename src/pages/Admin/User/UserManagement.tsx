@@ -7,11 +7,15 @@ import Add_User from "../../../components/Admin/User/Add_User";
 import Edit_User from "../../../components/Admin/User/Edit_User";
 import {
   deleteUserAction,
+  editUserByIDAction,
   getUserPaginationAction,
   searchUserAction,
   User,
 } from "../../../redux/reducers/userReducer";
 import {Modal} from 'react-bootstrap'
+import { setModalAction } from "../../../redux/reducers/modalReducer";
+import Info_User from "../../../components/Admin/User/Infor_User";
+import Modaltest from "../../../HOC/Modaltest";
 
 type Props = {};
 const logo = require("./../../../assets/img/airbnb-logo.png");
@@ -21,16 +25,14 @@ export default function UserManagement({}: Props) {
   const { arrUsers, totalRow } = useSelector(
     (state: RootState) => state.userReducer
   );
-  const [searchParams, setSearchParams] = useSearchParams();
+  // const [searchParams, setSearchParams] = useSearchParams();
   const [username, setUserName] = useState("");
   const [deletAction, setDeleteAction] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [openPopUp, setOpenPopUp] = useState<boolean>(false);
   const [idUser, setIDUser] = useState<number>(1); 
   const [editAction, setEditAction] = useState<boolean>(false);
-  const pageIndex = useRef("1");
-  const pageSize = useRef("1");
-  const keyword = useRef("");
+
   const dispatch: AppDispatch = useDispatch();
 
   /**
@@ -48,67 +50,86 @@ export default function UserManagement({}: Props) {
     setUserName(value);
   };
 
-  const handleSunmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    pageIndex.current = String(currentPage);
-    pageSize.current = String(postsPerPage);
-    keyword.current = String(username);
-    setSearchParams({
-      pageIndex: pageIndex.current,
-      pageSize: pageSize.current,
-      keyword: keyword.current,
-    });
-    setUserName("");
-  };
+  // const handleSunmit = (event: React.FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
+  //   pageIndex.current = String(currentPage);
+  //   pageSize.current = String(postsPerPage);
+  //   keyword.current = String(username);
+  //   setSearchParams({
+  //     pageIndex: pageIndex.current,
+  //     pageSize: pageSize.current,
+  //     keyword: keyword.current,
+  //   });
+  //   setUserName("");
+  // };
 
-  const getParamsOnUrl = () => {
-    if (searchParams.get("keyword") === null) {
-      const action = getUserPaginationAction(
-        searchParams.get("pageIndex"),
-        searchParams.get("pageSize"),
-        null
-      );
-      dispatch(action);
-    }
-  };
+  // const getParamsOnUrl = () => {
+  //   if (searchParams.get("keyword") === null) {
+  //     const action = getUserPaginationAction(
+  //       searchParams.get("pageIndex"),
+  //       searchParams.get("pageSize"),
+  //       null
+  //     );
+  //     dispatch(action);
+  //   }
+  // };
+
+  const getUserbyApi = () => {
+    const userAction = getUserPaginationAction(currentPage, postsPerPage);
+    dispatch(userAction);
+  }
 
   const handleSearchUser = () => {
     const searchAction = searchUserAction(username);
     dispatch(searchAction);
   };
 
+  // useEffect(() => {
+  //   pageIndex.current = String(currentPage);
+  //   pageSize.current = String(postsPerPage);
+  //   setSearchParams({
+  //     pageIndex: pageIndex.current,
+  //     pageSize: pageSize.current,
+  //   });
+  // }, [currentPage]);
+
+  // useEffect(() => {
+  //   timeout = setTimeout(() => {
+  //     getParamsOnUrl();
+  //   }, 1000);
+  //   return () => {
+  //     if (timeout !== null) {
+  //       clearTimeout(timeout);
+  //       setDeleteAction(false);
+  //     }
+  //   };
+  // }, [currentPage, deletAction]);
+
   useEffect(() => {
-    pageIndex.current = String(currentPage);
-    pageSize.current = String(postsPerPage);
-    setSearchParams({
-      pageIndex: pageIndex.current,
-      pageSize: pageSize.current,
-    });
+    timeout = setTimeout(() => {
+      getUserbyApi();
+    }, 500);
+    return () => {
+      if (timeout !== null) {
+        clearTimeout(timeout);
+        // setReload(false);
+      }
+    };
   }, [currentPage]);
+  console.log('Current Page: ', currentPage);
+  console.log('PostsPerPage: ', postsPerPage);
 
-  useEffect(() => {
-    timeout = setTimeout(() => {
-      getParamsOnUrl();
-    }, 1000);
-    return () => {
-      if (timeout !== null) {
-        clearTimeout(timeout);
-        setDeleteAction(false);
-      }
-    };
-  }, [pageIndex.current, keyword.current, deletAction]);
-
-  useEffect(() => {
-    timeout = setTimeout(() => {
-      handleSearchUser();
-    }, 1000);
-    return () => {
-      if (timeout !== null) {
-        clearTimeout(timeout);
-        getParamsOnUrl();
-      }
-    };
-  }, [username]);
+  // useEffect(() => {
+  //   timeout = setTimeout(() => {
+  //     handleSearchUser();
+  //   }, 1000);
+  //   return () => {
+  //     if (timeout !== null) {
+  //       clearTimeout(timeout);
+  //       getParamsOnUrl();
+  //     }
+  //   };
+  // }, [username]);
 
   const handleDelete = (id: number) => {
     const deleteAction = deleteUserAction(id);
@@ -133,29 +154,30 @@ export default function UserManagement({}: Props) {
   }
 
 
-  useEffect(() => {
-    timeout = setTimeout(() => {
-      getParamsOnUrl();
-    }, 1000);
-    return () => {
-      if (timeout !== null) {
-        clearTimeout(timeout);
-        setEditAction(false);
-        console.log('After reload: ', editAction);
-      }
-    };
-  }, [editAction]);
+  // useEffect(() => {
+  //   timeout = setTimeout(() => {
+  //     getParamsOnUrl();
+  //   }, 1000);
+  //   return () => {
+  //     if (timeout !== null) {
+  //       clearTimeout(timeout);
+  //       setEditAction(false);
+  //       console.log('After reload: ', editAction);
+  //     }
+  //   };
+  // }, [editAction]);
 
   console.log('Reload Page: ', editAction);
 
   return (
     <div>
+      <Modaltest />
       <h3 className="tilte my-3 ">Users Management</h3>
       <div className="addAdminPage mb-3" style={{ cursor: "pointer" }}>
         <h5 onClick={handleAdd}>Add administrators Page</h5>
       </div>
       <div className="row">
-        <form className="search col-lg-4" onSubmit={handleSunmit}>
+        <form className="search col-lg-4" /*onSubmit={handleSunmit}*/>
           <div className="input-group mb-3">
             <input
               className="form-control"
@@ -211,6 +233,22 @@ export default function UserManagement({}: Props) {
                       )}
                     </td>
                     <td>
+                    <button
+                        className="btn btn-outline-dark btn-sm rounded-5 mx-1"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalId"
+                        onClick={(event: React.MouseEvent<HTMLElement>) => {
+                          const actionInfor = editUserByIDAction(user?.id)
+                          const actionInfoComponent = setModalAction({
+                            Component: Info_User,
+                            title: "Personal Information"
+                          });
+                          dispatch(actionInfoComponent);
+                          dispatch(actionInfor);
+                        }}
+                      >
+                        <i className="fas fa-info-circle"></i>
+                      </button>
                       <button
                         className="btn btn-primary btn-sm rounded-5 mx-1"
                         onClick={(event: React.MouseEvent<HTMLElement>) => {

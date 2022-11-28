@@ -6,7 +6,7 @@ import { CheckboxGroup } from "@mantine/core/lib/Checkbox/CheckboxGroup/Checkbox
 import PreviewImage from "./PreviewImage";
 
 type Props = {
-  id: string;
+  id: string | number;
 };
 
 let timeout: ReturnType<typeof setTimeout>;

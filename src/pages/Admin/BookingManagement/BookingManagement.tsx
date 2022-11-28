@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Add_User_Test from "../../../components/Admin/User/Add_User_Test";
-import DeleteUser_Test from "../../../components/Admin/User/DeleteUser_Test";
 import Pagination from "../../../components/Pagination/Pagination";
 import Modaltest from "../../../HOC/Modaltest";
 import {
@@ -114,77 +112,6 @@ export default function BookingManagement({}: Props) {
     });
   };
   return (
-    // <div className="container">
-    //   <div>
-    //     {/* Modal trigger button */}
-    //     <button
-    //       type="button"
-    //       className="btn btn-primary btn-lg"
-    //       data-bs-toggle="modal"
-    //       data-bs-target="#modalId"
-    //       onClick={() => {
-    //         const action = setModalAction({
-    //           Component: Add_User_Test,
-    //           title: "Create User"
-    //         })
-    //         dispatch(action)
-    //       }}
-    //     >
-    //       Create User
-    //     </button>
-    //     <button
-    //       type="button"
-    //       className="btn btn-danger btn-md"
-    //       data-bs-toggle="modal"
-    //       data-bs-target="#modalId"
-    //       onClick={() => {
-    //         const action = setDeleteAction({
-    //           Component: DeleteUser_Test,
-    //           title: "Delete Location",
-    //           ID:30
-    //         })
-    //         dispatch(action)
-    //       }}
-    //     >
-    //       Delete Location
-    //     </button>
-    //     <button
-    //       type="button"
-    //       className="btn btn-danger btn-md"
-    //       data-bs-toggle="modal"
-    //       data-bs-target="#modalId"
-    //       onClick={() => {
-    //         const action = setDeleteAction({
-    //           Component: DeleteUser_Test,
-    //           title: "Delete Location",
-    //           ID:12
-    //         })
-    //         dispatch(action)
-    //       }}
-    //     >
-    //       Delete Location
-    //     </button>
-    //     <button
-    //       type="button"
-    //       className="btn btn-danger btn-md"
-    //       data-bs-toggle="modal"
-    //       data-bs-target="#modalId"
-    //       onClick={() => {
-    //         const action = setDeleteAction({
-    //           Component: DeleteUser_Test,
-    //           title: "Delete Location",
-    //           ID:100
-    //         })
-    //         dispatch(action)
-    //       }}
-    //     >
-    //       Delete Location
-    //     </button>
-    //     {/* Modal Body */}
-    //     {/* if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard */}
-    //     <Modaltest/>
-    //   </div>
-    // </div>
     <div>
       <Modaltest />
       <div className="titlePage pb-2">
