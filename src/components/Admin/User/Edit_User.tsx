@@ -6,15 +6,17 @@ import axios from "axios";
 import { http } from "../../../util/setting";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "./../../../redux/configStore";
-import { editUserByIDAction } from "../../../redux/reducers/userReducer";
+import { editUserByIDAction, updateUserApi, User } from "../../../redux/reducers/userReducer";
+import { openNotificationWithIcon } from "../../../util/notification";
+import { clearStatusAction } from "../../../redux/reducers/orderRoomReducer";
+import moment from "moment/moment.js";
 
-type Props = {
-  idUser: number;
-};
-
-export default function Edit_User({ idUser }: Props) {
+type Props = {};
+let timeout: ReturnType<typeof setTimeout>;
+export default function Edit_User({}: Props) {
   const { editUser } = useSelector((state: RootState) => state.userReducer);
-
+  const [submit, setSubmit] = useState(0);
+  console.log('User Edit: ',editUser);
   const dispatch: AppDispatch = useDispatch();
   const formik = useFormik<{
     id: number;
@@ -34,7 +36,7 @@ export default function Edit_User({ idUser }: Props) {
       phone: "",
       birthday: "",
       gender: false,
-      role: "user",
+      role: "USER",
     },
     validationSchema: Yup.object().shape({
       name: Yup.string().required("Name is required!"),
@@ -52,20 +54,27 @@ export default function Edit_User({ idUser }: Props) {
     }),
     onSubmit: async (values) => {
       console.log("User: ", values);
-      try {
-        let result = await http.put(`/users/${idUser}`, values);
-        console.log(result.data.content);
-        alert("Update User Successfully !");
-      } catch (err) {
-        console.log(err);
+      const updateUser : User = {
+        id: values?.id,
+        name: values?.name,
+        email: values?.email,
+        password: values?.password,
+        phone: values?.phone,
+        birthday:  moment(values?.birthday).format("MM/DD/YYYY").toString(),
+        gender: values?.gender,
+        role: values?.role,
       }
+      const updateAction = updateUserApi(editUser?.id, updateUser);
+      dispatch(updateAction);
+      setSubmit(1);
+      openNotificationWithIcon(
+        "success",
+        "Update user informatuon successfully !!",
+        <p>Return user table to review information !</p>
+      );
+      resetFieldValue();
     },
   });
-
-  const loadUserFromAPI = (id: number) => {
-    const action = editUserByIDAction(id);
-    dispatch(action);
-  };
 
   const setFieldValue = () => {
     formik.setFieldValue("id", editUser.id);
@@ -73,15 +82,41 @@ export default function Edit_User({ idUser }: Props) {
     formik.setFieldValue("email", editUser.email);
     formik.setFieldValue("password", editUser.password);
     formik.setFieldValue("phone", editUser.phone);
-    formik.setFieldValue("birthday", editUser.birthday);
+    formik.setFieldValue("birthday", moment(editUser.birthday).format("MM/DD/YYYY"));
     formik.setFieldValue("role", editUser.role);
+  };
+  
+  const resetFieldValue = () => {
+    formik.setFieldValue("id", 0);
+    formik.setFieldValue("name","");
+    formik.setFieldValue("email", "");
+    formik.setFieldValue("password", "");
+    formik.setFieldValue("phone", "");
+    formik.setFieldValue("birthday", "");
+    formik.setFieldValue("role", "");
+  };
+
+  const clearStatus = () => {
+    const clearAction = clearStatusAction();
+    dispatch(clearAction);
   };
 
   useEffect(() => {
-    loadUserFromAPI(idUser);
     setFieldValue();
     renderEditUser();
-  }, [idUser, editUser?.id]);
+  }, [editUser]);
+
+  useEffect(() => {
+    timeout = setTimeout(() => {
+      clearStatus();
+    }, 200);
+    return () => {
+      if (timeout !== null) {
+        clearTimeout(timeout);
+        setSubmit(0);
+      }
+    };
+  }, [submit]);
 
   const renderEditUser = () => {
     return (
@@ -114,7 +149,9 @@ export default function Edit_User({ idUser }: Props) {
                   // onChange={formik.handleChange}
                   onChange={formik.handleChange}
                 />
-                {formik.errors.email && formik.touched.email && (<p className="text-danger my-1">Email Invalid</p>)}
+                {formik.errors.email && formik.touched.email && (
+                  <p className="text-danger my-1">Email Invalid</p>
+                )}
               </div>
               <div className="form-group my-1">
                 <label className="form-label">Phone</label>
@@ -127,7 +164,9 @@ export default function Edit_User({ idUser }: Props) {
                   value={formik.values?.phone}
                   onChange={formik.handleChange}
                 />
-                 {formik.errors.phone && formik.touched.phone && (<p className="text-danger my-1">Phone Invalid</p>)}
+                {formik.errors.phone && formik.touched.phone && (
+                  <p className="text-danger my-1">Phone Invalid</p>
+                )}
               </div>
               <div className="form-group my-1">
                 <label className="form-label">Role</label>
@@ -149,7 +188,7 @@ export default function Edit_User({ idUser }: Props) {
                   className="form-control"
                   id="birthday"
                   aria-describedby="emailHelp"
-                  placeholder="Your birthday"
+                  placeholder="MM/DD/YYYY"
                   value={formik.values?.birthday}
                   onChange={formik.handleChange}
                 />
@@ -178,32 +217,6 @@ export default function Edit_User({ idUser }: Props) {
                   onChange={formik.handleChange}
                 />
               </div>
-              {/* <div className="form-group mb-3">
-              <div className="gender-title my-2">Gender</div>
-
-              <label className="gender-label me-2" htmlFor="">
-                Male
-                <input
-                  className="gender-input me-1"
-                  name="gender"
-                  defaultChecked
-                  type="radio"
-                  value="true"
-                />
-                <span className="checkmark"></span>
-              </label>
-
-              <label className="gender-label" htmlFor="">
-                Female
-                <input
-                  className="gender-input me-1"
-                  name="gender"
-                  type="radio"
-                  value="false"
-                />
-                <span className="checkmark"></span>
-              </label>
-            </div> */}
             </div>
             <div className="btnSubmit d-md-flex justify-content-md-end">
               <button

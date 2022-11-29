@@ -21,7 +21,7 @@ export interface User {
   password: string;
   phone: string;
   birthday: string;
-  avatar: string;
+  avatar?: string;
   gender: boolean;
   role: string;
 }
@@ -51,6 +51,7 @@ type UserState = {
   editUser: any;
   userInfo: any;
   rentedRoom: RentedRoom[];
+  statusAction: number;
 };
 
 const initialState: UserState = {
@@ -59,6 +60,7 @@ const initialState: UserState = {
   editUser: {},
   rentedRoom: [],
   userInfo: {},
+  statusAction: 0,
 };
 
 const userReducer = createSlice({
@@ -80,6 +82,9 @@ const userReducer = createSlice({
     setUserInfo: (state: UserState, action: PayloadAction<User[]>) => {
       state.userInfo = action.payload;
     },
+    setStatusAction: (state: UserState, action: PayloadAction<number>) => {
+      state.statusAction = action.payload;
+    },
   },
 });
 
@@ -89,6 +94,7 @@ export const {
   setUserByID,
   getRentedRoom,
   setUserInfo,
+  setStatusAction,
 } = userReducer.actions;
 
 export default userReducer.reducer;
@@ -104,7 +110,7 @@ export const getUserPaginationAction = (
       const result = await http.get(
         `/users/phan-trang-tim-kiem?pageIndex=${pageIndex}&pageSize=${pageSize}`
       );
-      console.log('User: ', result.data.content.data)
+      console.log("User: ", result.data.content.data);
       dispatch(setArrUser(result.data.content.data));
       dispatch(setTotalRow(result.data.content.totalRow));
     } catch (err) {
@@ -114,9 +120,10 @@ export const getUserPaginationAction = (
 };
 //delete
 export const deleteUserAction = (userID: number) => {
-  return async () => {
+  return async (dispatch: AppDispatch) => {
     try {
       const result = await http.delete(`/users?id=${userID}`);
+      dispatch(setStatusAction(result.status));
     } catch (err) {
       console.log(err);
     }
@@ -147,6 +154,42 @@ export const editUserByIDAction = (id: number) => {
     } catch (err) {}
   };
 };
+//add user
+export const postUserApi = (user: User) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const result = await http.post("/users", user);
+      console.log(result.status);
+      dispatch(setStatusAction(result.status));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+//edit user
+export const updateUserApi = (id: number, user: User) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      let result = await http.put(`/users/${id}`, user);
+      console.log(result.data.content);
+      dispatch(setStatusAction(result.status));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+//clear status
+export const clearStatusAction = () => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      dispatch(setStatusAction(0));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
 //Call api getProfile
 
 //call rented room by each user

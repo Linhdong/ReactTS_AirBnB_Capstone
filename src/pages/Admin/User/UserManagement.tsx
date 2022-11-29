@@ -12,27 +12,29 @@ import {
   searchUserAction,
   User,
 } from "../../../redux/reducers/userReducer";
-import {Modal} from 'react-bootstrap'
-import { setModalAction } from "../../../redux/reducers/modalReducer";
+import { Modal } from "react-bootstrap";
+import {
+  setModalAction,
+  setEditAction,
+  setDeleteAction,
+} from "../../../redux/reducers/modalReducer";
 import Info_User from "../../../components/Admin/User/Infor_User";
 import Modaltest from "../../../HOC/Modaltest";
+import Delete_User from "../../../components/Admin/User/Delete_User";
+import Upload_Image from "../../../components/Admin/User/Upload_Image";
 
 type Props = {};
 const logo = require("./../../../assets/img/airbnb-logo.png");
 let timeout: ReturnType<typeof setTimeout>;
 
 export default function UserManagement({}: Props) {
-  const { arrUsers, totalRow } = useSelector(
+  const { arrUsers, totalRow, statusAction } = useSelector(
     (state: RootState) => state.userReducer
   );
-  // const [searchParams, setSearchParams] = useSearchParams();
   const [username, setUserName] = useState("");
-  const [deletAction, setDeleteAction] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [openPopUp, setOpenPopUp] = useState<boolean>(false);
-  const [idUser, setIDUser] = useState<number>(1); 
-  const [editAction, setEditAction] = useState<boolean>(false);
-
+  const [idUser, setIDUser] = useState<number>(1);
   const dispatch: AppDispatch = useDispatch();
 
   /**
@@ -50,60 +52,15 @@ export default function UserManagement({}: Props) {
     setUserName(value);
   };
 
-  // const handleSunmit = (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   pageIndex.current = String(currentPage);
-  //   pageSize.current = String(postsPerPage);
-  //   keyword.current = String(username);
-  //   setSearchParams({
-  //     pageIndex: pageIndex.current,
-  //     pageSize: pageSize.current,
-  //     keyword: keyword.current,
-  //   });
-  //   setUserName("");
-  // };
-
-  // const getParamsOnUrl = () => {
-  //   if (searchParams.get("keyword") === null) {
-  //     const action = getUserPaginationAction(
-  //       searchParams.get("pageIndex"),
-  //       searchParams.get("pageSize"),
-  //       null
-  //     );
-  //     dispatch(action);
-  //   }
-  // };
-
   const getUserbyApi = () => {
     const userAction = getUserPaginationAction(currentPage, postsPerPage);
     dispatch(userAction);
-  }
+  };
 
   const handleSearchUser = () => {
     const searchAction = searchUserAction(username);
     dispatch(searchAction);
   };
-
-  // useEffect(() => {
-  //   pageIndex.current = String(currentPage);
-  //   pageSize.current = String(postsPerPage);
-  //   setSearchParams({
-  //     pageIndex: pageIndex.current,
-  //     pageSize: pageSize.current,
-  //   });
-  // }, [currentPage]);
-
-  // useEffect(() => {
-  //   timeout = setTimeout(() => {
-  //     getParamsOnUrl();
-  //   }, 1000);
-  //   return () => {
-  //     if (timeout !== null) {
-  //       clearTimeout(timeout);
-  //       setDeleteAction(false);
-  //     }
-  //   };
-  // }, [currentPage, deletAction]);
 
   useEffect(() => {
     timeout = setTimeout(() => {
@@ -116,65 +73,152 @@ export default function UserManagement({}: Props) {
       }
     };
   }, [currentPage]);
-  console.log('Current Page: ', currentPage);
-  console.log('PostsPerPage: ', postsPerPage);
 
-  // useEffect(() => {
-  //   timeout = setTimeout(() => {
-  //     handleSearchUser();
-  //   }, 1000);
-  //   return () => {
-  //     if (timeout !== null) {
-  //       clearTimeout(timeout);
-  //       getParamsOnUrl();
-  //     }
-  //   };
-  // }, [username]);
+  useEffect(() => {
+    timeout = setTimeout(() => {
+      getUserbyApi();
+    }, 500);
+    return () => {
+      if (timeout !== null) {
+        clearTimeout(timeout);
+      }
+    };
+  }, [statusAction]);
 
   const handleDelete = (id: number) => {
-    const deleteAction = deleteUserAction(id);
-    dispatch(deleteAction);
-    setDeleteAction(true);
+    const actionDeleteComponent = setDeleteAction({
+      Component: Delete_User,
+      title: "Delete User Information",
+      ID: id,
+    });
+    dispatch(actionDeleteComponent);
   };
 
   const handleEdit = (id: number) => {
-     setOpenModal(true);
-     setOpenPopUp(true);
-     setIDUser(id);
+    const actionEditReduce = editUserByIDAction(id);
+    const actionEditComponent = setEditAction({
+      Component: Edit_User,
+      title: "Edit Personal Information",
+      ID: id,
+    });
+    dispatch(actionEditComponent);
+    dispatch(actionEditReduce);
   };
 
   const handleAdd = () => {
-    setOpenModal(true);
-    setOpenPopUp(false);
+    const actionAddComponent = setModalAction({
+      Component: Add_User,
+      title: "Add New User",
+    });
+    dispatch(actionAddComponent);
+  };
+
+  const handleInfor = (id: number) => {
+    const actionInfor = editUserByIDAction(id);
+    const actionInfoComponent = setModalAction({
+      Component: Info_User,
+      title: "Personal Information",
+    });
+    dispatch(actionInfoComponent);
+    dispatch(actionInfor);
+  };
+
+  const handleUploadAvatar = (id:number) => {
+    const actionUploadComponent = setModalAction({
+      Component: Upload_Image,
+      title: 'Upload User Avatar'
+    })
+    dispatch(actionUploadComponent);
   }
 
-  const handleCloseModal = () => {
-    setOpenModal(false);
-    setEditAction(true);
-  }
-
-
-  // useEffect(() => {
-  //   timeout = setTimeout(() => {
-  //     getParamsOnUrl();
-  //   }, 1000);
-  //   return () => {
-  //     if (timeout !== null) {
-  //       clearTimeout(timeout);
-  //       setEditAction(false);
-  //       console.log('After reload: ', editAction);
-  //     }
-  //   };
-  // }, [editAction]);
-
-  console.log('Reload Page: ', editAction);
-
+  const renderUser = () => {
+    return arrUsers?.map((user: any, index: number) => {
+      return (
+        <tr key={index}>
+          <td>{user?.id}</td>
+          <td>{user?.name}</td>
+          <td>{user?.email}</td>
+          <td>
+            {user?.avatar !== "" ? (
+              <img
+                src={user?.avatar}
+                alt="...."
+                style={{ height: "50px", width: "50px" }}
+              />
+            ) : (
+              <button
+                className="btn btn-outline-secondary btn-sm rounded-5"
+                data-bs-toggle="modal"
+                data-bs-target="#modalId"
+                style={{paddingLeft:'20px', paddingRight:'20px'}}
+                onClick={(event: React.MouseEvent<HTMLElement>) => {
+                  handleUploadAvatar(user?.id);
+                }}
+              >
+                <i className="fas fa-upload"></i>
+              </button>
+            )}
+          </td>
+          <td>{user?.phone}</td>
+          <td>
+            {user?.role === "ADMIN" ? (
+              <span className="badge rounded-pill bg-success text-white">
+                Admin
+              </span>
+            ) : (
+              <span className="badge rounded-pill bg-info text-white">
+                User
+              </span>
+            )}
+          </td>
+          <td>
+            <button
+              className="btn btn-outline-dark btn-sm rounded-5 mx-1"
+              data-bs-toggle="modal"
+              data-bs-target="#modalId"
+              onClick={(event: React.MouseEvent<HTMLElement>) => {
+                handleInfor(user?.id);
+              }}
+            >
+              <i className="fas fa-info-circle"></i>
+            </button>
+            <button
+              className="btn btn-outline-warning btn-sm rounded-5 mx-1"
+              data-bs-toggle="modal"
+              data-bs-target="#modalId"
+              onClick={(event: React.MouseEvent<HTMLElement>) => {
+                handleEdit(user?.id);
+              }}
+            >
+              <i className="far fa-edit"></i>
+            </button>
+            <button
+              className="btn btn-outline-danger btn-sm rounded-5 mx-1"
+              data-bs-toggle="modal"
+              data-bs-target="#modalId"
+              onClick={(event: React.MouseEvent<HTMLElement>) => {
+                handleDelete(user?.id);
+              }}
+            >
+              <i className="fas fa-trash-alt"></i>
+            </button>
+          </td>
+        </tr>
+      );
+    });
+  };
   return (
     <div>
       <Modaltest />
       <h3 className="tilte my-3 ">Users Management</h3>
       <div className="addAdminPage mb-3" style={{ cursor: "pointer" }}>
-        <h5 onClick={handleAdd}>Add administrators Page</h5>
+        <h5
+          data-bs-toggle="modal"
+          data-bs-target="#modalId"
+          onClick={handleAdd}
+        >
+          Add administrators Page
+        </h5>
       </div>
       <div className="row">
         <form className="search col-lg-4" /*onSubmit={handleSunmit}*/>
@@ -190,7 +234,6 @@ export default function UserManagement({}: Props) {
         </form>
         <div className="table-responsive">
           <table className="table table-hover">
-            {/* <caption>List of users</caption> */}
             <thead>
               <tr>
                 <th scope="col">ID</th>
@@ -202,74 +245,7 @@ export default function UserManagement({}: Props) {
                 <th scope="col">Action</th>
               </tr>
             </thead>
-            <tbody>
-              {arrUsers?.map((user:any , index:number) => {
-                return (
-                  <tr key={index}>
-                    <td>{user?.id}</td>
-                    <td>{user?.name}</td>
-                    <td>{user?.email}</td>
-                    <td>
-                      {user?.avatar !== "" ? (
-                        <img
-                          src={user?.avatar}
-                          alt="...."
-                          style={{ height: "50px", width: "50px" }}
-                        />
-                      ) : (
-                        "No avatar"
-                      )}
-                    </td>
-                    <td>{user?.phone}</td>
-                    <td>
-                      {user?.role === "ADMIN" ? (
-                        <span className="badge rounded-pill bg-success text-white">
-                          Admin
-                        </span>
-                      ) : (
-                        <span className="badge rounded-pill bg-info text-white">
-                          User
-                        </span>
-                      )}
-                    </td>
-                    <td>
-                    <button
-                        className="btn btn-outline-dark btn-sm rounded-5 mx-1"
-                        data-bs-toggle="modal"
-                        data-bs-target="#modalId"
-                        onClick={(event: React.MouseEvent<HTMLElement>) => {
-                          const actionInfor = editUserByIDAction(user?.id)
-                          const actionInfoComponent = setModalAction({
-                            Component: Info_User,
-                            title: "Personal Information"
-                          });
-                          dispatch(actionInfoComponent);
-                          dispatch(actionInfor);
-                        }}
-                      >
-                        <i className="fas fa-info-circle"></i>
-                      </button>
-                      <button
-                        className="btn btn-primary btn-sm rounded-5 mx-1"
-                        onClick={(event: React.MouseEvent<HTMLElement>) => {
-                          handleEdit(user?.id);
-                        }}
-                      >
-                        <i className="fas fa-user-edit"></i>
-                      </button>
-                      <button
-                        className="btn btn-danger btn-sm rounded-5"
-                        onClick={(event: React.MouseEvent<HTMLElement>) => {
-                          handleDelete(user?.id);
-                        }}
-                      >
-                        <i className="fas fa-trash-alt"></i>
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
+            <tbody>{renderUser()}</tbody>
           </table>
         </div>
         <div className="pagination d-flex justify-content-center">
@@ -280,24 +256,6 @@ export default function UserManagement({}: Props) {
           />
         </div>
       </div>
-      <Modal show={openModal} size="lg" className="modal-dialog-scrollable">
-        <Modal.Header>
-          <Modal.Title>
-              { openPopUp ? 'Edit Users Infor' : 'Add Users Infor'}
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-            { openPopUp ? <Edit_User idUser={idUser}/> : <Add_User/>}
-        </Modal.Body>
-        <Modal.Footer>
-          <button
-            className="btn btn-secondary"
-            onClick={() => handleCloseModal()}
-          >
-            Close
-          </button>
-        </Modal.Footer>
-      </Modal>
     </div>
   );
 }
