@@ -85,6 +85,21 @@ export default function UserManagement({}: Props) {
     };
   }, [statusAction]);
 
+  useEffect(() => {
+    timeout = setTimeout(() => {
+      if(username != ''){
+        handleSearchUser();
+      }else{
+        getUserbyApi()
+      }
+    }, 1000);
+    return () => {
+      if (timeout !== null) {
+        clearTimeout(timeout);
+      }
+    };
+  }, [username]);
+
   const handleDelete = (id: number) => {
     const actionDeleteComponent = setDeleteAction({
       Component: Delete_User,
