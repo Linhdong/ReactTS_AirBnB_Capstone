@@ -6,14 +6,14 @@ import { CheckboxGroup } from "@mantine/core/lib/Checkbox/CheckboxGroup/Checkbox
 import PreviewImage from "./PreviewImage";
 
 type Props = {
-  id: string | number;
+ 
 };
 
 let timeout: ReturnType<typeof setTimeout>;
-export default function UploadPicure({ id }: Props) {
+export default function UploadPicure({  }: Props) {
   const [active, setActive] = useState<string>("0");
   const [img, setImg] = useState<any>();
-  const [preview, setPreview] = useState<any>({})
+  const [preview, setPreview] = useState<any>({});
   const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     console.log("Value: ", event.target.value);
     setActive(event.target.value);
@@ -30,16 +30,16 @@ export default function UploadPicure({ id }: Props) {
     }),
     onSubmit: async () => {
       console.log(formik.values.hinhAnh)
-      try {
-        let result = await http.post(
-          `/vi-tri/upload-hinh-vitri?maViTri=${id}`,
-          formik.values.hinhAnh
-        );
-        console.log(result.data.content);
-        // alert("Update Location Successfully !");
-      } catch (err) {
-        console.log(err);
-      }
+      // try {
+      //   let result = await http.post(
+      //     `/vi-tri/upload-hinh-vitri?maViTri=${id}`,
+      //     formik.values.hinhAnh
+      //   );
+      //   console.log(result.data.content);
+      //   // alert("Update Location Successfully !");
+      // } catch (err) {
+      //   console.log(err);
+      // }
     },
   });
 
@@ -94,18 +94,7 @@ export default function UploadPicure({ id }: Props) {
       </>
     );
   };
-
-  const previewImage = () => {
-    return(
-      <div className="form-group">
-        <label className="form-label">Preview Image</label>
-        <div className="d-flex justify-content-md-center">
-        {formik.values.hinhAnh && <img style={{width:'100px', height: '100px'}} src={preview} alt="...."/>}
-        </div>
-      </div>
-    )
-  }
-
+  
   return (
     <div>
       <div className="card border-0">
@@ -120,9 +109,9 @@ export default function UploadPicure({ id }: Props) {
         <div className="card-body">
           <form onSubmit={formik.handleSubmit}>
             {active === "0" ? renderURL() : renderFile()}
-            <div className="preview-image my-2">
+            {/* <div className="preview-image my-2">
             {active === "0" ? "" : previewImage()}
-            </div>
+            </div> */}
             <div className="btnSubmit d-md-flex justify-content-md-end">
               <button
                 className="btn btn-outline-warning btn-md mt-2 rounded-pill px-4"

@@ -12,6 +12,11 @@ import {
 } from "../../../redux/reducers/locationsReducer";
 import EditLocation from "../../../components/Admin/Location/EditLocation";
 import UploadPicure from "../../../components/Admin/Location/UploadPicutre";
+import Modaltest from "../../../HOC/Modaltest";
+import AddLocation from "../../../components/Admin/Location/AddLocation";
+import { setModalAction, setEditAction } from "../../../redux/reducers/modalReducer";
+import Info_Location from "../../../components/Admin/Location/Info_Location";
+import Upload_Image from "../../../components/Admin/User/Upload_Image";
 
 type Props = {};
 let timeout: ReturnType<typeof setTimeout>;
@@ -21,11 +26,11 @@ export default function LocationManagement({}: Props) {
   const dispatch: AppDispatch = useDispatch();
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [openPopUp, setOpenPopUp] = useState<boolean>(true);
-  const [editAction, setEditAction] = useState<boolean>(false);
+  // const [editAction, setEditAction] = useState<boolean>(false);
   const [reload, setReload] = useState<boolean>(false);
   const [idLocation, setIdLocation] = useState<number>(1);
   const [id, setId] = useState<string>("");
-  const { arrLocationPageIndex, totalRow } = useSelector(
+  const { arrLocationPageIndex, totalRow, statusAction } = useSelector(
     (state: RootState) => state.locationsReducer
   );
   /**
@@ -43,7 +48,21 @@ export default function LocationManagement({}: Props) {
   };
 
   const handleAdd = () => {
-    navigate("/addLocation");
+    const actionAddComponent = setModalAction({
+      Component: AddLocation,
+      title: "Add New Location",
+    });
+    dispatch(actionAddComponent);
+  };
+
+  const handleInfor = (id: number) => {
+    const actionGetId = getLocationByIdApi(id);
+    const actionInforComponent = setModalAction({
+      Component: Info_Location,
+      title: "Location Information",
+    });
+    dispatch(actionGetId);
+    dispatch(actionInforComponent);
   };
 
   // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,15 +77,22 @@ export default function LocationManagement({}: Props) {
   // }
 
   const handleEdit = (id: number) => {
-    setOpenModal(true);
-    setOpenPopUp(false);
-    setIdLocation(id);
+    const actionGetId = getLocationByIdApi(id);
+    const actionEditComponent = setModalAction({
+      Component: EditLocation,
+      title: "Edit location infor",
+    });
+    dispatch(actionGetId);
+    dispatch(actionEditComponent);
   };
 
-  const handlePicture = (id: number) => {
-    setOpenModal(true);
-    setOpenPopUp(true);
-    setIdLocation(id);
+  const handleUpload = (id: number) => {
+    const actionUploadComponent = setEditAction({
+      Component: Upload_Image,
+      title:'Change Picture Location',
+      ID: id
+    })
+    dispatch(actionUploadComponent);
   };
 
   const handleDelete = (id: number) => {
@@ -82,22 +108,21 @@ export default function LocationManagement({}: Props) {
     return () => {
       if (timeout !== null) {
         clearTimeout(timeout);
-        setReload(false);
       }
     };
-  }, [currentPage, reload]);
+  }, [currentPage, statusAction]);
 
-  useEffect(() => {
-    timeout = setTimeout(() => {
-      getLocationPageIndexAction();
-    }, 500);
-    return () => {
-      if (timeout !== null) {
-        clearTimeout(timeout);
-        setEditAction(false);
-      }
-    };
-  }, [editAction]);
+  // useEffect(() => {
+  //   timeout = setTimeout(() => {
+  //     getLocationPageIndexAction();
+  //   }, 500);
+  //   return () => {
+  //     if (timeout !== null) {
+  //       clearTimeout(timeout);
+  //       setEditAction(false);
+  //     }
+  //   };
+  // }, [editAction]);
 
   const handleCloseModal = () => {
     setOpenModal(false);
@@ -106,9 +131,16 @@ export default function LocationManagement({}: Props) {
 
   return (
     <div>
+      <Modaltest />
       <h3 className="tilte my-3 ">Location Management</h3>
       <div className="addAdminPage mb-3" style={{ cursor: "pointer" }}>
-        <h5 onClick={handleAdd}>Add New Position</h5>
+        <h5
+          data-bs-toggle="modal"
+          data-bs-target="#modalId"
+          onClick={handleAdd}
+        >
+          Add New Position
+        </h5>
       </div>
       <div className="row">
         <form className="search col-lg-4">
@@ -122,7 +154,7 @@ export default function LocationManagement({}: Props) {
             <button className="btn btn-outline-danger">Search</button>
           </div>
         </form>
-      
+
         <div className="table-responsive">
           <table className="table table-hover">
             {/* <caption>List of users</caption> */}
@@ -145,35 +177,53 @@ export default function LocationManagement({}: Props) {
                     <td>{locate?.tinhThanh}</td>
                     <td>
                       {locate?.hinhAnh !== "" ? (
-                        <img
-                          src={locate?.hinhAnh}
-                          alt="...."
-                          style={{ height: "50px", width: "50px" }}
-                        />
+                        <>
+                          <img
+                            src={locate?.hinhAnh}
+                            alt="...."
+                            style={{ height: "50px", width: "50px" }}
+                          />
+                          <button
+                            className="btn btn-outline-dark btn-sm rounded-5 ms-2"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modalId"
+                            onClick={(
+                              event: React.MouseEvent<HTMLElement>
+                            ) => {
+                              handleUpload(locate?.id);
+                            }}
+                          >
+                            <i className="far fa-image"></i>
+                          </button>
+                        </>
                       ) : (
                         "No avatar"
                       )}
-                      <button
-                        className="btn btn-light btn-sm rounded-5 mx-1"
-                        onClick={(event: React.MouseEvent<HTMLElement>) => {
-                          handlePicture(locate?.id);
-                        }}
-                      >
-                        <i className="fas fa-edit"></i>
-                      </button>
                     </td>
                     <td>{locate?.quocGia}</td>
                     <td>
                       <button
-                        className="btn btn-primary btn-sm rounded-5 mx-1"
+                        className="btn btn-outline-primary btn-sm rounded-5 mx-1"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalId"
                         onClick={(event: React.MouseEvent<HTMLElement>) => {
-                          handleEdit(locate?.id);
+                          handleInfor(locate?.id);
                         }}
                       >
                         <i className="fas fa-map-marker-alt"></i>
                       </button>
                       <button
-                        className="btn btn-danger btn-sm rounded-5"
+                        className="btn btn-outline-warning btn-sm rounded-5 mx-1"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalId"
+                        onClick={(event: React.MouseEvent<HTMLElement>) => {
+                          handleEdit(locate?.id);
+                        }}
+                      >
+                        <i className="fas fa-edit"></i>
+                      </button>
+                      <button
+                        className="btn btn-outline-danger btn-sm rounded-5"
                         onClick={(event: React.MouseEvent<HTMLElement>) => {
                           handleDelete(locate?.id);
                         }}
@@ -194,7 +244,7 @@ export default function LocationManagement({}: Props) {
             totalRow={totalRow}
           />
         </div>
-        <Modal show={openModal} size="lg" className="modal-dialog-scrollable">
+        {/* <Modal show={openModal} size="lg" className="modal-dialog-scrollable">
           <Modal.Header>
             <Modal.Title>
               {openPopUp ? "Upload Picture" : "Edit Location Infor"}
@@ -215,7 +265,7 @@ export default function LocationManagement({}: Props) {
               Close
             </button>
           </Modal.Footer>
-        </Modal>
+        </Modal> */}
       </div>
     </div>
   );

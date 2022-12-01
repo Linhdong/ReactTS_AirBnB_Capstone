@@ -1,53 +1,139 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { http } from "../../../util/setting";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { openNotificationWithIcon } from "../../../util/notification";
+import { AppDispatch, RootState } from "../../../redux/configStore";
+import { postLocationApi, Location, clearStatusAction } from "../../../redux/reducers/locationsReducer";
 
 type Props = {};
 
 export default function AddLocation({}: Props) {
-  const navigate = useNavigate();
+  const [active, setActive] = useState<number>(0);
+  const [submit, setSubmit] = useState(0);
+  const [image, setImage] = useState<any>("");
+  const { statusAction } = useSelector((state: RootState) => state.locationsReducer);
+  const dispatch:AppDispatch = useDispatch();
   const formik = useFormik<{
     id: number;
-    tenVitri: string;
+    tenViTri: string;
     tinhThanh: string;
     quocGia: string;
     hinhAnh: string;
   }>({
     initialValues: {
       id: 0,
-      tenVitri: "",
+      tenViTri: "",
       tinhThanh: "",
       quocGia: "",
       hinhAnh: "",
     },
-    // validationSchema: Yup.object().shape({
-    //   tenViTri: Yup.string().required("Location is required!"),
-    //   tinhThanh: Yup.string().required("City is required!"),
-    //   quocGia: Yup.string().required("Country is required!"),
-    //   hinhAnh: Yup.string().matches(
-    //     /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
-    //     'Enter correct url!'
-    // ).required('Please enter website'),
-    // }),
+    validationSchema: Yup.object().shape({
+      tenViTri: Yup.string().required("Location is required!"),
+      tinhThanh: Yup.string().required("City is required!"),
+      quocGia: Yup.string().required("Country is required!"),
+      hinhAnh: Yup.string().required('Picture is required !'),
+    }),
     onSubmit: async (values) => {
-      console.log("User: ", values);   
-      try {
-        let result = await http.post("vi-tri", values);
-        alert("Add Location Successfully !");
-        console.log(result.data.content);
-        console.log("Add Location Successfully !");
-      } catch (err) {
-        console.log(err);
+      console.log("Location: ", values);
+      const location : Location = {
+        id: values?.id,
+        tenViTri: values?.tenViTri,
+        tinhThanh: values?.tinhThanh,
+        quocGia: values?.quocGia,
+        hinhAnh: values?.hinhAnh,
+      }
+      const addLocationAction = postLocationApi(location);
+      dispatch(addLocationAction); 
+      if(statusAction === 201){
+        openNotificationWithIcon(
+          "success",
+          "Add Location Successfully !!",
+          <p>Return location table to review information !</p>
+        );
+        handleResetValues();
+        const clearStatus = clearStatusAction();
+        dispatch(clearStatus);
       }
     },
   });
 
+  const handleResetValues = () => {
+    formik.setFieldValue("id", 0);
+    formik.setFieldValue("tenVitri", " ");
+    formik.setFieldValue("tinhThanh", " ");
+    formik.setFieldValue("quocGia", " ");
+    formik.setFieldValue("hinhAnh", " ");
+  }
+
+  const handleFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file: File = (event.target.files as FileList)[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file as any);
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        formik.setFieldValue("hinhAnh", reader.result);
+        setImage(reader.result);
+      }
+    };
+  };
+
+  const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    console.log("Value: ", event.target.value);
+    setActive(Number(event.target.value));
+  };
+
+  const renderURL = () => {
+    return (
+      <>
+        <div className="form-group my-2">
+          <input
+            type="text"
+            className="form-control"
+            id="hinhAnh"
+            aria-describedby="emailHelp"
+            placeholder="Your picture"
+            onChange={formik.handleChange}
+          />
+        </div>
+      </>
+    );
+  };
+
+  const renderFile = () => {
+    return (
+      <>
+        <div className="form-group my-2">
+          <input
+            type="file"
+            className="form-control"
+            id="hinhAnh"
+            aria-describedby="emailHelp"
+            placeholder="Your picture"
+            accept=".jpeg, .png, .jpg"
+            onChange={handleFile}
+          />
+        </div>
+      </>
+    );
+  };
+
+  const handleAvatar = () => {
+    if (active === 0) {
+      return <></>;
+    } else if (active === 1) {
+      return renderURL();
+    } else {
+      return renderFile();
+    }
+  };
+
   return (
-    <div className="container">
+    <div>
       <div className="row">
-        <div className="col-sm-9 col-md-7 col-lg-5 mx-auto">
+        <div className="col-sm-9 mx-auto">
           <div className="card border-0 shadow rounded-3 my-5">
             <div className="card-body p-4 p-sm-5">
               <h3 className="card-title text-center mb-5">New Location</h3>
@@ -57,14 +143,12 @@ export default function AddLocation({}: Props) {
                   <input
                     type="text"
                     className="form-control"
-                    id="tenVitri"
+                    id="tenViTri"
                     placeholder="Your Location"
                     onChange={formik.handleChange}
                   />
-                  {formik.errors.tenVitri ? (
-                    <p className="text-danger mt-1">
-                      {formik.errors.tenVitri}
-                    </p>
+                  {formik.errors.tenViTri ? (
+                    <p className="text-danger mt-1">{formik.errors.tenViTri}</p>
                   ) : (
                     ""
                   )}
@@ -96,40 +180,28 @@ export default function AddLocation({}: Props) {
                     onChange={formik.handleChange}
                   />
                   {formik.errors.quocGia ? (
-                    <p className="text-danger mt-1">
-                      {formik.errors.quocGia}
-                    </p>
+                    <p className="text-danger mt-1">{formik.errors.quocGia}</p>
                   ) : (
                     ""
                   )}
                 </div>
                 <div className="form-group mb-3">
                   <label className="my-1">Picture</label>
-                  <input
-                    type="url"
-                    className="form-control"
-                    id="hinhAnh"
-                    placeholder="https://example.com"
-                    pattern="https://.*"
-                    onChange={formik.handleChange}
-                  />
-                  {/* {formik.errors.hinhAnh ? (
+                  <select className="form-select" onChange={handleSelect}>
+                    <option value={0}>Open this select upload type</option>
+                    <option value={1}>Upload by URL</option>
+                    <option value={2}>Upload by File</option>
+                  </select>
+                  {handleAvatar()}
+                  {formik.errors.hinhAnh ? (
                     <p className="text-danger mt-1">
                       {formik.errors.hinhAnh}
                     </p>
                   ) : (
                     ""
-                  )} */}
+                  )}
                 </div>
-                <div className="btnSubmit d-md-flex justify-content-md-between">
-                  <button
-                    className="btn btn-outline-warning btn-md rounded-pill px-4"
-                    type="button" onClick={() => {
-                      navigate('/admin/locations')
-                    }}
-                  >
-                    Return
-                  </button>
+                <div className="btnSubmit d-md-flex justify-content-md-end">
                   <button
                     className="btn btn-outline-success btn-md rounded-pill px-4"
                     type="submit"

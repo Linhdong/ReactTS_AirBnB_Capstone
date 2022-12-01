@@ -1,17 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { http } from "../../../util/setting";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "./../../../redux/configStore";
-import { getLocationByIdApi } from "../../../redux/reducers/locationsReducer";
+import { clearStatusAction, putLocationApi } from "../../../redux/reducers/locationsReducer";
+import { openNotificationWithIcon } from "../../../util/notification";
 
 type Props = {
-  id: number;
+
 };
 
-export default function EditLocation({ id }: Props) {
-  const { location } = useSelector(
+export interface LocationUpdate {
+  id: number;
+  tenViTri: string;
+  tinhThanh: string;
+  quocGia: string;
+  hinhAnh?:string;
+}
+
+
+export default function EditLocation({ }: Props) {
+  const { location, statusAction } = useSelector(
     (state: RootState) => state.locationsReducer
   );
   const dispatch: AppDispatch = useDispatch();
@@ -20,50 +29,53 @@ export default function EditLocation({ id }: Props) {
     tenViTri: string;
     tinhThanh: string;
     quocGia: string;
-    hinhAnh: string;
+    // hinhAnh: string;
   }>({
     initialValues: {
       id: 0,
       tenViTri: "",
       tinhThanh: "",
       quocGia: "",
-      hinhAnh: "",
+      // hinhAnh: "",
     },
     validationSchema: Yup.object().shape({
       tenViTri: Yup.string().required("Location is required!"),
       tinhThanh: Yup.string().required("City is required!"),
       quocGia: Yup.string().required("Country is required!"),
-      hinhAnh: Yup.string().required("Please enter website"),
+      // hinhAnh: Yup.string().required("Please enter website"),
     }),
     onSubmit: async (values) => {
-      try {
-        let result = await http.put(`/vi-tri/${id}`, values);
-        console.log(result.data.content);
-        alert("Update Location Successfully !");
-      } catch (err) {
-        console.log(err);
+      const locationEdit : LocationUpdate = {
+        id: values?.id,
+        tenViTri: values?.tenViTri,
+        tinhThanh: values?.tinhThanh,
+        quocGia: values?.quocGia,
+      }
+      const updateAction = putLocationApi(location?.id, locationEdit);
+      dispatch(updateAction);
+      if(statusAction === 200){
+        openNotificationWithIcon(
+          "success",
+          "Add Location Successfully !!",
+          <p>Return location table to review information !</p>
+        );
+        const clearStatus = clearStatusAction();
+        dispatch(clearStatus);
       }
     },
   });
-
-  const loadLocationAction = (id: number) => {
-    const action = getLocationByIdApi(id);
-    dispatch(action);
-  };
 
   const setFieldValue = () => {
     formik.setFieldValue("id", location.id);
     formik.setFieldValue("tenViTri", location.tenViTri);
     formik.setFieldValue("tinhThanh", location.tinhThanh);
     formik.setFieldValue("quocGia", location.quocGia);
-    formik.setFieldValue("hinhAnh", location.hinhAnh);
   };
 
   useEffect(() => {
-    loadLocationAction(id);
     setFieldValue();
     renderLocation();
-  }, [id, location?.id]);
+  }, [location]);
   // console.log("Location: ", location.tenViTri);
 
   const renderLocation = () => {
@@ -115,21 +127,6 @@ export default function EditLocation({ id }: Props) {
                 />
                 {formik.errors.quocGia && formik.touched.quocGia && (
                   <p className="text-danger my-1">Nation Required</p>
-                )}
-              </div>
-              <div className="form-group my-1">
-                <label className="form-label">Picture</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="hinhAnh"
-                  aria-describedby="emailHelp"
-                  placeholder="Your picture"
-                  value={formik.values?.hinhAnh}
-                  onChange={formik.handleChange}
-                />
-                {formik.errors.hinhAnh && formik.touched.hinhAnh && (
-                  <p className="text-danger my-1">Picture Required</p>
                 )}
               </div>
             </div>

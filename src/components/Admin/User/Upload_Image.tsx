@@ -2,36 +2,39 @@ import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { http } from "../../../util/setting";
-import PreviewImage from "../Location/PreviewImage";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../redux/configStore";
 type Props = {};
 
 export default function Upload_Image({}: Props) {
   const [active, setActive] = useState<number>(0);
   const [submit, setSubmit] = useState(0);
   const [image, setImage] = useState<any>("");
-
+  const { idOrderRoom } = useSelector((state: RootState) => state.modalReducer);
+  console.log("ID: ", idOrderRoom);
   const formik = useFormik<{
-    avatar: string | any;
+    hinhAnh: string | any;
   }>({
     initialValues: {
-      avatar: "",
+      hinhAnh: "",
     },
-    validationSchema: Yup.object({
-      avatar: Yup.mixed().required("Required !"),
-    }),
+    // validationSchema: Yup.object({
+    //   avatar: Yup.mixed().required("Required !"),
+    // }),
     onSubmit: async (values) => {
-      console.log('Avatar: ', formik.values.avatar);
-      setImage(values.avatar);
-      //   try {
-      //     let result = await http.post(
-      //       `/vi-tri/upload-hinh-vitri?maViTri=${id}`,
-      //       formik.values.hinhAnh
-      //     );
-      //     console.log(result.data.content);
-      //     // alert("Update Location Successfully !");
-      //   } catch (err) {
-      //     console.log(err);
-      //   }
+         console.log('Avatar: ', formik.values.hinhAnh);
+         console.log('ID: ', idOrderRoom);
+    //   setImage(values.hinhAnh);
+        try {
+          let result = await http.post(
+            `/vi-tri/upload-hinh-vitri?maViTri=${idOrderRoom}`,
+             values?.hinhAnh
+          );
+          console.log(result.config);
+          // alert("Update Location Successfully !");
+        } catch (err) {
+          console.log(err);
+        }
     },
   });
 
@@ -41,7 +44,7 @@ export default function Upload_Image({}: Props) {
     reader.readAsDataURL(file as any);
     reader.onload = () => {
       if (reader.readyState === 2) {
-        formik.setFieldValue("avatar", reader.result);
+        formik.setFieldValue("hinhAnh", reader.result);
         setImage(reader.result);
       }
     };
@@ -59,7 +62,7 @@ export default function Upload_Image({}: Props) {
           <input
             type="text"
             className="form-control"
-            id="avatar"
+            id="hinhAnh"
             aria-describedby="emailHelp"
             placeholder="Your picture"
             onChange={formik.handleChange}
@@ -76,7 +79,7 @@ export default function Upload_Image({}: Props) {
           <input
             type="file"
             className="form-control"
-            id="avatar"
+            id="hinhAnh"
             aria-describedby="emailHelp"
             placeholder="Your picture"
             accept=".jpeg, .png, .jpg"
@@ -97,21 +100,6 @@ export default function Upload_Image({}: Props) {
     }
   };
 
-  const handlePreviewImage = (img: any) => {
-    if (img != "") {
-      return (
-        <>
-          <div className="mt-2 d-flex justify-content-center">
-            <img
-              style={{ width: "100px", height: "100px" }}
-              src={img}
-              alt="...."
-            />
-          </div>
-        </>
-      );
-    }
-  };
 
   useEffect(() => {
     setImage("");
@@ -121,7 +109,6 @@ export default function Upload_Image({}: Props) {
   return (
     <div>
       <div className="card my-1 border-0">
-        <h4 className="form-label">Nguyễn Quốc Khải</h4>
         <select className="form-select" onChange={handleSelect}>
           <option value={0}>Open this select upload type</option>
           <option value={1}>Upload by URL</option>
@@ -129,20 +116,6 @@ export default function Upload_Image({}: Props) {
         </select>
         <form onSubmit={formik.handleSubmit}>
           {handleAvatar()}
-          {active === 1 ? (
-            <button
-              className="btn btn-warning btn-sm rounded-4"
-              style={{ width: "80px" }}
-              onClick={() => {
-                setSubmit(1);
-              }}
-            >
-              Preview
-            </button>
-          ) : (
-            " "
-          )}
-          {submit ? handlePreviewImage(image) : ""}
           <div className="d-flex justify-content-end mt-2">
             <button
               className="btn btn-outline-success rounded-4"

@@ -16,6 +16,7 @@ type InitialState = {
   location: Location;
   arrLocationPageIndex: Location[];
   totalRow: number;
+  statusAction: number
 };
 
 const initialState: InitialState = {
@@ -23,6 +24,7 @@ const initialState: InitialState = {
   location: {} as Location,
   arrLocationPageIndex: [],
   totalRow: 0,
+  statusAction: 0
 };
 
 const locationsReducer = createSlice({
@@ -47,6 +49,9 @@ const locationsReducer = createSlice({
     setTotalRow: (state: InitialState, action: PayloadAction<number>) => {
       state.totalRow = action.payload;
     },
+    setStatusAction: (state: InitialState, action: PayloadAction<number>) => {
+      state.statusAction = action.payload;
+    }
   },
 });
 
@@ -55,6 +60,7 @@ export const {
   setLocationById,
   setArrLocationByPageIndex,
   setTotalRow,
+  setStatusAction
 } = locationsReducer.actions;
 
 export default locationsReducer.reducer;
@@ -112,4 +118,41 @@ export const deleteLocationApi =  (viTri: number) => {
       console.log(err);
     }
   }
+};
+
+//post location 
+export const postLocationApi =  (viTri: Location) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      let result = await http.post("vi-tri", viTri);
+      console.log(result.status);
+      dispatch(setStatusAction(result.status));
+    } catch (err) {
+      console.log(err);
+    }
+  }
+};
+
+//put location 
+export const putLocationApi =  (id:number, viTri: any) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      let result = await http.put(`/vi-tri/${id}`, viTri);
+      console.log(result.status);
+      dispatch(setStatusAction(result.status));
+    } catch (err) {
+      console.log(err);
+    }
+  }
+};
+
+//clear status
+export const clearStatusAction = () => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      dispatch(setStatusAction(0));
+    } catch (err) {
+      console.log(err);
+    }
+  };
 };
